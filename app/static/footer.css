@@ -1,0 +1,12 @@
+/* Define your custom styles for the footer here */
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+.social-icon {
+    margin-right: 10px;
+    color: #007bff;
+}
