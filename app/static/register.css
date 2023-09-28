@@ -26,7 +26,9 @@ body{
 	background-color: rgba(255, 47, 47,70%);
 
 }
-
+body::selection{
+	background-color: rgba(255, 40, 40, 0.682);
+}
 
 .container{
 	display: flex;
@@ -58,6 +60,7 @@ body{
 }
 
 .login-box{
+	width: 50%;
 	position: absolute;
     top: 50%;
     left: 50%;
@@ -68,9 +71,10 @@ body{
 	/* border:solid 2px rgba(255, 205, 40, 0.671); */
 	border-radius: var(--border-rad);
 	/* background-color: blue; */
-	width: 42rem;
-	height:58rem;
+	width: 45rem;
+	height:56rem;
 	/* border:solid 2px blue; */
+	
 	
 }
 .header{
@@ -123,7 +127,6 @@ body{
 	font-size: var(--text-md);
 	/* border: 2px solid rebeccapurple; */
 	border-bottom: 2px solid #ff2828;
-	
 }
 .ip input{
 	width: 100%;
@@ -134,14 +137,20 @@ body{
 input[type='text']{
 	color:#ff2828;
 	font-size: var(--text-md);
+	letter-spacing:0.2rem ;
 	/* position: absolute;
 	bottom: ; */
 }
 input[type='password']{
 	color:#ff2828;
+	letter-spacing:0.2rem ;
 	font-size: var(--text-md);
 }
-
+input[type='email']{
+	color:#ff2828;
+	letter-spacing:0.2rem ;
+	font-size: var(--text-md);
+}
 .ip label{
 	/* border: 2px solid coral; */
 	position: absolute;
@@ -152,19 +161,20 @@ input[type='password']{
 	pointer-events: none;
     transition: .5s;
 }
-input:focus ~ label,
-input:valid ~ label{
+
+.ip input:focus ~ label,
+.ip input:valid ~ label{
 	top:-0.5rem;
+	font-size: var(--text-sm);
 }
 label::selection{
-	
-	background-color: #ff2828ae;
+	background-color: rgba(255, 40, 40, 0.682);
 }
 
 form .btns{
 	/* border: 2px solid black; */
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 input[type=radio] {
@@ -210,7 +220,7 @@ input[type=radio] {
 	}
   }
 .btns label{
-	margin-left: -14rem;
+	margin-left: -7rem;
 	font-size: var(--text-md);
 }
 .log-in-btn{
@@ -223,11 +233,12 @@ input[type=radio] {
 
   
 button{
-	width : 20rem;
+	width : 15rem;
 	height: 40px;
 	position: absolute;
-	/* margin-top: ; */
+	margin-top: -1.5rem;
 
+	
 	border-radius: 40px;
 	background: #ff2828;
 	color:#fff;
@@ -238,4 +249,13 @@ button{
 	border: none;
 	outline: none;
 	cursor: pointer;
+	transition: 0.5s ease-in-out;
+}
+button:hover{
+	
+	background: transparent;
+	letter-spacing: 0.2rem;
+	font-size: var(--text-elg);
+	border: 2px solid  var(--primary-color);
+	color:var(--primary-color)
 }
