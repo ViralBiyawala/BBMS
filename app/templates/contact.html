@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="../static/contact.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <div class="contact-info">
+
+            </div>
+            <div class="contact-form">
+                
+                <span class="circle c1"></span>
+                <span class="circle c2"></span>
+                
+                <form action="index.html">
+                    
+                    <h3 class="title">Contact Us</h3>
+
+                    <div class="input-container ">
+                        <input type="text" name="name" class="input">
+                        <label for="">Username</label>
+                        <span>Username</span>
+                    </div>
+                    
+                    <div class="input-container">
+                        <input type="email" name="email" class="input">
+                        <label for="">Email</label>
+                        <span>Email</span>
+                    </div>
+                    
+                    <div class="input-container">
+                        <input type="tel" name="phone" class="input">
+                        <label for="">Phone No.</label>
+                        <span>Phone No.</span>
+                    </div>
+                    
+                    <div class="input-container textarea ">
+                        <textarea name="message" class="input"></textarea>
+                        <label for="">Message</label>
+                        <span>Message</span>
+                    </div>
+
+                    <input type="submit" value="Send" class="btn">
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ips = document.querySelectorAll('.input');
+        
+        ips.forEach(ip => {
+            ip.addEventListener('focus', (e) => {
+                e.target.parentNode.classList.add('focus');
+            });
+        
+            ip.addEventListener("blur", (e) => {
+                if (e.target.value === "") {
+                    e.target.parentNode.classList.remove('focus');
+                }
+            });
+        
+            ip.addEventListener("input", (e) => {
+                    e.target.parentNode.classList.add('focus');
+            });
+        });
+        
+    </script>
+
+</body>
+</html>
