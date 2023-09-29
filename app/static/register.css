@@ -171,6 +171,13 @@ input[type='email']{
 	top:-0.5rem;
 	font-size: var(--text-sm);
 }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.ip input:focus ~ label,
+.ip input:valid ~ label{
+	top:-0.5rem;
+	font-size: 1.5rem;
+}
+}
 label::selection{
 	background-color: rgba(255, 40, 40, 0.682);
 }
