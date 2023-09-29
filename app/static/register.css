@@ -26,10 +26,9 @@ body{
 	background-color: rgba(255, 47, 47,70%);
 
 }
-body::selection{
+::selection{
 	background-color: rgba(255, 40, 40, 0.682);
 }
-
 .container{
 	display: flex;
 	height: 100vh;
@@ -73,9 +72,7 @@ body::selection{
 	/* background-color: blue; */
 	width: 45rem;
 	height:56rem;
-	/* border:solid 2px blue; */
-	
-	
+	border:solid 2px var(--primary-color);
 }
 .header{
 	width: 100%;
@@ -99,7 +96,10 @@ body::selection{
 	text-align: center;
 	font-size: var(--text-lg);
 }
-
+.btn a{
+	display: inline-block;
+	width: 100%;
+}
 .btn1{
     background-color: rgb(255, 47, 47,70%);
 	border-radius: calc(var(--border-rad) - 0.2rem) 0 0 0  ;
@@ -133,6 +133,10 @@ body::selection{
 	border: none;
 	outline: none;
 	/* border: 2px solid red; */
+}
+input::selection{
+	/* color:yellow; */
+	background-color: #FDCFCF;
 }
 input[type='text']{
 	color:#ff2828;
