@@ -4,7 +4,7 @@ from app.models import *
 import pdfkit, shutil
 
 #Route to Register Page
-@app.route('/')
+@app.route('/register')
 def register():
     return render_template('register.html')
 
