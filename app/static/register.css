@@ -70,7 +70,7 @@ body{
 	/* border:solid 2px rgba(255, 205, 40, 0.671); */
 	border-radius: var(--border-rad);
 	/* background-color: blue; */
-	width: 45rem;
+	width: 42rem;
 	height:56rem;
 	border:solid 2px var(--primary-color);
 }
@@ -175,7 +175,7 @@ input[type='email']{
 	.ip input:focus ~ label,
 .ip input:valid ~ label{
 	top:-0.5rem;
-	font-size: 1.5rem;
+	font-size: 1.65rem;
 }
 }
 label::selection{
