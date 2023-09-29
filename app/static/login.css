@@ -14,6 +14,8 @@
 	--border-rad-main:1.5rem;
 	--border-rad:2rem;
 	--primary-color:#ff2828;
+	/* font-size: 62.5%; */
+	font-size: 62.5%;
 }
 html{
 	scroll-behavior: smooth;
@@ -31,8 +33,9 @@ body{
 .container{
 	display: flex;
 	height: 100vh;
+	/* width:100vw; */
 	padding: 3rem;
-	/* width:100%; */
+	width:100%;
 	/* margin: 20px; */
 }
 
@@ -70,10 +73,10 @@ body{
 	/* box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.624); */
 	/* border:solid 2px rgba(255, 205, 40, 0.671); */
 	border-radius: var(--border-rad);
-	width: 45rem;
-	height:42rem;
-	/* width: 42rem;
-	height:45rem; */
+	/* width: 45rem;
+	height:40rem; */
+	width: 42rem;
+	height:40rem;
 	border:solid 2px var(--primary-color);
 	
 }
@@ -160,7 +163,7 @@ input[type='password']{
 
 .ip label{
 	/* border: 2px solid coral; */
-	/* font-size: var(--text-sm); */
+	font-size: var(--text-md);
 	position: absolute;
 	left:0px;
 	/* left:0.5rem; */
@@ -173,6 +176,13 @@ input[type='password']{
 .ip input:valid ~ label{
 	top:-0.5rem;
 	font-size: var(--text-sm);
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.ip input:focus ~ label,
+.ip input:valid ~ label{
+	top:-0.5rem;
+	font-size: 1.5rem;
+}
 }
 
 

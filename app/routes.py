@@ -58,4 +58,4 @@ def generate_certificate(name):
 
     # Copy the source HTML file to the destination
     shutil.copyfile(destination_file,source_file)
-    return send_file("templates\\output.pdf",download_name=temp,as_attachment=True)
+    return send_file("templates\\output.pdf",download_name=temp,as_attachment=False)
