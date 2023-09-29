@@ -19,12 +19,11 @@ html{
 	scroll-behavior: smooth;
 	font-size: 62.5%;
 }
-
 body{
     font-family: 'Montserrat', sans-serif;
     line-height: 1.7;
+	/* background-color: #939393; */
 	background-color: rgba(255, 47, 47,70%);
-
 }
 ::selection{
 	background-color: rgba(255, 40, 40, 0.682);
@@ -57,22 +56,26 @@ body{
 	position: relative;
 	background-color: #FDCFCF;
 }
-
 .login-box{
 	width: 50%;
 	position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+
 }
 .box{
+	/* margin-right: 10rem; */
 	background-color: white;
+	/* box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.624); */
 	/* border:solid 2px rgba(255, 205, 40, 0.671); */
 	border-radius: var(--border-rad);
-	/* background-color: blue; */
 	width: 45rem;
-	height:56rem;
+	height:42rem;
+	/* width: 42rem;
+	height:45rem; */
 	border:solid 2px var(--primary-color);
+	
 }
 .header{
 	width: 100%;
@@ -86,7 +89,7 @@ body{
 	color:white;
 }
 .box .btn{
-    cursor: pointer;
+	cursor: pointer;
 	width:50%;	
 	padding: 0.3em;
 	font-size: 1.9em;
@@ -100,13 +103,13 @@ body{
 	display: inline-block;
 	width: 100%;
 }
+
 .btn1{
-    background-color: rgb(255, 47, 47,70%);
+	background-color: #ff2828;
 	border-radius: calc(var(--border-rad) - 0.2rem) 0 0 0  ;
 }
 .btn2{
-    
-    background-color: #ff2828;
+	background-color: rgb(255, 47, 47,70%);
 	border-radius: 0 calc(var(--border-rad) - 0.2rem) 0 0  ;
 }
 
@@ -117,7 +120,7 @@ body{
 	width: 90%;
 	height: 25rem;
 	/* border: 0.2em solid violet; */
-	
+	/* display: flex; */
 	position: relative;	
 }
 .ip{
@@ -127,16 +130,13 @@ body{
 	font-size: var(--text-md);
 	/* border: 2px solid rebeccapurple; */
 	border-bottom: 2px solid #ff2828;
+	
 }
 .ip input{
 	width: 100%;
 	border: none;
 	outline: none;
 	/* border: 2px solid red; */
-}
-input::selection{
-	/* color:yellow; */
-	background-color: #FDCFCF;
 }
 input[type='text']{
 	color:#ff2828;
@@ -145,18 +145,17 @@ input[type='text']{
 	/* position: absolute;
 	bottom: ; */
 }
+
 input[type='password']{
 	color:#ff2828;
 	letter-spacing:0.2rem ;
 	font-size: var(--text-md);
 }
-input[type='email']{
-	color:#ff2828;
-	letter-spacing:0.2rem ;
-	font-size: var(--text-md);
-}
+
+
 .ip label{
 	/* border: 2px solid coral; */
+	/* font-size: var(--text-sm); */
 	position: absolute;
 	left:0px;
 	/* left:0.5rem; */
@@ -165,22 +164,18 @@ input[type='email']{
 	pointer-events: none;
     transition: .5s;
 }
-
 .ip input:focus ~ label,
 .ip input:valid ~ label{
 	top:-0.5rem;
 	font-size: var(--text-sm);
 }
-label::selection{
-	background-color: rgba(255, 40, 40, 0.682);
-}
+
 
 form .btns{
 	/* border: 2px solid black; */
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 }
-
 input[type=radio] {
 	--s: 3rem;     /* control the size */
 	--c: #ff2828; /* the active color */
@@ -223,10 +218,33 @@ input[type=radio] {
 	  background: none;
 	}
   }
+
 .btns label{
-	margin-left: -7rem;
+	margin-left: -1.3rem;
 	font-size: var(--text-md);
 }
+.forget-password{
+	/* border: 2px solid black; */
+	padding: 0.5rem;
+	margin-top: 1rem;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.forget-password a{
+	color:var(--primary-color);
+	font-size: var(--text-md);
+	text-decoration: none;
+	transition: 0.1s ease-in-out;
+}
+.forget-password a:hover{
+	font-weight: 600;
+}
+.forget-password a:link,
+.forget-password a:visited{
+	columns: var(--primary-color);
+}
+
 .log-in-btn{
 	width:100%;
 	/* border: 2px solid black; */
@@ -256,7 +274,6 @@ button{
 	transition: 0.5s ease-in-out;
 }
 button:hover{
-	
 	background: transparent;
 	letter-spacing: 0.2rem;
 	font-size: var(--text-elg);

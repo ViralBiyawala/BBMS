@@ -23,7 +23,10 @@ body{
     font-family: 'Montserrat', sans-serif;
     line-height: 1.7;
 	/* background-color: #939393; */
-	background-color: rgba(255, 47, 47,70%);
+	background-color: #ff2e2eb3;
+}
+::selection{
+	background-color: rgba(255, 40, 40, 0.682);
 }
 .container{
 	display: flex;
@@ -59,6 +62,7 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+
 }
 .box{
 	/* margin-right: 10rem; */
@@ -95,6 +99,10 @@ body{
 	text-align: center;
 	font-size: var(--text-lg);
 }
+.btn a{
+	display: inline-block;
+	width: 100%;
+}
 
 .btn1{
 	background-color: #ff2828;
@@ -115,6 +123,7 @@ body{
 	/* display: flex; */
 	position: relative;	
 }
+
 .ip{
 	position: relative;
 	margin:3rem 0rem;
@@ -136,6 +145,10 @@ input[type='text']{
 	letter-spacing:0.2rem ;
 	/* position: absolute;
 	bottom: ; */
+}
+input::selection{
+	/* color:yellow; */
+	background-color: #FDCFCF;
 }
 
 input[type='password']{
@@ -221,19 +234,16 @@ input[type=radio] {
 	margin-top: 1rem;
 	display: flex;
 	justify-content: flex-end;
-	
-	
-	/* text-align: right; */
 }
 
 .forget-password a{
 	color:var(--primary-color);
 	font-size: var(--text-md);
 	text-decoration: none;
+	transition: 0.1s ease-in-out;
 }
 .forget-password a:hover{
 	font-weight: 600;
-	
 }
 .forget-password a:link,
 .forget-password a:visited{
@@ -275,3 +285,8 @@ button:hover{
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color)
 }
+
+
+
+
+/* OTP */

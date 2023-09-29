@@ -19,6 +19,11 @@ def home():
 def login():
     return render_template('login.html')
 
+@app.route('/confirm')
+
+def confirm():
+    return render_template('confirm.html')
+
 # @app.route('/')
 # def base():
 #     return render_template('base.html')

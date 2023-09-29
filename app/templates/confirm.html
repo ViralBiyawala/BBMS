@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login-CSS</title>
     <!-- <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script> -->
-    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='confirmation.css') }}">
 </head>
 <body>
 
@@ -35,8 +34,8 @@
                 <div class="login-details">
                     <form action="">
                         <div class="ip username">
-                                <input type="text" name="" id="" required>
-                                <label for="">User ID</label>
+                            <input type="text" name="" id="" required>
+                            <label for="">User ID</label>
                         </div>
                         <div class="ip password">
                             <input type="password" name="" id="" required>
@@ -61,27 +60,6 @@
         </div>
         
     </div>
-    <!-- <script>
-        const ips = document.querySelectorAll('.ip input');
-        console.log(ips);
-        ips.forEach(ip => {
-            const icon=document.querySelector(".ip i");
-            ip.addEventListener('focus', (e) => {
-                console.log(icon);
-                icon.classList.remove('fa-beat');
-            });
-        
-            ip.addEventListener("blur", (e) => {
-                if (e.target.value === "") {
-                    icon.classList.add('fa-beat');
-                }
-            });
-        
-            ip.addEventListener("input", (e) => {
-                icon.classList.remove('fa-beat');
-            });
-        });
-        
-    </script> -->
+    
 </body>
 </html>
