@@ -11,6 +11,7 @@
 	--text-md:2rem;
 	--text-lg:2.5rem;
 	--text-elg:3rem;
+	--text-xxl:3.5rem;
 	--border-rad-main:1.5rem;
 	--border-rad:2rem;
 	--primary-color:#ff2828;
@@ -25,7 +26,7 @@ body{
     font-family: 'Montserrat', sans-serif;
     line-height: 1.7;
 	/* background-color: #939393; */
-	background-color: #ff2e2eb3;
+	background-color: rgba(255, 46, 46, 0.702);
 }
 ::selection{
 	background-color: rgba(255, 40, 40, 0.682);
@@ -269,7 +270,7 @@ input[type=radio] {
 }
 
   
-button{
+.log-in-btn button{
 	width : 15rem;
 	height: 40px;
 	position: absolute;
@@ -277,6 +278,169 @@ button{
 
 	
 	border-radius: 40px;
+	background: #ff2929;
+	color:#fff;
+	
+	font-size: var(--text-lg);
+	font-weight: 400;
+
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: 0.5s ease-in-out;
+}
+.log-in-btn button:hover{
+	background: transparent;
+	letter-spacing: 0.2rem;
+	font-size: var(--text-elg);
+	border: 2px solid  var(--primary-color);
+	color:var(--primary-color);
+}
+
+
+/* OTP Styling */
+
+
+
+:root{
+	--left-per:60%;
+}
+.container .otp-left{
+	/* border: 2px solid black; */
+	border-radius: var(--border-rad-main) 0 0 var(--border-rad-main);
+	width: var(--left-per);
+	background:url('../static/images/otp.png');
+	background-position:right;
+    
+    /* background-size: cover; */
+    background-size: 70%;
+    background-size: calc(10% + var(--left-per));
+    background-repeat: no-repeat;
+    position: relative;
+	background-color: #FDCFCF;
+}
+
+.container .otp-right{
+	width: calc(100% - var(--left-per));
+	/* border: 4px solid darkturquoise; */
+	border-radius: 0 var(--border-rad-main) var(--border-rad-main) 0;
+	
+	background-color: #FDCFCF;
+	position: relative;
+	
+	/* border: 2px solid black; */
+}
+.otp-right .otp-box{
+	height: 42rem;
+	width : 40rem;
+
+	position: absolute;
+	top: 50%;
+    left: 0%;
+    transform: translate(0%,-50%);
+	
+	
+	background: #fff;
+	
+	border-radius: 2.5rem;
+	
+	position: relative;
+	
+	border: 2px solid var(--primary-color);
+}
+.otp-box .otp-box-inside{
+	height: 95%;
+	width:  95%;
+
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	
+	/* position: relative; */
+	/* border: 2px solid black; */
+
+	/* padding: 0.5rem; */
+}
+.otp-box-inside h1{
+	text-align: center;
+	font-size: var(--text-xxl);
+	margin-top: 2rem;
+	letter-spacing: 0.15rem;
+	/* border: 2px solid yellowgreen; */
+}
+
+.otp-box-inside .otp-2{
+	margin-top: 1.7rem;
+	text-align: center;
+	font-size: var(--text-md);
+	/* border: 2px solid blue; */
+}
+.otp-box-inside .otp-3{
+	margin-top: 2rem;
+	display: flex;
+	justify-content: space-evenly;
+	/* border: 2px solid darkred; */
+}
+
+.otp-3 input{
+	height: 4rem;
+	width : 4rem;
+	
+	display: inline-block;
+	margin: 1rem 0rem;
+	outline: none;
+	border: none;
+	border: 1px solid var(--primary-color);
+	
+	text-align: center;
+}
+.otp-3 input:valid{
+	background: #FDCFCF;
+	/* border: none; */
+}
+.otp-box-inside .otp-4{
+	/* border: 2px solid black; */
+	margin-top: 0.5rem;
+	text-align: center;
+	font-size: var(--text-md);
+}
+.otp-box-inside .timerr{
+	/* border: 2px solid red; */
+	text-align: center;
+}
+.otp-box-inside .otp-5{ 
+	/* border: 2px solid black; */
+	text-align: center;
+	margin-top: 0.5rem;
+}
+.otp-5 button{
+	
+	outline: none;
+	border: none;
+	background: none;
+	padding: 0.2rem 0;
+	
+	font-size: var(--text-md);
+	color:var(--primary-color);
+	font-weight: 700;	
+
+	cursor: pointer;
+}
+.otp-5 button:disabled{
+	color:#FDCFCF;
+}
+.otp-box-inside .otp-6{
+	/* border: 2px solid black; */
+	margin-top: 2rem;
+	display: flex;
+	justify-content: center;
+}
+.otp-6 button{
+	padding:1rem 2rem;
+	letter-spacing: 0.1rem;
+	
+	border-radius: 3.5rem;
 	background: #ff2828;
 	color:#fff;
 	
@@ -288,15 +452,13 @@ button{
 	cursor: pointer;
 	transition: 0.5s ease-in-out;
 }
-button:hover{
+
+.otp-6 button:hover{
+
 	background: transparent;
-	letter-spacing: 0.2rem;
+	letter-spacing: 0.3rem;
 	font-size: var(--text-elg);
 	border: 2px solid  var(--primary-color);
-	color:var(--primary-color)
+	color:var(--primary-color);
 }
 
-
-
-
-/* OTP */

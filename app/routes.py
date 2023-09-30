@@ -8,6 +8,10 @@ import pdfkit, shutil
 def register():
     return render_template('register.html')
 
+@app.route('/otp')
+def otp():
+    return render_template('otp.html')
+
 # @app.route('/home')
 # def home():
 #     return render_template('home.html')
