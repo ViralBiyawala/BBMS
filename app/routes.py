@@ -24,7 +24,7 @@ server.starttls()
 otp_storage = {}
 
 # Define the OTP timeout duration in seconds (100 seconds in this case)
-OTP_TIMEOUT = 10000
+OTP_TIMEOUT = 180
 
 def is_valid_email(email):
     # Regular expression for basic email validation
