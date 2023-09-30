@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register-CSS</title>
-    <!-- <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}"> -->
     <link rel="stylesheet" href="../static/register.css">
 </head>
@@ -65,6 +65,7 @@
                                 <div class="ip password">
                                     <input type="password" name="password" id="password" required>
                                     <label for="password">Password</label>
+                                    <i class="fa-solid fa-eye-slash " style="color: #f02828;"></i>
                                 </div>
                                 <div class="btns">
                                     <input type="radio" name="admin" id="donor" value="donor" checked>
@@ -81,6 +82,27 @@
                 </div>
             </div>
         </div>
+        <script>
+            const ip=document.getElementById('password');
+            const icon=document.querySelector('.password i');
+    
+            icon.addEventListener('click',(e)=>{
+                if(ip.value != ""){
+    
+                    if(e.target.classList.contains('fa-eye-slash')){
+                        e.target.classList.remove('fa-eye-slash');
+                        e.target.classList.add('fa-eye');
+                        ip.type='text';
+                    }
+                    else{
+                        e.target.classList.remove('fa-eye');
+                        e.target.classList.add('fa-eye-slash');
+                        ip.type='password';
+                    }
+                }
+            })
+        </script>
+        
     </body>
 
 </html>

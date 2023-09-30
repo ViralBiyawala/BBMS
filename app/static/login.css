@@ -141,6 +141,7 @@ body{
 	width: 100%;
 	border: none;
 	outline: none;
+	margin-bottom: 0.08rem;
 	/* border: 2px solid red; */
 }
 input[type='text']{
@@ -160,7 +161,17 @@ input[type='password']{
 	letter-spacing:0.2rem ;
 	font-size: var(--text-md);
 }
-
+form .password{
+	/* border: 2px solid violet; */
+	display: flex;
+}
+form .password i{
+	/* border: 2px solid black; */
+	font-size: var(--text-lg);
+	cursor: pointer;
+	margin-right: 0.2rem;
+	margin-bottom: 0.2rem;
+}
 
 .ip label{
 	/* border: 2px solid coral; */

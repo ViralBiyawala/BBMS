@@ -155,6 +155,20 @@ input[type='email']{
 	letter-spacing:0.2rem ;
 	font-size: var(--text-md);
 }
+
+form .password{
+	/* border: 2px solid violet; */
+	display: flex;
+}
+form .password i{
+	/* border: 2px solid black; */
+	font-size: var(--text-lg);
+	cursor: pointer;
+	margin-right: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+
+
 .ip label{
 	/* border: 2px solid coral; */
 	position: absolute;

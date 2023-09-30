@@ -180,6 +180,10 @@ def login():
 def contact():
     return render_template('contact.html')
 
+@app.route('/otp')
+def otp():
+    return render_template('otp.html')
+
 
 # generating basic template for certficate
 @app.route('/certificate', methods=['GET'])
@@ -215,53 +219,53 @@ def generate_certificate(name):
     return send_file("templates\\output.pdf",download_name=temp,as_attachment=False)
 
 
-# @app.route('/resend', methods=['GET', 'POST'])
-# def resend():
-#     if request.method == 'POST':
-#         # Retrieve data from the registration form
-#         name = request.form['name']
-#         email = request.form['email']
-#         city = request.form['city']
-#         mobile_no = request.form['mobile_no']
-#         password = request.form['password']
-#         admin_type = request.form['admin']  # Added to retrieve the user type (Donor or Hospital)
+@app.route('/resend', methods=['GET', 'POST'])
+def resend():
+    if request.method == 'POST':
+        # Retrieve data from the registration form
+        name = request.form['name']
+        email = request.form['email']
+        city = request.form['city']
+        mobile_no = request.form['mobile_no']
+        password = request.form['password']
+        admin_type = request.form['admin']  # Added to retrieve the user type (Donor or Hospital)
         
-#         if not is_valid_email(email):
-#             flash('Please enter a valid email address.', 'error')
-#             return redirect(url_for('register'))
+        if not is_valid_email(email):
+            flash('Please enter a valid email address.', 'error')
+            return redirect(url_for('register'))
         
         
-#         # Check if the email is already registered
-#         existing_user = RDonor.query.filter_by(d_email_id=email).first()
-#         if existing_user:
-#             flash('Email is already registered. Please use a different email address.', 'error')
-#             return redirect(url_for('register'))
+        # Check if the email is already registered
+        existing_user = RDonor.query.filter_by(d_email_id=email).first()
+        if existing_user:
+            flash('Email is already registered. Please use a different email address.', 'error')
+            return redirect(url_for('register'))
 
-#         # Generate a 6-digit random OTP
-#         otp = str(random.randint(100000, 999999))
+        # Generate a 6-digit random OTP
+        otp = str(random.randint(100000, 999999))
         
-#         # Store OTP and its creation time
-#         otp_storage[email] = {
-#             'otp': otp,
-#             'created_at': datetime.now()
-#         }
+        # Store OTP and its creation time
+        otp_storage[email] = {
+            'otp': otp,
+            'created_at': datetime.now()
+        }
         
-#         # old_otp = otp_storage.get(email)
-#         # if old_otp:
-#         #     del otp_storage[email]
-#         # print(stored_data)
+        # old_otp = otp_storage.get(email)
+        # if old_otp:
+        #     del otp_storage[email]
+        # print(stored_data)
         
-#         # Send OTP email
-#         msg = MIMEText(f'Your OTP for email verification: {otp}')
-#         msg['Subject'] = 'Mail for Email Verification'
-#         msg['From'] = " Life Saver Blood"
-#         msg['To'] = email
-#         server.login(myemail, 'edfouebuiwfvwdrr')
-#         server.send_message(msg)
-#         # server.quit()
+        # Send OTP email
+        msg = MIMEText(f'Your OTP for email verification: {otp}')
+        msg['Subject'] = 'Mail for Email Verification'
+        msg['From'] = " Life Saver Blood"
+        msg['To'] = email
+        server.login(myemail, 'edfouebuiwfvwdrr')
+        server.send_message(msg)
+        # server.quit()
         
-#         # Render the OTP verification page and pass us*-er data along with the email
-#         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
+        # Render the OTP verification page and pass us*-er data along with the email
+        return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
 
     
-#     return render_template('register.html')
+    return render_template('register.html')
