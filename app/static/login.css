@@ -113,7 +113,7 @@ body{
 	border-radius: calc(var(--border-rad) - 0.2rem) 0 0 0  ;
 }
 .btn2{
-	background-color: rgb(255, 47, 47,70%);
+	background-color: rgba(255, 47, 47, 0.702);
 	border-radius: 0 calc(var(--border-rad) - 0.2rem) 0 0  ;
 }
 
@@ -460,3 +460,5 @@ input[type=radio] {
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color);
 }
+
+
