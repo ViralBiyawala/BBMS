@@ -410,7 +410,6 @@ input[type=radio] {
 	text-align: center;
 }
 .otp-box-inside .otp-5{ 
-	/* border: 2px solid black; */
 	text-align: center;
 	margin-top: 0.5rem;
 }
@@ -461,4 +460,3 @@ input[type=radio] {
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color);
 }
-

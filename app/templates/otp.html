@@ -80,7 +80,6 @@
         timer(t);
         
         document.getElementById('resend').onclick=function (){
-            
            timer(t) ; 
            document.querySelector('.timerr').style.display='';
            document.querySelector('.otp-box').style.height= '42rem';
@@ -102,13 +101,13 @@
             
             ip.addEventListener("keyup",(e)=>{
                 let key= e.key;
+                
                 if(Number.isInteger(Number(key))){
                     if(ip.nextElementSibling){
                         ip.nextElementSibling.focus();
                     }
                 }
             });
-            
             ip.addEventListener("keydown",(e)=>{
                 let key= e.key;
                 if(ip.value=="" && key == "Backspace"){
