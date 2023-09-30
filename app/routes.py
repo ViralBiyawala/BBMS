@@ -69,7 +69,8 @@ def register():
         
         # Check if the email is already registered
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
-        if existing_user:
+        existing_user_H = RHospital.query.filter_by(d_email_id=email).first()
+        if existing_user or existing_user_H:
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
 
