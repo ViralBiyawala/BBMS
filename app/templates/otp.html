@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/add.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
+
 <body>
 
     <div class="container">
@@ -19,115 +21,142 @@
             <div class="otp-box">
                 <div class="otp-box-inside">
 
-                    <h1  class="otpp otp-1">OTP Verification</h1>
+                    <h1 class="otpp otp-1">OTP Verification</h1>
                     <div class="otpp otp-2">Enter OTP Code Sent to E-mail</div>
-                    
-                    <div class="otp-3">
+                    <form action="/verify_otp" method="POST"> <!-- Updated form action to /verify_otp -->
+                        <div class="otp-3">
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp1" required>
+                            <!-- Added name attribute -->
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp2" required>
+                            <!-- Added name attribute -->
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp3" required>
+                            <!-- Added name attribute -->
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp4" required>
+                            <!-- Added name attribute -->
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp5" required>
+                            <!-- Added name attribute -->
+                            <input type="text" pattern="[0-9]*" maxlength="1" name="otp6" required>
+                            <!-- Added name attribute -->
+                        </div>
 
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
-                        <input type="text" pattern="[0-9]*" maxlength="1" required >
+                        <div class="otp-4">
+                            Don’t receive OTP?
+                        </div>
 
-                    </div>
+                        <div class="timerr">
+                            <span class="time"></span>
+                            seconds remaining.
+                        </div>
 
-                    <div class="otp-4">
-                        Don’t receive OTP?
-                    </div>
+                        <div class="otp-5">
+                            <button id="resend">
+                                Resend OTP
+                            </button>
+                        </div>
+                        <input type="hidden" name="email" value="{{ email }}">
+                        <input type="hidden" name="name" value="{{ name }}">
+                        <input type="hidden" name="city" value="{{ city }}">
+                        <input type="hidden" name="password" value="{{ password }}">
+                        <input type="hidden" name="mobile_no" value="{{ mobile_no }}">
+                        <input type="hidden" name="password" value="{{ password }}">
+                        <input type="hidden" name="admin" value="{{ admin_type }}">
+                        <div class="otp-6">
+                            <button type="submit">
+                                Submit
+                            </button>
+                        </div>
 
-                    <div class="timerr">
-                        <span class="time"></span>
-                        seconds remaining.
-                    </div>
-
-                    <div class="otp-5">
-                        <button type="button" id="resend">
-                            Resend OTP
-                        </button>
-                    </div>
-                    
-                    <div class="otp-6">
-                        <button>
-                            Submit
-                        </button>
-                    </div>
-
+                    </form>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <script>
         document.querySelector('input').focus();
 
-        const t=5;
-        function timer(n){
-            document.getElementById('resend').disabled=true;
-            const interval = setInterval(()=>{
-                if(n==0){
+        const t = 5;
+        function timer(n) {
+            document.getElementById('resend').disabled = true;
+            const interval = setInterval(() => {
+                if (n == 0) {
                     clearInterval(interval);
-                    document.getElementById('resend').disabled=false;
-                    document.querySelector('.timerr').style.display='none';            
-                    document.querySelector('.otp-box').style.height= '39rem';
+                    document.getElementById('resend').disabled = false;
+                    document.querySelector('.timerr').style.display = 'none';
+                    document.querySelector('.otp-box').style.height = '39rem';
                 }
-                document.querySelector('.time').innerHTML=n;    
-                n=n-1;
-            },1000);
+                document.querySelector('.time').innerHTML = n;
+                n = n - 1;
+            }, 1000);
         }
         timer(t);
-        
-        document.getElementById('resend').onclick=function (){
-           timer(t) ; 
-           document.querySelector('.timerr').style.display='';
-           document.querySelector('.otp-box').style.height= '42rem';
-           clearAll();
-           document.querySelector('input').focus();
+
+        document.getElementById('resend').onclick = function () {
+            // const formData = new FormData(document.querySelector('form'));
+
+            // // Make an AJAX request to the resend_otp route
+            // fetch(`/register`, {
+            //     method: 'POST',
+            //     body: formData
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // Handle the response (you can show a message to the user)
+            //         alert(data.message);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error);
+            //     });
+            // timer(t);
+            document.querySelector('.timerr').style.display = '';
+            document.querySelector('.otp-box').style.height = '42rem';
+            clearAll();
+            document.querySelector('input').focus();
 
         }
 
-        function clearAll(){
-            ips=document.querySelectorAll('.otp-3 input');
-            ips.forEach(ip=>{
-                ip.value="";
+        function clearAll() {
+            ips = document.querySelectorAll('.otp-3 input');
+            ips.forEach(ip => {
+                ip.value = "";
             })
         }
 
 
-        let ips=document.querySelectorAll('.otp-3 input');
-        ips.forEach((ip)=>{
-            
-            ip.addEventListener("keyup",(e)=>{
-                let key= e.key;
-                
-                if(Number.isInteger(Number(key))){
-                    if(ip.nextElementSibling){
+        let ips = document.querySelectorAll('.otp-3 input');
+        ips.forEach((ip) => {
+
+            ip.addEventListener("keyup", (e) => {
+                let key = e.key;
+
+                if (Number.isInteger(Number(key))) {
+                    if (ip.nextElementSibling) {
                         ip.nextElementSibling.focus();
                     }
                 }
             });
-            ip.addEventListener("keydown",(e)=>{
-                let key= e.key;
-                if(ip.value=="" && key == "Backspace"){
-                    if(ip.previousElementSibling){
+            ip.addEventListener("keydown", (e) => {
+                let key = e.key;
+                if (ip.value == "" && key == "Backspace") {
+                    if (ip.previousElementSibling) {
                         ip.previousElementSibling.focus();
                     }
                 }
             });
 
-            ip.addEventListener('keydown',(e)=>{
-                let key= e.key;
-                if(key == "Enter"){
+            ip.addEventListener('keydown', (e) => {
+                let key = e.key;
+                if (key == "Enter") {
                     document.querySelector('.otp-6 button').click();
                 }
             })
 
         });
-        
-        
+
+
 
     </script>
 </body>
+
 </html>

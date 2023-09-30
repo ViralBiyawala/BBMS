@@ -270,3 +270,27 @@ button:hover{
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color)
 }
+
+/* Viral Added */
+.flash-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.flash-message {
+    background-color: #ff5722; /* Customize the background color */
+    color: white; /* Customize the text color */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    animation: fadeInOut 4s ease; /* Adjust the animation duration */
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    10%, 90% { opacity: 1; }
+}
+/* Viral Css Over */
