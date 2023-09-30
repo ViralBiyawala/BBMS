@@ -93,22 +93,7 @@
         timer(t);
 
         document.getElementById('resend').onclick = function () {
-            // const formData = new FormData(document.querySelector('form'));
-
-            // // Make an AJAX request to the resend_otp route
-            // fetch(`/register`, {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         // Handle the response (you can show a message to the user)
-            //         alert(data.message);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error);
-            //     });
-            // timer(t);
+            timer(t);
             document.querySelector('.timerr').style.display = '';
             document.querySelector('.otp-box').style.height = '42rem';
             clearAll();

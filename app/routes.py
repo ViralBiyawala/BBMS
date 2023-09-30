@@ -219,7 +219,7 @@ def generate_certificate(name):
     return send_file("templates\\output.pdf",download_name=temp,as_attachment=False)
 
 
-@app.route('/resend', methods=['GET', 'POST'])
+@app.route('/resend', methods=['POST'])
 def resend():
     if request.method == 'POST':
         # Retrieve data from the registration form
@@ -241,19 +241,7 @@ def resend():
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
 
-        # Generate a 6-digit random OTP
-        otp = str(random.randint(100000, 999999))
-        
-        # Store OTP and its creation time
-        otp_storage[email] = {
-            'otp': otp,
-            'created_at': datetime.now()
-        }
-        
-        # old_otp = otp_storage.get(email)
-        # if old_otp:
-        #     del otp_storage[email]
-        # print(stored_data)
+        otp = otp_storage[email]
         
         # Send OTP email
         msg = MIMEText(f'Your OTP for email verification: {otp}')
