@@ -4,30 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login-CSS</title>
-    <!-- <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='confirmation.css') }}">
+    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
 <body>
 
     <div class="container">
 
-        <div class="left"></div>
+        <div class="c-left"></div>
 
         <div class="right">
             <div class="login-box">
 
-            <div class="box">
-                <div class="header">
-                    <div class="btn btn1">
-                        <a href="">
-                            Login
-                        </a>
-                    </div>
-                    <div class="btn btn2">
-                        <a href="register">
-                            Register
-                        </a>
-                    </div>
+            <div class="box c-box">
+                <div class="c-header">
+                    Forget Your Password?
                 </div>
                 
                 
@@ -35,21 +26,20 @@
                     <form action="">
                         <div class="ip username">
                             <input type="text" name="" id="" required>
-                            <label for="">User ID</label>
+                            <label for="">E-Mail</label>
                         </div>
                         <div class="ip password">
-                            <input type="password" name="" id="" required>
-                            <label for="">Password</label>
+                            <input type="password" name="password" id="password" required>
+                            <label for="password">New Password</label>
+                            <i class="fa-solid fa-eye-slash " style="color: #f02828;"></i>
                         </div>
-                        <div class="btns">
-                            <input type="radio" name="Admin" id="admin" checked ><label>Donor</label>
-                            <input type="radio" name="Admin" id="admin"><label>Hospital</label>
-                            <input type="radio" name="Admin" id="admin"><label>Admin</label>
+                        <div class="ip password cf">
+                            <input type="password" name="password" id="password2" required>
+                            <label for="password">Confirm Password</label>
+                            <i class="fa-solid fa-eye-slash " style="color: #f02828;"></i>
                         </div>
-                        <div class="forget-password">
-                            <a href="#">Forget Password?</a>
-                        </div>
-                        <div class="log-in-btn">
+                       
+                        <div class="log-in-btn c-btn">
                             <button>Submit</button>
                         </div>
                     </form>
@@ -60,6 +50,45 @@
         </div>
         
     </div>
-    
+     
+    <script>
+        const ip=document.getElementById('password');
+        const icon=document.querySelector('.password i');
+
+        icon.addEventListener('click',(e)=>{
+            if(ip.value != ""){
+
+                if(e.target.classList.contains('fa-eye-slash')){
+                    e.target.classList.remove('fa-eye-slash');
+                    e.target.classList.add('fa-eye');
+                    ip.type='text';
+                }
+                else{
+                    e.target.classList.remove('fa-eye');
+                    e.target.classList.add('fa-eye-slash');
+                    ip.type='password';
+                }
+            }
+        })
+
+        const ip2=document.getElementById('password2');
+        const icon2=document.querySelector('.cf i');
+
+        icon2.addEventListener('click',(e)=>{
+            if(ip2.value != ""){
+
+                if(e.target.classList.contains('fa-eye-slash')){
+                    e.target.classList.remove('fa-eye-slash');
+                    e.target.classList.add('fa-eye');
+                    ip2.type='text';
+                }
+                else{
+                    e.target.classList.remove('fa-eye');
+                    e.target.classList.add('fa-eye-slash');
+                    ip2.type='password';
+                }
+            }
+        })
+    </script>
 </body>
 </html>

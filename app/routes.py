@@ -184,6 +184,10 @@ def contact():
 def otp():
     return render_template('otp.html')
 
+@app.route('/cfm')
+def cfm():
+    return render_template('confirm.html')
+
 
 # generating basic template for certficate
 @app.route('/certificate', methods=['GET'])

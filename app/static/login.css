@@ -473,3 +473,42 @@ input[type=radio] {
 }
 
 
+
+
+/*Confirm Styling */
+
+
+.c-header{
+	cursor: pointer;
+	width:100%;
+	padding: 0.3em;
+	color:#fff;
+	text-align: center;
+	font-size: var(--text-elg);
+	background-color: #ff2828;
+	border-radius: calc(var(--border-rad) - 0.2rem) calc(var(--border-rad) - 0.2rem) 0 0  ;
+}
+
+.c-box{
+	width: 42rem;
+	height:37rem;
+}
+
+.c-btn{
+	/* border: 2px solid seagreen; */
+	margin-top: 5rem;
+}
+
+.container .c-left{
+	/* border: 2px solid black; */
+	border-radius: var(--border-rad-main) 0 0 var(--border-rad-main);
+	width: 50%;
+	background:url('../static/images/fp.png');
+	background-position: center;
+    background-size: contain;
+    background-size: 80%;
+    background-repeat: no-repeat;
+	background-position:right;
+    position: relative;
+	background-color: #FDCFCF;
+}
