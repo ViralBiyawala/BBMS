@@ -24,7 +24,7 @@ server.starttls()
 otp_storage = {}
 
 # Define the OTP timeout duration in seconds (100 seconds in this case)
-OTP_TIMEOUT = 10000
+OTP_TIMEOUT = 180
 
 def is_valid_email(email):
     # Regular expression for basic email validation
@@ -69,7 +69,8 @@ def register():
         
         # Check if the email is already registered
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
-        if existing_user:
+        existing_user_H = RHospital.query.filter_by(d_email_id=email).first()
+        if existing_user or existing_user_H:
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
 
@@ -223,7 +224,7 @@ def generate_certificate(name):
     return send_file("templates\\output.pdf",download_name=temp,as_attachment=False)
 
 
-@app.route('/resend', methods=['GET', 'POST'])
+@app.route('/resend', methods=['POST'])
 def resend():
     if request.method == 'POST':
         # Retrieve data from the registration form
@@ -245,19 +246,7 @@ def resend():
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
 
-        # Generate a 6-digit random OTP
-        otp = str(random.randint(100000, 999999))
-        
-        # Store OTP and its creation time
-        otp_storage[email] = {
-            'otp': otp,
-            'created_at': datetime.now()
-        }
-        
-        # old_otp = otp_storage.get(email)
-        # if old_otp:
-        #     del otp_storage[email]
-        # print(stored_data)
+        otp = otp_storage[email]
         
         # Send OTP email
         msg = MIMEText(f'Your OTP for email verification: {otp}')
