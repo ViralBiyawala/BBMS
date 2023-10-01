@@ -69,7 +69,7 @@ def register():
         
         # Check if the email is already registered
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
-        existing_user_H = RHospital.query.filter_by(d_email_id=email).first()
+        existing_user_H = RHospital.query.filter_by(h_email_id=email).first()
         if existing_user or existing_user_H:
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
@@ -171,23 +171,19 @@ def login():
     
     return render_template('login.html')
 
-
-# @app.route('/otp')
-# def otp():
-#     return render_template('otp.html')
-
 #Route to Contact Page
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+#Route to OTP Page
 @app.route('/otp')
 def otp():
     return render_template('otp.html')
 
-@app.route('/cfm')
-def cfm():
-    return render_template('confirm.html')
+# @app.route('/cfm')
+# def cfm():
+#     return render_template('confirm.html')
 
 
 # generating basic template for certficate
@@ -195,9 +191,9 @@ def cfm():
 def verify():
     return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
 
-# @app.route('/hello')
-# def tp():
-#     return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
+@app.route('/forget')
+def forget():
+    return render_template('confirm.html')
 
 
 #Route to Download Certificate Page
@@ -245,11 +241,19 @@ def resend():
         if existing_user:
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
-
-        otp = otp_storage[email]
         
+        otp = str(random.randint(100000, 999999))
+        
+        # Store OTP and its creation time
+        otp_storage[email] = {
+            'otp': otp,
+            'created_at': datetime.now()
+        }
+
+        otp_s = otp_storage[email]
+        otp_ans = otp_s['otp']
         # Send OTP email
-        msg = MIMEText(f'Your OTP for email verification: {otp}')
+        msg = MIMEText(f'Your OTP for email verification: {otp_ans}')
         msg['Subject'] = 'Mail for Email Verification'
         msg['From'] = " Life Saver Blood"
         msg['To'] = email
@@ -262,3 +266,121 @@ def resend():
 
     
     return render_template('register.html')
+
+@app.route('/send_forget_otp', methods=['POST'])
+def submit_reset_password():
+    if request.method == 'POST':
+        # Retrieve data from the submitted form
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        # Check if the email exists in the database
+        # Replace this with your database query logic
+        existing_user = RDonor.query.filter_by(d_email_id=email).first()
+        existing_user_H = RHospital.query.filter_by(h_email_id=email).first()
+        if not (existing_user or existing_user_H):
+            flash('Email is not registered. Please register first using email address.', 'error')
+            return redirect(url_for('register'))
+
+        # Check if the password and confirm password match
+        if password != confirm_password:
+            flash('Password and Confirm Password do not match. Please try again.', 'error')
+            return redirect(url_for('forget'))
+        
+        # Generate a 6-digit random OTP
+        otp = str(random.randint(100000, 999999))
+        
+        # Store OTP and its creation time
+        otp_storage[email] = {
+            'otp': otp,
+            'created_at': datetime.now()
+        }
+        
+        # Send OTP email
+        msg = MIMEText(f'Your OTP for Password Reset: {otp}')
+        msg['Subject'] = 'Mail for Password Reset'
+        msg['From'] = " Life Saver Blood"
+        msg['To'] = email
+        server.login(myemail, 'edfouebuiwfvwdrr')
+        server.send_message(msg)
+        
+        # Render the OTP verification page and pass us*-er data along with the email
+        return render_template('forget_otp.html', email=email, password=password)
+    
+# New route for OTP verification
+@app.route('/verify_forget_otp', methods=['POST'])
+def verify_forget_otp():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user_otp = ''.join([request.form.get(f'otp{i}') for i in range(1, 7)])  # Concatenate OTP digits
+        admin_type = None
+        donor = RDonor.query.get(email)
+        if donor:
+            admin_type = "donor"
+
+        # Check if the user_id is for an RHospital
+        hospital = RHospital.query.get(email)
+        if hospital:
+            admin_type = "hospital"
+
+        stored_data = otp_storage.get(email)
+        # print(stored_data)
+        if stored_data and user_otp == stored_data['otp']:
+            # Check if the OTP is still valid
+            created_at = stored_data['created_at']
+            if datetime.now() - created_at <= timedelta(seconds=OTP_TIMEOUT):
+                # Check the user type and create the appropriate object
+                if admin_type == 'donor':
+                    # Create an RDonor object and populate it
+                    new_user = RDonor.query.get(email)
+                    new_user.set_password(password)  # Set the password using set_password method
+                elif admin_type == 'hospital':
+                    # Create an RHospital object and populate it
+                    new_user = RHospital.query.get(email)
+                    new_user.set_password(password)  # Set the password using set_password method
+                
+                # Add the new user to the appropriate table in the database
+                try:
+                    db.session.add(new_user)
+                    db.session.commit()
+                    return redirect(url_for('login'))
+                except Exception as e:
+                    print(e)
+                    return redirect(url_for('contact'))
+                        
+        return "Invalid OTP. Please try again."
+
+@app.route('/resend_forget', methods=['POST'])
+def resend_forget():
+    if request.method == 'POST':
+        # Retrieve data from the registration form
+        email = request.form['email']
+        password = request.form['password']
+        
+        if not is_valid_email(email):
+            flash('Please enter a valid email address.', 'error')
+            return redirect(url_for('register'))
+        
+        otp = str(random.randint(100000, 999999))
+        
+        # Store OTP and its creation time
+        otp_storage[email] = {
+            'otp': otp,
+            'created_at': datetime.now()
+        }
+
+        otp_s = otp_storage[email]
+        otp_ans = otp_s['otp']
+        # Send OTP email
+        msg = MIMEText(f'Your OTP for email verification for Password Reset is: {otp_ans}')
+        msg['Subject'] = 'Mail for Password Reset'
+        msg['From'] = " Life Saver Blood"
+        msg['To'] = email
+        server.login(myemail, 'edfouebuiwfvwdrr')
+        server.send_message(msg)
+        # server.quit()
+        
+        # Render the OTP verification page and pass us*-er data along with the email
+        return render_template('forget_otp.html', email=email,password=password)

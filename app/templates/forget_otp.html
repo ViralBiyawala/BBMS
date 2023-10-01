@@ -23,7 +23,7 @@
 
                     <h1 class="otpp otp-1">OTP Verification</h1>
                     <div class="otpp otp-2">Enter OTP Code Sent to E-mail</div>
-                    <form action="/verify_otp" method="POST" id="form"> <!-- Updated form action to /verify_otp -->
+                    <form action="/verify_forget_otp" method="POST" id="form"> <!-- Updated form action to /verify_otp -->
                         <div class="otp-3">
                             <input type="text" pattern="[0-9]*" maxlength="1" name="otp1" required>
                             <!-- Added name attribute -->
@@ -54,12 +54,7 @@
                             </button>
                         </div>
                         <input type="hidden" name="email" value="{{ email }}">
-                        <input type="hidden" name="name" value="{{ name }}">
-                        <input type="hidden" name="city" value="{{ city }}">
                         <input type="hidden" name="password" value="{{ password }}">
-                        <input type="hidden" name="mobile_no" value="{{ mobile_no }}">
-                        <input type="hidden" name="password" value="{{ password }}">
-                        <input type="hidden" name="admin" value="{{ admin_type }}">
                         <div class="otp-6">
                             <button type="submit">
                                 Submit
@@ -96,7 +91,7 @@
             const formData = new FormData(document.getElementById('form'));
 
             // URL to send the POST request to
-            const url = '/resend';  // Replace with your actual API endpoint
+            const url = '/resend_forget';  // Replace with your actual API endpoint
 
             // Options for the fetch request
             const options = {
