@@ -131,7 +131,7 @@ body{
     width:100%;
 	font-size: var(--text-md);
 	/* border: 2px solid rebeccapurple; */
-	border-bottom: 2px solid #ff2828;
+	border-bottom: 3px solid #ff2828;
 }
 .ip input{
 	width: 100%;
@@ -191,13 +191,15 @@ form .password i{
 	top:-0.5rem;
 	font-size: var(--text-sm);
 }
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.ip input:focus ~ label,
-.ip input:valid ~ label{
-	top:-0.5rem;
-	font-size: 1.65rem;
+	.ip input:valid ~ label{
+		top:-0.5rem;
+		font-size: 1.65rem;
+	}
 }
-}
+
 label::selection{
 	background-color: rgba(255, 40, 40, 0.682);
 }
@@ -461,7 +463,8 @@ button:hover{
 @media (max-width:546px){
 	.btns label{
 		margin-left: -0.5rem;
-	}
+	}	
+	
 }
 
 
