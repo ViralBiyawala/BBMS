@@ -31,8 +31,10 @@ body{
 }
 .container{
 	display: flex;
+	flex-wrap: wrap;
 	height: 100vh;
 	padding: 3rem;
+	/* max-width: 100vw; */
 	/* width:100%; */
 	/* margin: 20px; */
 }
@@ -59,11 +61,13 @@ body{
 }
 
 .login-box{
-	width: 50%;
+	width: 60%;
 	position: absolute;
-    top: 50%;
+    top : 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+	/* border: 4px solid darkturquoise; */
+	
 }
 .box{
 	background-color: white;
@@ -71,6 +75,7 @@ body{
 	border-radius: var(--border-rad);
 	/* background-color: blue; */
 	width: 42rem;
+	width:100%;
 	height:56rem;
 	border:solid 2px var(--primary-color);
 }
@@ -115,7 +120,7 @@ body{
 	left:5%;
 	top:5%;
 	width: 90%;
-	height: 25rem;
+	height: 35rem;
 	/* border: 0.2em solid violet; */
 	
 	position: relative;	
@@ -159,6 +164,7 @@ input[type='email']{
 form .password{
 	/* border: 2px solid violet; */
 	display: flex;
+	margin-top: 2rem;
 }
 form .password i{
 	/* border: 2px solid black; */
@@ -245,7 +251,7 @@ input[type=radio] {
 	}
   }
 .btns label{
-	margin-left: -7rem;
+	margin-left: -6rem;
 	font-size: var(--text-md);
 }
 .log-in-btn{
@@ -284,6 +290,192 @@ button:hover{
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color)
 }
+
+
+@media (max-height:633px){
+	.box{
+		/* width: 42rem; */
+		height:48rem;
+	}
+	.login-details{
+		margin-top: -1rem;
+	}
+	.ip{
+		margin:2rem 0rem;
+	}
+	/* .ip label{
+		font-size: ;
+	} */
+}
+@media (max-height:548px){
+	.box{
+		/* width: 42rem; */
+		height:46rem;
+	}
+	.login-details{
+		margin-top: -2rem;
+	}
+	.ip{
+		margin:2rem 0rem;
+	}
+}
+
+@media (max-height:525px){
+	.box{
+		/* width: 42rem; */
+		height:40rem;
+	}
+	.login-details{
+		margin-top: -2.3rem;
+	}
+	.ip{
+		margin:1rem 0rem;
+	}
+	.ip label{
+		font-size: 1.5rem;
+	}
+	.ip input:focus ~ label,
+	.ip input:valid ~ label{
+		top:0rem;
+		font-size: 1.3rem;
+	}
+	form .password input:focus ~ label,
+	form .password input:valid ~ label{
+		top:-1rem;
+		font-size: 1.3rem;
+	}
+	input[type='text'],
+	input[type='password'],
+	input[type='email']{
+		font-size: 1.5rem;
+	}
+	form .password{
+		margin-top: 2rem;
+	}
+	form .password i{
+		font-size: 2.3rem;
+	}
+}
+@media (max-width:1698px){
+	.btns label{
+		margin-left: -8rem;
+	}
+}
+@media (max-width:1450px){
+	.btns label{
+		margin-left: -6rem;
+	}
+}
+@media (max-width:1300px){
+	.btns label{
+		margin-left: -5rem;
+	}
+}
+@media (max-width:1230px){
+	.btns label{
+		margin-left: -2rem;
+	}
+}
+@media (max-width:1000px){
+	.btns label{
+		margin-left: -8rem;
+	}
+	.container .left{
+		width:0%;
+	}
+	.container .right{
+		width:100%;
+	}
+	.login-box{
+		width:50% ;
+	}
+}
+@media (max-width:900px){
+	.btns label{
+		margin-left: -5rem;
+	}
+}
+@media (max-width:790px){
+	.btns label{
+		margin-left: -3rem;
+	}
+}
+@media (max-width:680px){
+	.btns label{
+		margin-left: -1rem;
+	}
+	.header{
+		flex-direction: column;
+	}
+	.box{
+		height: 44rem;
+	}
+	.box .btn{
+		cursor: pointer;
+		width:100%;	
+		padding: 0.3em;
+		color: #fff;
+		font-family: 'Montserrat', sans-serif;
+		text-align: center;
+		font-size: 2.1rem;
+	}
+	.btn1{
+		border-radius: calc(var(--border-rad) - 0.2rem) calc(var(--border-rad) - 0.2rem) 0 0  ;
+	}
+	.btn2{
+		
+		border-radius: 0 0 0 0  ;
+	}
+	.login-details{
+		margin-top: -2.3rem;
+	}
+	.ip{
+		margin:1rem 0rem;
+	}
+	.ip label{
+		font-size: 1.5rem;
+	}
+	.ip input:focus ~ label,
+	.ip input:valid ~ label{
+		top:0rem;
+		font-size: 1.3rem;
+	}
+	form .password input:focus ~ label,
+	form .password input:valid ~ label{
+		top:-1rem;
+		font-size: 1.3rem;
+	}
+	input[type='text'],
+	input[type='password'],
+	input[type='email']{
+		font-size: 1.5rem;
+	}
+	form .password{
+		margin-top: 2rem;
+	}
+	form .password i{
+		font-size: 2.3rem;
+	}
+	
+}
+@media (max-width:546px){
+	.btns label{
+		margin-left: -0.5rem;
+	}
+}
+
+
+/* @media (max-width:1698px){
+	.login-box{
+		width: 50%;
+		position: absolute;
+		top:  50%;
+		left: 25%;
+		transform: translate(-25%,-50%);
+		border: 4px solid darkturquoise;
+	
+	}
+} */
 
 /* Viral Added */
 .flash-popup {

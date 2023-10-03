@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import smtplib
+# import smtplib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
