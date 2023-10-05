@@ -21,13 +21,13 @@
                 <li class="nav-item"> <a href="/">Home</a> </li>
                 <li class="nav-item"> <a href="about">About Us</a> </li>
                 <li class="nav-item"> <a href="contact">Contact Us</a> </li>
+                <li><a href="logout">Log Out</a></li>
                 {% if user is none %}
                 <li class="nav-item"> <a href="login">Login</a></li>
                 {% else %}    
                 <li class="nav-item">
                     {{ name }}
                 </a></li>
-                <li><a href="logout">Log Out</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -149,7 +149,12 @@
         <div class="in">
             <div class="in-1">It's Your Turn to Shine as a Blood Donor – Join Our Mission</div>
             <div class="in-2">Are you ready to step into the spotlight and make a difference? Becoming a blood donor means joining a league of extraordinary individuals who shine brightly in the lives of those in need.</div>
+            {% if user is none %}
             <a href="login" class="in-3">Donate Now</a>
+            {% else %}
+            <a href="index" class="in-3">Donate Now</a>
+            {% endif %}
+            
             <!-- <div class="in-3"><a href="login">Donate Now</a></div> -->
         </div>
     </div>
