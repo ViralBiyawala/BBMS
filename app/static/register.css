@@ -407,10 +407,10 @@ button:hover{
 		margin-left: -1rem;
 	}
 	.header{
-		flex-direction: column;
+		/* flex-direction: column; */
 	}
 	.box{
-		height: 44rem;
+		height: 40rem;
 	}
 	.box .btn{
 		cursor: pointer;
@@ -421,13 +421,13 @@ button:hover{
 		text-align: center;
 		font-size: 2.1rem;
 	}
-	.btn1{
+	/* .btn1{
 		border-radius: calc(var(--border-rad) - 0.2rem) calc(var(--border-rad) - 0.2rem) 0 0  ;
 	}
 	.btn2{
 		
 		border-radius: 0 0 0 0  ;
-	}
+	} */
 	.login-details{
 		margin-top: -2.3rem;
 	}
@@ -463,8 +463,18 @@ button:hover{
 @media (max-width:546px){
 	.btns label{
 		margin-left: -0.5rem;
-	}	
-	
+	}		
+	.login-box{
+		width:80%;
+	}
+}
+@media (max-width:360px){
+	.btns label{
+		margin-left: -0.5rem;
+	}		
+	.login-box{
+		width:90%;
+	}
 }
 
 
