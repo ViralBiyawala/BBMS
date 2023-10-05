@@ -354,6 +354,7 @@ header{
     /* border: 2px solid black; */
 }
 .p-1{
+    /* border: 2px solid black; */
     font-size: var(--text-xxl);
     font-weight: 600;
     margin-left: 2rem;
