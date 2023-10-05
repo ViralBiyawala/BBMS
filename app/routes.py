@@ -46,7 +46,6 @@ def load_user(user_id):
     hospital = RHospital.query.get(user_id)
     if hospital:
         return hospital
-
     # If the user_id doesn't match either type, return None
     return None
 
@@ -164,7 +163,7 @@ def login():
             login_user(user)
             # Redirect to a protected page or perform other actions
             # For example, you can redirect to a dashboard or home page
-            return redirect(url_for('contact'))  # Change 'home' to the desired page
+            return redirect(url_for('index'))  # Change 'home' to the desired page
         else:
             # flash('Invalid username or password. Please try again.')
             return redirect(url_for('register'))  # Change 'home' to the desired page
@@ -183,7 +182,25 @@ def contact():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    user = current_user if current_user.is_authenticated else None
+    if user == None:
+        initials = None
+    else:
+        full_name = user.name
+        name_parts = full_name.split()
+        initials = "".join([name[0] for name in name_parts])
+    return render_template('index.html',user=user, name=initials)
+
+@app.route('/index')
+def base():
+    user = current_user if current_user.is_authenticated else None
+    if user == None:
+        initials = None
+    else:
+        full_name = user.name
+        name_parts = full_name.split()
+        initials = "".join([name[0] for name in name_parts])
+    return render_template('index.html',user=user, name=initials)
 
 # @app.route('/cfm')
 # def cfm():
@@ -387,3 +404,9 @@ def resend_forget():
         
         # Render the OTP verification page and pass us*-er data along with the email
         return render_template('forget_otp.html', email=email,password=password)
+    
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
