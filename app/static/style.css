@@ -356,8 +356,10 @@ header{
 .p-1{
     font-size: var(--text-xxl);
     font-weight: 600;
-    margin-left: 2rem;
+    /* margin-left: 8rem; */
+    text-align: center;
 }
+
 .p-2{
     display: flex;
     justify-content: center;
