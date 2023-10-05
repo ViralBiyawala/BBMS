@@ -196,6 +196,17 @@ header{
         font-size: 4rem;
     }
 }
+@media (max-width:335px){
+    .content{
+        width: 100%;
+    }
+    .content .upper{
+        font-size: 1.5rem;
+    }
+    .content .lower{
+        font-size: 3.5rem;
+    }
+}
  
 .helpful-info{
     display: flex;
