@@ -162,12 +162,12 @@ header{
     margin-top: -1.5rem;
 }
 
-@media (max-width:884px){
+@media (max-width:960px){
     .content{
         width: 50%;
     }
 }
-@media (max-width:708px){
+@media (max-width:770px){
     .content{
         width: 60%;
     }
@@ -185,7 +185,7 @@ header{
         transform: translate(-50%,-50%);
     }
 }
-@media (max-width:530px){
+@media (max-width:584px){
     .content{
         width: 90%;
     }

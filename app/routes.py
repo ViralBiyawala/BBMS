@@ -177,18 +177,17 @@ def contact():
     return render_template('contact.html')
 
 #Route to OTP Page
-@app.route('/otp')
-def otp():
-    return render_template('otp.html')
+# @app.route('/otp')
+# def otp():
+#     return render_template('otp.html')
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # @app.route('/cfm')
 # def cfm():
 #     return render_template('confirm.html')
-
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
 
 # generating basic template for certficate
 @app.route('/certificate', methods=['GET'])
