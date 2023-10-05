@@ -185,6 +185,10 @@ def otp():
 # def cfm():
 #     return render_template('confirm.html')
 
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
 
 # generating basic template for certficate
 @app.route('/certificate', methods=['GET'])
