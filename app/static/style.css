@@ -621,7 +621,7 @@ header{
 /* Donate Now PArt  */
 
 .donate-now{
-    /* border: 2px solid black; */
+    border: 2px solid black;
     height: auto;
     margin: 0 0 5rem 0;
 
@@ -640,18 +640,18 @@ header{
 
 .in-1{
     color:#ff2828;
-    font-size: var(--text-lg);
+    font-size: calc(var(--text-lg) - 0.1rem);
     font-weight: 700;
-    /* border: 2px solid black; */
+    border: 2px solid black;
 }
 .in-2{
     font-weight: 600;
     text-align: center;
-    /* border: 2px solid darkblue; */
+    border: 2px solid darkblue;
     /* padding-bottom: 5rem; */
 }
 .in-3{
-    /* border: 2px solid purple; */
+    border: 2px solid purple;
     cursor: pointer;
     margin: 2rem 0;
     padding: 0.5rem 3rem ;
