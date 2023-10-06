@@ -21,10 +21,10 @@
                 <li class="nav-item"> <a href="/">Home</a> </li>
                 <li class="nav-item"> <a href="about">About Us</a> </li>
                 <li class="nav-item"> <a href="contact">Contact Us</a> </li>
-                <li><a href="logout">Log Out</a></li>
                 {% if user is none %}
                 <li class="nav-item"> <a href="login">Login</a></li>
                 {% else %}    
+                <li><a href="logout" class="nav-item">Log Out</a></li>
                 <li class="nav-item">
                     {{ name }}
                 </a></li>

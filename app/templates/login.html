@@ -13,7 +13,17 @@
 
     <div class="container">
         <div class="left">
-            
+            <!-- Flash message start -->
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        
+                        {{ messages[-1] }}  <!-- Display the last message in the list -->
+                        
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <!--Flash ends  -->
         </div>
         <div class="right">
             <div class="login-box">

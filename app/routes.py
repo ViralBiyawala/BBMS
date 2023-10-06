@@ -26,7 +26,7 @@ from email.mime.text import MIMEText
 otp_storage = {}
 
 # Define the OTP timeout duration in seconds (100 seconds in this case)
-OTP_TIMEOUT = 180
+OTP_TIMEOUT = 240
 
 # Initialize Flask-Login
 login_manager = LoginManager(app)
@@ -377,7 +377,7 @@ def verify_forget_otp():
                     print(e)
                     return redirect(url_for('contact'))
                         
-        return "Invalid OTP. Please try again."
+        return render_template('forget_otp.html')
 
 #Certificate
 #Route to Download Certificate Page

@@ -4,10 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 # import smtplib
 
 app = Flask(__name__)
-myemail = 'svspbs567@gmail.com'
+myemail = 'lifesaver102023@gmail.com'
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587
-app_login_key = 'edfouebuiwfvwdrr'
+app_login_key = 'iagqnjyfcvpdtoes'
 
 server = smtplib.SMTP(smtp_server, smtp_port)
 
