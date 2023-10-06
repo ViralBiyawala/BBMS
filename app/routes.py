@@ -424,7 +424,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))  # Change 'index' to the desired page
         else:
-            # flash('Invalid username or password. Please try again.')
+            flash('Invalid username or password. Please try again.')
             return redirect(url_for('register'))  # Change 'home' to the desired page
     
     return render_template('login.html')
