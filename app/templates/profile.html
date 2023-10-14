@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+</head>
+<body class="bg-[#FFE0E0]">
+    <nav class="bg-[#FF2828] w-full flex py-5 text-white text-2xl ">
+        <div class="flex items-center
+            w-[20%]   
+        ml-6 text-4xl  hover:tracking-[0.2em]
+        transition-all duration-700 cursor-pointer
+        
+                    ">
+            Life Saver</div>
+        <div class=" flex w-[80%] justify-end items-center">
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/index">Home</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a>About Us</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/contact">Contact Us</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white"></div>
+        </div>
+    </nav>
+
+    <div class="mt-5  flex  ">  <!-- border border-red-700   -->
+        <div class="left  w-[40%] p-10 "> <!--border-4 border-yellow-600  -->
+            <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl
+            "> <!-- border border-red-700   -->
+
+                <div class="pp w-[300px] h-[300px] rounded-full bg-[#d9d9d9] "></div>
+
+                <div class="mt-7 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
+                text-white   text-center
+                ">
+                <a href="#donor-info" class="block">Profile</a>
+                </div>
+
+                <div class="t mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
+                text-white   text-center"><a href="#appointment" class="block">Appointments</a></div>
+                
+                <div class="mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
+                text-white   text-center"><a href="#history" class="block">History</a></div>
+            </div>
+        </div>
+        <div class="right w-[60%]   aspect-[21/13]  overflow-x-hidden overflow-y-scroll snap-y  snap-mandatory p-7 scroll-smooth
+        ">
+            <div id="donor-info" class="  
+             mx-auto w-[100%] text-[#ff2828] bg-white rounded-2xl p-6
+            ">
+                <h1 class=" text-3xl
+                ">Donor Information</h1>
+                <form action="index.html" class="">
+                    
+
+                    <div class="input-container w-60">
+                        <input type="text" name="name" class="input">
+                        <label for="" >Donor ID</label>
+                        <span>Donor ID</span>
+                    </div>
+                    
+                    <div class="name flex space-x-3">
+                        <div class="input-container w-1/3">
+                            <input type="text" name="name" class="input">
+                            <label for="">First Name</label>
+                            <span>First Name</span>
+                        </div>
+                        <div class="input-container w-1/3">
+                            <input type="text" name="name" class="input">
+                            <label for="">Middle Name</label>
+                            <span>Middle Name</span>
+                        </div>
+                        <div class="input-container w-1/3">
+                            <input type="text" name="name" class="input">
+                            <label for="">Last Name</label>
+                            <span>Last Name</span>
+                        </div>
+
+                    </div>
+                    
+                    <div class="name flex space-x-12">
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">Date of Birth</label>
+                            <span>Date of Birth</span>
+                        </div>
+
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">Gender</label>
+                            <span>Gender</span>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="name flex space-x-12">
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">Mobile No.</label>
+                            <span>Mobile No.</span>
+                        </div>
+
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">E-Mail ID</label>
+                            <span>E-Mail ID</span>
+                        </div>
+                    </div>
+
+                    <div class="input-container textarea ">
+                        <textarea name="message" class="input"></textarea>
+                        <label for="">Address</label>
+                        <span>Address</span>
+                    </div>
+                    
+                    <div class="name flex space-x-12">
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">City</label>
+                            <span>City</span>
+                        </div>
+
+                        <div class="input-container w-1/2">
+                            <input type="text" name="name" class="input">
+                            <label for="">Blood Type</label>
+                            <span>Blood Type</span>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Update" class="btnupdate bg-[#ff2828]">
+
+                </form>
+            </div>
+            
+            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] text-xl font-bold h-[20rem]
+            ">Appointments
+            </div>
+            <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] text-xl font-bold h-[20rem]
+            ">History
+            </div>
+
+        </div>
+    </div>
+    <script>
+        const ips = document.querySelectorAll('.input');
+        
+        ips.forEach(ip => {
+            ip.addEventListener('focus', (e) => {
+                e.target.parentNode.classList.add('focus');
+            });
+        
+            ip.addEventListener("blur", (e) => {
+                if (e.target.value === "") {
+                    e.target.parentNode.classList.remove('focus');
+                }
+            });
+        
+            ip.addEventListener("input", (e) => {
+                    e.target.parentNode.classList.add('focus');
+            });
+        });
+        
+    </script>
+</body>
+</html>

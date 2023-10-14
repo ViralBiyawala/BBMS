@@ -61,6 +61,10 @@ def is_valid_email(email):
 def contact():
     return render_template('contact.html')
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 #By default Page
 @app.route('/')
 def index():
@@ -127,7 +131,7 @@ def register():
         admin_type = request.form['admin']  # Added to retrieve the user type (Donor or Hospital)
         
         if not is_valid_email(email):
-            flash('Please enter a valid email address.', 'error')
+            flash('Please enter a valid email address.')
             return redirect(url_for('register'))
         
         
@@ -135,7 +139,7 @@ def register():
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
         existing_user_H = RHospital.query.filter_by(h_email_id=email).first()
         if existing_user or existing_user_H:
-            flash('Email is already registered. Please use a different email address.', 'error')
+            flash('Email is already registered.')
             return redirect(url_for('register'))
 
         # Generate a 6-digit random OTP
@@ -159,6 +163,7 @@ def register():
         server.quit()
         
         # Render the OTP verification page and pass us*-er data along with the email
+        # flash('OTP Sent.Valid for 4 minutes.')
         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
 
     return render_template('register.html')
@@ -209,6 +214,7 @@ def resend():
         server.quit()
         
         # Render the OTP verification page and pass us*-er data along with the email
+        # flash('OTP Sent.Valid for 4 minutes.')
         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
     return render_template('register.html')
 
@@ -226,12 +232,12 @@ def submit_reset_password():
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
         existing_user_H = RHospital.query.filter_by(h_email_id=email).first()
         if not (existing_user or existing_user_H):
-            flash('Email is not registered. Please register first using email address.', 'error')
-            return redirect(url_for('register'))
+            flash('Email is not registered.')
+            return redirect(url_for('forget'))
 
         # Check if the password and confirm password match
         if password != confirm_password:
-            flash('Password and Confirm Password do not match. Please try again.', 'error')
+            flash('Password and Confirm Password doesn\'t match.')
             return redirect(url_for('forget'))
         
         # Generate a 6-digit random OTP
@@ -253,7 +259,7 @@ def submit_reset_password():
         msg['To'] = email
         server.send_message(msg)
         server.quit()
-        
+        flash('OTP Sent.Valid for 4 minutes.')
         # Render the OTP verification page and pass us*-er data along with the email
         return render_template('forget_otp.html', email=email, password=password)
 
@@ -292,12 +298,14 @@ def resend_forget():
         server.quit()
         
         # Render the OTP verification page and pass us*-er data along with the email
+        flash('OTP Sent.Valid for 4 minutes.')
         return render_template('forget_otp.html', email=email,password=password)
 
 #Database Entry
 # New User Register
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
+    # flash("")
     if request.method == 'POST':
         email = request.form.get('email')
         user_otp = ''.join([request.form.get(f'otp{i}') for i in range(1, 7)])  # Concatenate OTP digits
@@ -307,8 +315,11 @@ def verify_otp():
         password = request.form.get('password')
         admin_type = request.form.get('admin')
 
+        # if user_otp == None:
+        #     return render_template('otp.html')
+        print(user_otp)   
         stored_data = otp_storage.get(email)
-        print(stored_data)
+        # print(stored_data)
         if stored_data and user_otp == stored_data['otp']:
             # Check if the OTP is still valid
             created_at = stored_data['created_at']
@@ -332,8 +343,11 @@ def verify_otp():
                 except Exception as e:
                     print(e)
                     return redirect(url_for('contact'))
-                        
-        return "Invalid OTP. Please try again."
+        else:
+            flash('Wrong OTP!!!')                
+            return render_template('otp.html')
+        # flash('Wrong OTP!!!')                
+        return render_template('otp.html')
 
 # Paasword update in Database
 @app.route('/verify_forget_otp', methods=['POST'])
@@ -424,7 +438,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))  # Change 'index' to the desired page
         else:
-            flash('Invalid username or password. Please try again.')
-            return redirect(url_for('register'))  # Change 'home' to the desired page
+            flash('Invalid username or password.')
+            return redirect(url_for('login'))  # Change 'home' to the desired page
     
     return render_template('login.html')

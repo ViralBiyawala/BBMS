@@ -11,7 +11,24 @@
 
     <div class="container">
 
-        <div class="c-left"></div>
+        <div class="c-left">
+            <!-- Flash message start -->
+            <div  class="flash-messages">
+                <!-- <p>This is Error message</p> -->
+                <div class="msg">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="inner">
+                        {{ messages[-1] }}  <!-- Display the last message in the list -->
+                    </div>
+                    
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+
+        </div>
 
         <div class="right">
             <div class="login-box">
@@ -89,6 +106,20 @@
                 }
             }
         })
+        const fmsg=document.querySelector('.flash-messages');
+        
+        
+        setTimeout(()=>{
+            if(fmsg.classList.contains('active')){
+                fmsg.classList.remove('active');
+            }
+        },3000)
+        
+        const ims=document.querySelector('.inner');
+        if(ims.textContent != ""){
+            fmsg.classList.add('active');
+        }
+
     </script>
 </body>
 </html>

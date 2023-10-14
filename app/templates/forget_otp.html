@@ -15,7 +15,21 @@
 
     <div class="container">
 
-        <div class="otp-left"></div>
+        <div class="otp-left">
+            <div  class=" active flash-messages">
+                <!-- <p>This is Error message</p> -->
+                <div class="msg">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="inner">
+                        {{ messages[-1] }}  <!-- Display the last message in the list -->
+                    </div>
+                    
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
 
         <div class="otp-right">
             <div class="otp-box">
@@ -160,6 +174,21 @@
             })
 
         });
+
+        const fmsg=document.querySelector('.flash-messages');
+        
+        
+        setTimeout(()=>{
+            if(fmsg.classList.contains('active')){
+                fmsg.classList.remove('active');
+            }
+        },3000)
+        
+        const ims=document.querySelector('.inner');
+        if(ims.textContent != ""){
+            fmsg.classList.add('active');
+        }
+
 
 
 

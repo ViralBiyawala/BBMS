@@ -14,14 +14,23 @@
     <div class="container">
         <div class="left">
             <!-- Flash message start -->
-            <div class="flash-messages">
-                {% with messages = get_flashed_messages() %}
+            <div  class="flash-messages">
+                <!-- <p>This is Error message</p> -->
+                <div class="msg">
+                    {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        
+                    <div class="inner">
                         {{ messages[-1] }}  <!-- Display the last message in the list -->
-                        
+                    </div>
+                    
                     {% endif %}
-                {% endwith %}
+                    {% endwith %}
+                </div>
+                <!-- const closeBtn=document.querySelector('.close-btn');
+        closeBtn.addEventListener('click',(e)=>{
+            fmsg.classList.remove('active')
+        }) -->
+                <!-- <div class="close-btn">&times;</div> -->
             </div>
             <!--Flash ends  -->
         </div>
@@ -61,7 +70,7 @@
                                 <label for="admin">Admin</label>
                             </div>
                             <div class="forget-password">
-                                <a href="\forget">Forget Password?</a>
+                                <a href="/forget">Forget Password?</a>
                             </div>
                             <div class="log-in-btn">
                                 <button type="submit">Submit</button> <!-- Added type="submit" -->
@@ -92,6 +101,25 @@
                 }
             }
         })
+
+        const fmsg=document.querySelector('.flash-messages');
+        
+        
+        setTimeout(()=>{
+            if(fmsg.classList.contains('active')){
+                fmsg.classList.remove('active');
+            }
+        },3000)
+        
+        const ims=document.querySelector('.inner');
+        if(ims.textContent != ""){
+            fmsg.classList.add('active');
+        }
+
+
+        
+
+
     </script>
 
 </body>

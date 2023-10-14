@@ -51,7 +51,7 @@ p,li{
 }
 
 h1,h2,h3{
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     font-weight: 500;
 }
 
@@ -75,9 +75,9 @@ header{
 
 /* Floating Material */
 .navbar{
-    height:7.5rem;
+    height:8.7rem;
     margin: 0 auto;
-    background-color: rgba(255, 47, 47, 0.855);
+    background-color: #ff2828;
     /* border: 2px solid black; */
 }
 .navbar .logo{
@@ -112,7 +112,7 @@ header{
 }
 .logo{
     padding: 0.5rem 0 0 2rem ;
-    font-size: var(--text-xl);
+    font-size: var(--text-xxl);
     transition: 0.2s ease-in-out;
     /* border: 2px solid black; */
 }

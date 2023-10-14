@@ -15,7 +15,21 @@
 
     <div class="container">
 
-        <div class="otp-left"></div>
+        <div class="otp-left">
+            <div  class="flash-messages">
+                <!-- <p>This is Error message</p> -->
+                <div class="msg">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="inner">
+                        {{ messages[-1] }}  <!-- Display the last message in the list -->
+                    </div>
+                    
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
 
         <div class="otp-right">
             <div class="otp-box">
@@ -106,7 +120,7 @@
 
             // Send the POST request using fetch
             fetch(url, options)
-                .then(response => {
+                .then(response => { 
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -120,6 +134,8 @@
                     // Handle errors here
                     console.error('There was a problem with the fetch operation:', error);
                 });
+
+
             timer(t);
             document.querySelector('.timerr').style.display = '';
             document.querySelector('.otp-box').style.height = '42rem';
@@ -135,6 +151,9 @@
             })
         }
 
+        window.onbeforeunload = function () {
+            clearAll();
+        };
 
         let ips = document.querySelectorAll('.otp-3 input');
         ips.forEach((ip) => {
@@ -165,6 +184,20 @@
             })
 
         });
+
+        const fmsg=document.querySelector('.flash-messages');
+        
+        
+        setTimeout(()=>{
+            if(fmsg.classList.contains('active')){
+                fmsg.classList.remove('active');
+            }
+        },3000)
+        
+        const ims=document.querySelector('.inner');
+        if(ims.textContent != " "){
+            fmsg.classList.add('active');
+        }
 
 
 
