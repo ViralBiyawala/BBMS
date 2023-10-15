@@ -21,6 +21,7 @@ import os
 from app import app,myemail,server,app_login_key
 import pdfkit, shutil, re, random
 from email.mime.text import MIMEText
+from werkzeug.utils import secure_filename
 # ids = 1
 
 #initialization
@@ -547,10 +548,20 @@ def update_img():
 
     # Get the Donor object for the current user
     data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+    
+    # Delete previous images with the same name but different extensions
+    allowed_extensions = ['png', 'jpg', 'jpeg']
+    for extension in allowed_extensions:
+        image_path = f"/app/static/images/{data.donor_id}.{extension}"
+        current_path = os.getcwd()
+        filename = current_path + image_path
+        if os.path.isfile(filename) == True:
+            os.remove(filename)
 
     # Generate a secure filename based on Donor_id and the file extension
     filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
     image_path = os.path.join("app/static/images", filename)
+            # print(filename)
 
     # Ensure the directory exists
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
