@@ -35,17 +35,19 @@ class RHospital(UserMixin, db.Model):
         return self.h_email_id  # Return a unique identifier for the user
 
 class Donor(UserMixin,db.Model):
-    donor_id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     d_email_id = db.Column(db.String(120), db.ForeignKey('r_donor.d_email_id'))
     first_name = db.Column(db.String(50), nullable=False)
+    middle_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
-    contact_phone = db.Column(db.String(15))
-    contact_email = db.Column(db.String(120))
-    contact_address = db.Column(db.String(200))
+    contact_phone = db.Column(db.Integer, nullable=False)
+    # contact_email = db.Column(db.String(120))
+    contact_address = db.Column(db.String(300), nullable=False)
+    city = db.Column(db.String(20), nullable=False)
     blood_type = db.Column(db.String(5), nullable=False)
-    donor_status = db.Column(db.String(20), nullable=False)
+    # donor_status = db.Column(db.String(20), nullable=False)
 
     r_donor = db.relationship("RDonor", backref="donors")
     

@@ -20,6 +20,7 @@ from datetime import datetime, timedelta
 from app import app,myemail,server,app_login_key
 import pdfkit, shutil, re, random
 from email.mime.text import MIMEText
+# ids = 1
 
 #initialization
 # Store OTPs for email verification with their creation time
@@ -60,10 +61,6 @@ def is_valid_email(email):
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-@app.route('/profile')
-def profile():
-    return render_template('profile.html')
 
 #By default Page
 @app.route('/')
@@ -442,3 +439,61 @@ def login():
             return redirect(url_for('login'))  # Change 'home' to the desired page
     
     return render_template('login.html')
+
+# Profile Page
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    if request.method == 'POST':
+        Fname = request.form['Fname']
+        Mname = request.form['Mname']
+        Lname = request.form['Lname']
+        DOB = request.form['DOB']
+        DOB = datetime.strptime(DOB, '%Y-%d-%m').date()
+        gender = request.form['gender']
+        mob = request.form['mob']
+        address = request.form['address']
+        city = request.form['city']
+        Btype = request.form['Btype']
+
+        data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+        if data:
+            # Update the attributes of the existing object
+            data.first_name = Fname
+            data.middle_name = Mname
+            data.last_name = Lname
+            data.date_of_birth = DOB
+            data.gender = gender
+            data.contact_phone = mob
+            data.contact_address = address
+            data.city = city
+            data.blood_type = Btype
+        else:
+            # Create a new Donor object if it doesn't exist
+            data = Donor(
+                d_email_id=current_user.d_email_id,
+                first_name=Fname,
+                middle_name=Mname,
+                last_name=Lname,
+                date_of_birth=DOB,
+                gender=gender,
+                contact_phone=mob,
+                contact_address=address,
+                city=city,
+                blood_type=Btype
+            )
+
+        # Add the updated or new object to the session and commit changes
+        try:
+            db.session.add(data)
+            db.session.commit()
+            return redirect(url_for('profile'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('contact'))
+
+    data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+    if data is None:
+        return render_template('profile.html', email=current_user, data=None)
+    else:
+        return render_template('profile.html', email=current_user, data=data)

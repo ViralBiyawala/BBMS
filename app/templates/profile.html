@@ -51,28 +51,28 @@
             ">
                 <h1 class=" text-3xl
                 ">Donor Information</h1>
-                <form action="index.html" class="">
+                <form action="\profile" method="post" class="">
                     
 
                     <div class="input-container w-60">
-                        <input type="text" name="name" class="input">
+                        <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
                         <label for="" >Donor ID</label>
                         <span>Donor ID</span>
                     </div>
                     
                     <div class="name flex space-x-3">
                         <div class="input-container w-1/3">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="Fname" class="input" value="{{ data.first_name }}">
                             <label for="">First Name</label>
                             <span>First Name</span>
                         </div>
                         <div class="input-container w-1/3">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="Mname" class="input" value="{{ data.middle_name }}">
                             <label for="">Middle Name</label>
                             <span>Middle Name</span>
                         </div>
                         <div class="input-container w-1/3">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="Lname" class="input" value="{{ data.last_name }}">
                             <label for="">Last Name</label>
                             <span>Last Name</span>
                         </div>
@@ -81,13 +81,13 @@
                     
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="DOB" class="input" value="{{ data.date_of_birth }}">
                             <label for="">Date of Birth</label>
                             <span>Date of Birth</span>
                         </div>
 
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="gender" class="input" value="{{ data.gender }}">
                             <label for="">Gender</label>
                             <span>Gender</span>
                         </div>
@@ -96,33 +96,33 @@
                     
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="mob" class="input" value="{{ data.contact_phone }}">
                             <label for="">Mobile No.</label>
                             <span>Mobile No.</span>
                         </div>
 
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
                             <label for="">E-Mail ID</label>
                             <span>E-Mail ID</span>
                         </div>
                     </div>
 
                     <div class="input-container textarea ">
-                        <textarea name="message" class="input"></textarea>
+                        <textarea name="address" class="input" >{{ data.contact_address }}</textarea>
                         <label for="">Address</label>
                         <span>Address</span>
                     </div>
                     
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="city" class="input" value="{{ data.city }}">
                             <label for="">City</label>
                             <span>City</span>
                         </div>
 
                         <div class="input-container w-1/2">
-                            <input type="text" name="name" class="input">
+                            <input type="text" name="Btype" class="input" value="{{ data.blood_type }}">
                             <label for="">Blood Type</label>
                             <span>Blood Type</span>
                         </div>
