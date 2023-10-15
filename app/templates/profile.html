@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
 </head>
 <body class="bg-[#FFE0E0]">
@@ -18,9 +19,17 @@
             Life Saver</div>
         <div class=" flex w-[80%] justify-end items-center">
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/index">Home</a></div>
+
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a>About Us</a></div>
+
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/contact">Contact Us</a></div>
-            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white"></div>
+
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
+                <img src="../static/images/profile.png" id="profile-pic-main" alt="" 
+                    class="  rounded-full bg-[#d9d9d9]  cursor-pointer
+
+                    ">
+            </div>
         </div>
     </nav>
 
@@ -29,7 +38,20 @@
             <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl
             "> <!-- border border-red-700   -->
 
-                <div class="pp w-[300px] h-[300px] rounded-full bg-[#d9d9d9] "></div>
+                <!-- <div class="pp w-[300px] h-[300px] rounded-full bg-[#d9d9d9] ">
+
+                </div> -->
+                <div class="pp ">
+                    <img src="../static/images/profile.png" id="profile-pic" alt="" 
+                    class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer
+                    ">
+                    
+                    <label for="input-file" class="pp-label  cursor-pointer text-2xl rounded-full" >
+                        <i class="fa-solid fa-pencil fa-xl  " style="color: #000;"></i>
+                    </label>
+
+                    <input type="file" name="" accept="image/jpeg, image/png, image/jpg" id="input-file" class="hidden">
+                </div>
 
                 <div class="mt-7 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
                 text-white   text-center
@@ -54,7 +76,7 @@
                 <form action="\profile" method="post" class="">
                     
 
-                    <div class="input-container w-60">
+                    <div class="donor-id input-container w-60 ">
                         <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
                         <label for="" >Donor ID</label>
                         <span>Donor ID</span>
@@ -101,7 +123,7 @@
                             <span>Mobile No.</span>
                         </div>
 
-                        <div class="input-container w-1/2">
+                        <div class="mail-id input-container w-1/2">
                             <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
                             <label for="">E-Mail ID</label>
                             <span>E-Mail ID</span>
@@ -149,6 +171,9 @@
             ip.addEventListener('focus', (e) => {
                 e.target.parentNode.classList.add('focus');
             });
+            if(ip.value != ""){
+                ip.parentNode.classList.add('focus');
+            }
         
             ip.addEventListener("blur", (e) => {
                 if (e.target.value === "") {
@@ -158,6 +183,42 @@
         
             ip.addEventListener("input", (e) => {
                     e.target.parentNode.classList.add('focus');
+            });
+        });
+        let pp=document.getElementById("profile-pic")
+        let ppMain=document.getElementById("profile-pic-main")
+        let pplabel=document.querySelector(".pp-label")
+        let inputFile = document.getElementById("input-file")
+    
+        inputFile.onchange = function() {
+            pp.src=URL.createObjectURL(inputFile.files[0])
+            ppMain.src=URL.createObjectURL(inputFile.files[0])
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const pp = document.querySelector('.pp');
+            const pplabel = pp.querySelector('.pp-label');
+        
+            let pp_mouse = false;
+        
+            pp.addEventListener("mouseover", function() {
+                this.style.filter = "brightness(50%)";
+                pp_mouse = true;
+        
+                pplabel.style.display = "block";
+                pplabel.children[0].classList.add('fa-shake');
+                pplabel.children[0].style.color = "#000";
+                
+        
+                setTimeout(() => {
+                    if (pplabel.children[0].classList.contains('fa-shake')) {
+                        pplabel.children[0].classList.remove('fa-shake');
+                    }
+                }, 1000);
+            });
+        
+            pp.addEventListener("mouseout", function() {
+                this.style.filter = "brightness(100%)";
+                pplabel.style.display = "none";
             });
         });
         

@@ -49,6 +49,10 @@ body{
     border-radius: 12px;
     transition: 0.3s;
 }
+.donor-id .input,
+.mail-id .input{
+    background-color: #ff282884;
+}
 textarea.input{
     padding: 0.8rem 1.2rem;
     /* min-height:50px; */
@@ -139,4 +143,26 @@ textarea.input{
 .input-container.focus span::after{
     width: 50%;
     opacity: 1;
+}
+.pp{
+    position: relative;
+    border-radius: 50%;
+}
+.pp-label{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    display: none;
+    filter: brightness(200%); /* Adjust brightness for the label */
+    transition: filter 0.3s;
+}
+.pp:hover{
+    /* filter: brightness(50%); */
+}
+.pp:hover .pp-label{
+    /* display:block;
+    filter: brightness(100%);
+    z-index: 2;  */
 }

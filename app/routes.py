@@ -449,7 +449,7 @@ def profile():
         Mname = request.form['Mname']
         Lname = request.form['Lname']
         DOB = request.form['DOB']
-        DOB = datetime.strptime(DOB, '%Y-%d-%m').date()
+        DOB = datetime.strptime(DOB, '%Y-%m-%d').date()
         gender = request.form['gender']
         mob = request.form['mob']
         address = request.form['address']

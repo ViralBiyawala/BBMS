@@ -1,16 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  >
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeSaver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../static/style.css">
     <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <nav class="navbar">
+    <nav class="bg-[#FF2828] w-full flex py-[20px] text-white text-[24px] ">
+        <div class="flex items-center
+            w-[20%]   
+        ml-[24px] text-[36px]  hover:tracking-[0.2em]
+        transition-all duration-700 cursor-pointer
+        
+                    ">
+            Life Saver</div>
+        <div class=" flex w-[80%] justify-end items-center">
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a>About Us</a></div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/contact">Contact Us</a></div>
+
+                {% if user is none %}
+                <div class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                    <a href="login">Login</a>
+                </div>
+                {% else %}    
+                <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                    <a href="logout">Log Out</a>
+                </div>
+                
+                <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white">
+                    <a href="profile">
+                        <img src="../static/images/profile.png" id="profile-pic-main" alt="" 
+                        class="  rounded-full bg-[#d9d9d9]  cursor-pointer
+                        ">
+                    </a>
+                </div>
+                {% endif %}
+            
+            
+        </div>
+    </nav>
+    <!-- <nav class="navbar">
         
         <a href="index.html" class="logo-a">
             <h1 class="logo ">Life Saver</h1>                
@@ -26,12 +63,14 @@
                 {% else %}    
                 <li><a href="logout">Log Out</a></li>
                 <li class="nav-item">
-                    {{ name }}
+                    <a href="profile">
+                        {{ name }}
+                    </a>
                 </a></li>
                 {% endif %}
             </ul>
         </div>
-    </nav>
+    </nav> -->
 
     
     

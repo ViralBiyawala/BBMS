@@ -17,7 +17,7 @@
 	--border-rad:2rem;
 	--primary-color:#ff2828;
 	/* font-size: 62.5%; */
-	font-size: 62.5%;
+	/* font-size: 62.5%; */
 }
 .text-red{
     color:#ff2828;
@@ -34,7 +34,7 @@ html{
 body{
     font-family: 'Montserrat', sans-serif;
     line-height: 1.7;
-    font-size: var(--text-md);
+    /* font-size: var(--text-md); */
     background-color: #FFE0E0;
 }
 
@@ -60,7 +60,6 @@ h1,h2,h3{
 }
 
 /* NavBar & Top Image PArt */
-
 header{
     height: 90vh;
     height:89.5vh;
@@ -71,68 +70,7 @@ header{
     background-repeat: no-repeat;
     /* position: relative; */
 }
-
-
-/* Floating Material */
-.navbar{
-    height:8.7rem;
-    margin: 0 auto;
-    background-color: #ff2828;
-    /* border: 2px solid black; */
-}
-.navbar .logo{
-    float: left;
-    margin: 1rem 0 1rem 0;
-}
-.navbar .nav-items{
-    float: right;
-    height: 100%;
-    width:40%;
-    width:auto;
-
-    display: flex;
-    align-items:center;
-    
-    
-    /* border: 2px solid  black; */
-}
-
-.navbar .nav-items ul{
-    /* border: 2px solid  #FFF; */
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-}
-
-
-.navbar::after{
-    content: "";
-    display: block;
-    clear: both;
-}
-.logo{
-    padding: 0.5rem 0 0 2rem ;
-    font-size: var(--text-xxl);
-    transition: 0.2s ease-in-out;
-    /* border: 2px solid black; */
-}
-.logo:hover{
-    letter-spacing:0.2em;
-}
  
-.nav-items a{
-    font-size: var(--text-md);
-    /* border: 2px solid black; */
-    margin: 0 1.7rem 0 1.7rem;
-}
-
-.navbar a:link,
-.navbar a:visited{
-    color: white;
-}
-.nav-items a:hover {
-    border-bottom: 0.1rem  solid white;
-}
 
 /* HelpFul Info PArt */
 
