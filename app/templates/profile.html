@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
 </head>
+
 <body class="bg-[#FFE0E0]">
     <nav class="bg-[#FF2828] w-full flex py-5 text-white text-2xl ">
         <div class="flex items-center
@@ -18,22 +20,25 @@
                     ">
             Life Saver</div>
         <div class=" flex w-[80%] justify-end items-center">
-            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/index">Home</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a
+                    href="/index">Home</a></div>
 
-            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a>About Us</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a>About
+                    Us</a></div>
 
-            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a href="/contact">Contact Us</a></div>
+            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a
+                    href="/contact">Contact Us</a></div>
 
-            <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
-                <img src="../static/images/profile.png" id="profile-pic-main" alt="" 
-                    class="  rounded-full bg-[#d9d9d9]  cursor-pointer
+            <div
+                class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
+                <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  cursor-pointer
 
                     ">
             </div>
         </div>
     </nav>
 
-    <div class="mt-5  flex  ">  <!-- border border-red-700   -->
+    <div class="mt-5  flex  "> <!-- border border-red-700   -->
         <div class="left  w-[40%] p-10 "> <!--border-4 border-yellow-600  -->
             <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl
             "> <!-- border border-red-700   -->
@@ -41,27 +46,28 @@
                 <!-- <div class="pp w-[300px] h-[300px] rounded-full bg-[#d9d9d9] ">
 
                 </div> -->
+                <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
                 <div class="pp ">
-                    <img src="../static/images/profile.png" id="profile-pic" alt="" 
-                    class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer
+                    <img src="{{ src }}" id="profile-pic" alt="" class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer
                     ">
-                    
-                    <label for="input-file" class="pp-label  cursor-pointer text-2xl rounded-full" >
+                    <label for="input-file" class="pp-label  cursor-pointer text-2xl rounded-full">
                         <i class="fa-solid fa-pencil fa-xl  " style="color: #000;"></i>
                     </label>
 
-                    <input type="file" name="" accept="image/jpeg, image/png, image/jpg" id="input-file" class="hidden">
+                    <input type="file" name="image" accept="image/jpeg, image/png, image/jpg" id="input-file"
+                        class="hidden">
                 </div>
+                <!-- </form> -->
 
                 <div class="mt-7 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
                 text-white   text-center
                 ">
-                <a href="#donor-info" class="block">Profile</a>
+                    <a href="#donor-info" class="block">Profile</a>
                 </div>
 
                 <div class="t mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
                 text-white   text-center"><a href="#appointment" class="block">Appointments</a></div>
-                
+
                 <div class="mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
                 text-white   text-center"><a href="#history" class="block">History</a></div>
             </div>
@@ -74,14 +80,14 @@
                 <h1 class=" text-3xl
                 ">Donor Information</h1>
                 <form action="\profile" method="post" class="">
-                    
+
 
                     <div class="donor-id input-container w-60 ">
                         <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
-                        <label for="" >Donor ID</label>
+                        <label for="">Donor ID</label>
                         <span>Donor ID</span>
                     </div>
-                    
+
                     <div class="name flex space-x-3">
                         <div class="input-container w-1/3">
                             <input type="text" name="Fname" class="input" value="{{ data.first_name }}">
@@ -100,7 +106,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
                             <input type="text" name="DOB" class="input" value="{{ data.date_of_birth }}">
@@ -113,9 +119,9 @@
                             <label for="">Gender</label>
                             <span>Gender</span>
                         </div>
-                        
+
                     </div>
-                    
+
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
                             <input type="text" name="mob" class="input" value="{{ data.contact_phone }}">
@@ -131,11 +137,11 @@
                     </div>
 
                     <div class="input-container textarea ">
-                        <textarea name="address" class="input" >{{ data.contact_address }}</textarea>
+                        <textarea name="address" class="input">{{ data.contact_address }}</textarea>
                         <label for="">Address</label>
                         <span>Address</span>
                     </div>
-                    
+
                     <div class="name flex space-x-12">
                         <div class="input-container w-1/2">
                             <input type="text" name="city" class="input" value="{{ data.city }}">
@@ -154,7 +160,7 @@
 
                 </form>
             </div>
-            
+
             <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] text-xl font-bold h-[20rem]
             ">Appointments
             </div>
@@ -166,62 +172,82 @@
     </div>
     <script>
         const ips = document.querySelectorAll('.input');
-        
+
         ips.forEach(ip => {
             ip.addEventListener('focus', (e) => {
                 e.target.parentNode.classList.add('focus');
             });
-            if(ip.value != ""){
+            if (ip.value != "") {
                 ip.parentNode.classList.add('focus');
             }
-        
+
             ip.addEventListener("blur", (e) => {
                 if (e.target.value === "") {
                     e.target.parentNode.classList.remove('focus');
                 }
             });
-        
+
             ip.addEventListener("input", (e) => {
-                    e.target.parentNode.classList.add('focus');
+                e.target.parentNode.classList.add('focus');
             });
         });
-        let pp=document.getElementById("profile-pic")
-        let ppMain=document.getElementById("profile-pic-main")
-        let pplabel=document.querySelector(".pp-label")
+        let pp = document.getElementById("profile-pic")
+        let ppMain = document.getElementById("profile-pic-main")
+        let pplabel = document.querySelector(".pp-label")
         let inputFile = document.getElementById("input-file")
-    
-        inputFile.onchange = function() {
-            pp.src=URL.createObjectURL(inputFile.files[0])
-            ppMain.src=URL.createObjectURL(inputFile.files[0])
+
+        inputFile.onchange = function () {
+            pp.src = URL.createObjectURL(inputFile.files[0])
+            ppMain.src = URL.createObjectURL(inputFile.files[0])
+
+
+            // Add AJAX here to send the image path to the server
+            const formData = new FormData();
+            formData.append('image', inputFile.files[0]);
+
+            fetch('/update_img', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the server if needed
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Handle errors here
+                    console.error('Error:', error);
+                });
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const pp = document.querySelector('.pp');
             const pplabel = pp.querySelector('.pp-label');
-        
+
             let pp_mouse = false;
-        
-            pp.addEventListener("mouseover", function() {
+
+            pp.addEventListener("mouseover", function () {
                 this.style.filter = "brightness(50%)";
                 pp_mouse = true;
-        
+
                 pplabel.style.display = "block";
                 pplabel.children[0].classList.add('fa-shake');
                 pplabel.children[0].style.color = "#000";
-                
-        
+
+
                 setTimeout(() => {
                     if (pplabel.children[0].classList.contains('fa-shake')) {
                         pplabel.children[0].classList.remove('fa-shake');
                     }
                 }, 1000);
             });
-        
-            pp.addEventListener("mouseout", function() {
+
+            pp.addEventListener("mouseout", function () {
                 this.style.filter = "brightness(100%)";
                 pplabel.style.display = "none";
             });
         });
-        
+
     </script>
 </body>
+
 </html>

@@ -17,6 +17,7 @@ from flask_login import (
 from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta
+import os
 from app import app,myemail,server,app_login_key
 import pdfkit, shutil, re, random
 from email.mime.text import MIMEText
@@ -65,6 +66,7 @@ def contact():
 #By default Page
 @app.route('/')
 def index():
+    src = "../static/images/profile.png"
     user = current_user if current_user.is_authenticated else None
     if user == None:
         initials = None
@@ -72,11 +74,22 @@ def index():
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
-    return render_template('index.html',user=user, name=initials)
+        donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+        if donor:
+            allowed_extensions = ['jpg', 'jpeg', 'png']
+            # Check if an image file exists for the user
+            current_path = os.getcwd() 
+            for extension in allowed_extensions:
+                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
+                filename = current_path + image_path
+                if os.path.isfile(filename) == True:
+                    src = f"../static/images/{donor.donor_id}.{extension}"
+    return render_template('index.html',user=user, name=initials, src = src)
 
 #Home Page
 @app.route('/index')
 def base():
+    src = "../static/images/profile.png"
     user = current_user if current_user.is_authenticated else None
     if user == None:
         initials = None
@@ -84,7 +97,17 @@ def base():
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
-    return render_template('index.html',user=user, name=initials)
+        donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+        if donor:
+            allowed_extensions = ['jpg', 'jpeg', 'png']
+            # Check if an image file exists for the user
+            current_path = os.getcwd() 
+            for extension in allowed_extensions:
+                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
+                filename = current_path + image_path
+                if os.path.isfile(filename) == True:
+                    src = f"../static/images/{donor.donor_id}.{extension}"
+    return render_template('index.html',user=user, name=initials, src = src)
 
 # generating basic template for certficate
 @app.route('/certificate', methods=['GET'])
@@ -494,6 +517,48 @@ def profile():
 
     data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
     if data is None:
-        return render_template('profile.html', email=current_user, data=None)
+        src = "../static/images/profile.png"
     else:
-        return render_template('profile.html', email=current_user, data=data)
+        donor_id = data.donor_id
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+
+        # Check if an image file exists for the user
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{donor_id}.{extension}"
+            current_path = os.getcwd()
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                print(filename)
+                src = f"../static/images/{donor_id}.{extension}"
+                break
+        else:
+            src = "../static/images/profile.png"
+    return render_template('profile.html', email=current_user, data=data,  src = src)
+
+@app.route('/update_img', methods=['POST'])
+@login_required
+def update_img():
+    image = request.files['image']
+    
+    if image.filename == '':
+        # No file selected, keep the src variable as the default profile image
+        src = url_for('static', filename='images/profile.png')
+        return redirect(url_for('contact'))
+
+    # Get the Donor object for the current user
+    data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+
+    # Generate a secure filename based on Donor_id and the file extension
+    filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
+    image_path = os.path.join("app/static/images", filename)
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(image_path), exist_ok=True)
+    
+    # Save the uploaded image with the Donor_id as the filename
+    image.save(image_path)
+    
+    # Update the src variable to the new image path
+    src = image_path
+
+    return redirect(url_for('profile'))

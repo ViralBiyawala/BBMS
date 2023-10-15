@@ -17,7 +17,7 @@
 	--border-rad:2rem;
 	--primary-color:#ff2828;
 	/* font-size: 62.5%; */
-	/* font-size: 62.5%; */
+	font-size: 62.5%;
 }
 .text-red{
     color:#ff2828;
@@ -169,6 +169,11 @@ header{
     /* border: 2px solid purple; */
     padding-left: 3rem;
     font-weight: 500;
+    font-size: var(--text-md);
+}
+.h2-in{
+    /* padding-top: 1rem ; */
+    padding-bottom: 1rem ;
 }
 
 @media (max-width:768px) {
@@ -390,7 +395,7 @@ header{
 /* SAving Lives Image PArt */
 
 .saving-lives{
-    
+    width:100%;
     height:70rem;
     margin: 0 0 25rem 0;
     
@@ -564,6 +569,7 @@ header{
     /* border: 2px solid black; */
     height: auto;
     margin: 0 0 5rem 0;
+    /* margin-bottom: 60rem; */
 
     display: flex;
     justify-content: center;
@@ -581,18 +587,22 @@ header{
 .in-1{
     color:#ff2828;
     /* font-size: calc(var(--text-lg) - 0.1rem); */
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
+    font-size: var(--text-lg);
     font-weight: 700;
     /* border: 2px solid black; */
 }
 .in-2{
     font-weight: 600;
     text-align: center;
+    font-size: var(--text-md);
     /* border: 2px solid darkblue; */
     /* padding-bottom: 5rem; */
 }
 .in-3{
     /* border: 2px solid purple; */
+    /* width : 2rem; */
+	height: auto;
     cursor: pointer;
     margin: 2rem 0;
     padding: 0.5rem 3rem ;
@@ -602,14 +612,12 @@ header{
     border-radius: 2.5rem; 
     transition: 0.3s ease-in-out;
     letter-spacing: 0.2rem;
+    font-size: var(--text-md);
 }
 .in-3:hover{
-    font-size: var(--text-lg);
-    letter-spacing: 0.3rem;
     background: transparent;
-    border:2px solid #ff2828;
-    border-radius: 3rem;
-    color: #ff2828;
+	border: 2px solid  var(--primary-color);
+	color:var(--primary-color);
 }
 @media (max-width:1250px) {
     .in-1{
@@ -625,6 +633,7 @@ header{
     }
     .in-3{
         font-size: calc(var(--text-md) - 0.2rem);
+        /* height: 30px; */
     }
 }
 @media (max-width:1070px) {
