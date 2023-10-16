@@ -11,14 +11,15 @@
 </head>
 
 <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-5 text-white text-2xl ">
+    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-2xl ">
         <div class="flex items-center
             w-[20%]   
-        ml-6 text-4xl  hover:tracking-[0.2em]
+        ml-6 text-4xl  hover:tracking-[0.1em]
         transition-all duration-700 cursor-pointer
-        
                     ">
-            Life Saver</div>
+            <a href="index">Life Saver</a>
+        </div>
+
         <div class=" flex w-[80%] justify-end items-center">
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a
                     href="/index">Home</a></div>
@@ -29,12 +30,10 @@
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a
                     href="/contact">Contact Us</a></div>
 
-            <div
+            <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7">
+            <!-- <div
                 class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
-                <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  cursor-pointer
-
-                    ">
-            </div>
+            </div> -->
         </div>
     </nav>
 
@@ -81,11 +80,19 @@
                 ">Donor Information</h1>
                 <form action="\profile" method="post" class="">
 
+                    <div class="top flex space-x-3 justify-between">
 
-                    <div class="donor-id input-container w-60 ">
-                        <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
-                        <label for="">Donor ID</label>
-                        <span>Donor ID</span>
+                        <div class="donor-id input-container w-[40%] ">
+                            <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
+                            <label for="">Donor ID</label>
+                            <span>Donor ID</span>
+                        </div>
+
+                        <div class="mail-id input-container w-[60%]">
+                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
+                            <label for="">E-Mail ID</label>
+                            <span>E-Mail ID</span>
+                        </div>
                     </div>
 
                     <div class="name flex space-x-3">
@@ -108,14 +115,21 @@
                     </div>
 
                     <div class="name flex space-x-12">
-                        <div class="input-container w-1/2">
-                            <input type="text" name="DOB" class="input" value="{{ data.date_of_birth }}">
+                        <div class="input-container w-1/2 focus">
+                            <input type="date" name="DOB" class="date" value="{{ data.date_of_birth }}">
                             <label for="">Date of Birth</label>
                             <span>Date of Birth</span>
                         </div>
 
-                        <div class="input-container w-1/2">
-                            <input type="text" name="gender" class="input" value="{{ data.gender }}">
+                        <div class="input-container w-1/2 focus">
+                            <!-- <input type="" name="gender" class="input" value="{{ data.gender }}"> -->
+                            <div class="dropdown input">
+                                <input type="text" class="textBox" value="{{ data.gender }}" readonly name="gender">
+                                <div class="options" >
+                                    <div onclick="show('Male')" >Male</div>
+                                    <div onclick="show('Female')" >Female</div>
+                                </div>
+                            </div>
                             <label for="">Gender</label>
                             <span>Gender</span>
                         </div>
@@ -129,11 +143,17 @@
                             <span>Mobile No.</span>
                         </div>
 
-                        <div class="mail-id input-container w-1/2">
+                        <div class="input-container w-1/2">
+                            <input type="text" name="Btype" class="input" value="{{ data.blood_type }}">
+                            <label for="">Blood Type</label>
+                            <span>Blood Type</span>
+                        </div>
+
+                        <!-- <div class="mail-id input-container w-1/2">
                             <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
                             <label for="">E-Mail ID</label>
                             <span>E-Mail ID</span>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="input-container textarea ">
@@ -149,11 +169,11 @@
                             <span>City</span>
                         </div>
 
-                        <div class="input-container w-1/2">
+                        <!-- <div class="input-container w-1/2">
                             <input type="text" name="Btype" class="input" value="{{ data.blood_type }}">
                             <label for="">Blood Type</label>
                             <span>Blood Type</span>
-                        </div>
+                        </div> -->
                     </div>
 
                     <input type="submit" value="Update" class="btnupdate bg-[#ff2828]">
@@ -161,12 +181,85 @@
                 </form>
             </div>
 
-            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] text-xl font-bold h-[20rem]
-            ">Appointments
+            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828]  h-[20rem]
+            ">
+            <div class="heading text-2xl font-bold">Appointments</div>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Appointment ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Place</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>10001</td>
+                    <td>12/01/2023</td>
+                    <td>9:00 AM</td>
+                    <td>SURAT</td>
+                  </tr>
+                  <tr>
+                    <td>10002</td>
+                    <td>17/05/2023</td>
+                    <td>12:00 PM</td>
+                    <td>SURAT</td>
+                  </tr>
+                  <tr>
+                    <td>10003</td>
+                    <td>17/07/2023</td>
+                    <td>4:00 PM</td>
+                    <td>RAJKOT</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
             </div>
-            <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] text-xl font-bold h-[20rem]
-            ">History
-            </div>
+            <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[20rem]
+            ">
+            <div class="heading text-2xl font-bold">History</div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Appointment ID</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Place</th>
+                  <th>Status</th>
+                  <th>Download</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>10001</td>
+                  <td>12/01/2023</td>
+                  <td>9:00 AM</td>
+                  <td>SURAT</td>
+                  <td>Success</td>
+                  <td>Certificate</td>
+                </tr>
+                <tr>
+                  <td>10002</td>
+                  <td>17/05/2023</td>
+                  <td>12:00 PM</td>
+                  <td>SURAT</td>
+                  <td>Failed</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>10003</td>
+                  <td>17/07/2023</td>
+                  <td>4:00 PM</td>
+                  <td>RAJKOT</td>
+                  <td>Success</td>
+                  <td>Certificate</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
 
         </div>
     </div>
@@ -191,6 +284,7 @@
                 e.target.parentNode.classList.add('focus');
             });
         });
+        
         let pp = document.getElementById("profile-pic")
         let ppMain = document.getElementById("profile-pic-main")
         let pplabel = document.querySelector(".pp-label")
@@ -218,6 +312,7 @@
                     // Handle errors here
                     console.error('Error:', error);
                 });
+
         }
         document.addEventListener('DOMContentLoaded', function () {
             const pp = document.querySelector('.pp');
@@ -227,7 +322,6 @@
 
             pp.addEventListener("mouseover", function () {
                 this.style.filter = "brightness(50%)";
-                pp_mouse = true;
 
                 pplabel.style.display = "block";
                 pplabel.children[0].classList.add('fa-shake');
@@ -245,6 +339,21 @@
                 this.style.filter = "brightness(100%)";
                 pplabel.style.display = "none";
             });
+        });
+
+        function show(word){
+            document.querySelector('.textBox').value = word;
+        }
+        let dd=document.querySelector('.dropdown');
+        dd.onclick=function(){
+            dd.classList.toggle('active');
+        }   
+        dd.addEventListener('focus', function () {
+            dd.classList.toggle('active');
+        });
+
+        dd.addEventListener('blur', function () {
+            dd.classList.toggle('active');
         });
 
     </script>

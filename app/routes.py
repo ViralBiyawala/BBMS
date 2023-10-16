@@ -479,6 +479,7 @@ def profile():
         address = request.form['address']
         city = request.form['city']
         Btype = request.form['Btype']
+        print(gender)
 
         data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
         if data:
@@ -492,6 +493,7 @@ def profile():
             data.contact_address = address
             data.city = city
             data.blood_type = Btype
+            print(data.gender)
         else:
             # Create a new Donor object if it doesn't exist
             data = Donor(
@@ -511,12 +513,14 @@ def profile():
         try:
             db.session.add(data)
             db.session.commit()
+            print(data.gender)
             return redirect(url_for('profile'))
         except Exception as e:
             print(e)
             return redirect(url_for('contact'))
 
     data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+    print(data.gender)
     if data is None:
         src = "../static/images/profile.png"
     else:

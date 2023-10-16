@@ -11,14 +11,14 @@
 </head>
 
 <body>
-    <nav class="bg-[#FF2828] w-full flex py-[20px] text-white text-[24px] ">
+    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
         <div class="flex items-center
             w-[20%]   
-        ml-[24px] text-[36px]  hover:tracking-[0.2em]
+        ml-[24px] text-[36px]  hover:tracking-[0.1em]
         transition-all duration-700 cursor-pointer
-        
                     ">
-            Life Saver</div>
+            <a href="index">Life Saver</a>
+            </div>
         <div class=" flex w-[80%] justify-end items-center">
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
 
@@ -35,13 +35,12 @@
                     <a href="logout">Log Out</a>
                 </div>
                 
-                <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white">
+                
+                <!-- <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white"> -->
                     <a href="profile">
-                        <img src="{{ src }}" id="profile-pic-main" alt="" 
-                        class="  rounded-full bg-[#d9d9d9]  cursor-pointer
-                        ">
+                        <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer mx-[28px]">
                     </a>
-                </div>
+                <!-- </div> -->
                 {% endif %}
             
             

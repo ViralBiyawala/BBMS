@@ -36,22 +36,29 @@ body{
 .input-container input{
     width:100%;
 }
-.input-container .input{
+.input-container .input,
+.input-container .gender,
+.input-container .date{
     width:100%;
     outline: none;
     background: none;    
     border: 2px solid #ff2828;
     color:black;
-    padding: 0.1rem 1rem;
+    padding: 0.3rem 1rem;
     font-weight: 500;
     font-size: 1rem;
     letter-spacing: 1.5px;
     border-radius: 12px;
     transition: 0.3s;
+    /* color:#FF2828; */
 }
+
+.select-items div:hover, .same-as-selected {
+    background-color: black;
+  }
 .donor-id .input,
 .mail-id .input{
-    background-color: #ff282884;
+    background-color: #fa4a4a5e;
 }
 textarea.input{
     padding: 0.8rem 1.2rem;
@@ -158,11 +165,89 @@ textarea.input{
     filter: brightness(200%); /* Adjust brightness for the label */
     transition: filter 0.3s;
 }
-.pp:hover{
-    /* filter: brightness(50%); */
+
+  .dropdown{
+    /* border:2px solid red; */
+    position: relative;
+    /* margin-top: 100px; */
+    width: 300px;
+    height: 40px;
 }
-.pp:hover .pp-label{
-    /* display:block;
-    filter: brightness(100%);
-    z-index: 2;  */
+.dropdown::before{
+    content: "";
+    position: absolute;
+    
+    width:8px;
+    height: 8px;
+    right:20px;
+    top:15px;
+    z-index: 10;
+    
+    border: 2px solid #333;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+
+    transform: rotate(-45deg);
+    transition: 0.5s;
+    pointer-events: none;
+
+}
+.dropdown.active::before{
+    top:22px;
+    transform: rotate(-225deg);
+}
+.dropdown input{
+    position: absolute;
+    outline: none;
+    border: none;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 12px 20px;
+    border-radius: 10px;
+}
+.dropdown .options{
+    position: absolute;
+    top:40px;
+    left:-2px;
+    width:101%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+}
+.dropdown.active .options{
+    display: block;
+}
+
+.dropdown .options div{
+    padding: 7px 20px; 
+    cursor: pointer;
+}
+.dropdown .options div:hover{
+    background: rgb(255, 127, 127);
+    color:#fff; 
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }

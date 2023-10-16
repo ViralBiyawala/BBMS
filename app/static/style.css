@@ -64,7 +64,7 @@ header{
     height: 90vh;
     height:89.5vh;
     /* border: 10px solid salmon; */
-    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) , url('images/header.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) , url('images/header.jpeg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -399,7 +399,7 @@ header{
     height:70rem;
     margin: 0 0 25rem 0;
     
-    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) , url('images/header.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) , url('images/header.jpeg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;   
