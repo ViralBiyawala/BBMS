@@ -6,6 +6,8 @@ from flask import (
     url_for,
     send_file,
     make_response,
+    abort,
+    jsonify,
 )
 from flask_login import (
     LoginManager,
@@ -103,6 +105,9 @@ def index():
                 filename = current_path + image_path
                 if os.path.isfile(filename) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
+        else :
+            flash("Fill Donor Information First")
+            return redirect(url_for('profile'))
     return render_template('index.html',user=user, name=initials, src = src)
 
 #Home Page
@@ -126,6 +131,9 @@ def base():
                 filename = current_path + image_path
                 if os.path.isfile(filename) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
+        else :
+            flash("Fill Donor Information First")
+            return redirect(url_for('profile'))
     return render_template('index.html',user=user, name=initials, src = src)
 
 # generating basic template for certficate
@@ -555,7 +563,7 @@ def profile():
             current_path = os.getcwd()
             filename = current_path + image_path
             if os.path.isfile(filename) == True:
-                print(filename)
+                # print(filename)
                 src = f"../static/images/{donor_id}.{extension}"
                 break
         else:
@@ -574,32 +582,35 @@ def update_img():
 
     # Get the Donor object for the current user
     data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
-    
-    # Delete previous images with the same name but different extensions
-    allowed_extensions = ['png', 'jpg', 'jpeg']
-    for extension in allowed_extensions:
-        image_path = f"/app/static/images/{data.donor_id}.{extension}"
-        current_path = os.getcwd()
-        filename = current_path + image_path
-        if os.path.isfile(filename) == True:
-            os.remove(filename)
+    print(data)
+    if data:
+        # Delete previous images with the same name but different extensions
+        allowed_extensions = ['png', 'jpg', 'jpeg']
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{data.donor_id}.{extension}"
+            current_path = os.getcwd()
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                os.remove(filename)
 
-    # Generate a secure filename based on Donor_id and the file extension
-    filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
-    image_path = os.path.join("app/static/images", filename)
-            # print(filename)
+        # Generate a secure filename based on Donor_id and the file extension
+        filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
+        image_path = os.path.join("app/static/images", filename)
 
-    # Ensure the directory exists
-    os.makedirs(os.path.dirname(image_path), exist_ok=True)
-    
-    # Save the uploaded image with the Donor_id as the filename
-    image.save(image_path)
-    
-    # Update the src variable to the new image path
-    src = image_path
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(image_path), exist_ok=True)
+        
+        # Save the uploaded image with the Donor_id as the filename
+        image.save(image_path)
+        
+        # Update the src variable to the new image path
+        src = image_path
 
-    return redirect(url_for('profile'))
-
+        return redirect(url_for('profile'))
+    else:
+        error_message = str("Plz fill the form first")
+        # flash(error_message, 'error')
+        return jsonify({'error': error_message})
 
 #Home Page
 @app.route('/appointment')
@@ -622,6 +633,7 @@ def appointment():
                 src = f"../static/images/{donor.donor_id}.{extension}"
         return render_template('form.html',data=donor, src = src)
     else:
+        flash("Fill the Donor Information")
         return redirect(url_for('profile'))
     
 @app.route('/booking',methods=['POST','GET'])
@@ -645,3 +657,8 @@ def booking():
             return redirect(url_for('contact'))
     else:
         return redirect(url_for('appointment'))
+    
+@app.route('/aperror')
+def aperror():
+    flash("Login first for an Appointment")
+    return redirect(url_for('login'))

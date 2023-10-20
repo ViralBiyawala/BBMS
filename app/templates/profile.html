@@ -32,27 +32,28 @@
 
             <!-- <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7"> -->
             <div class="nav-btn p-dropdown input ">
-                        
+
                 <div class="temp flex items-center">
                     <button class="inline mx-[28px]" onclick="showItemS()">
-                        <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                        <img src="{{ src }}" id="profile-pic-main" alt=""
+                            class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
                     </button>
                 </div>
 
-                <div class="options text-[19px]" >
-                    <a href="appointment" >
-                        <div onclick="show('Get Appointment')" >
+                <div class="options text-[19px]">
+                    <a href="appointment">
+                        <div onclick="show('Get Appointment')">
                             Get Appointment
                         </div>
                     </a>
                     <a href="logout">
-                        <div onclick="show('Log Out')" >Log Out</div>
+                        <div onclick="show('Log Out')">Log Out</div>
                     </a>
                 </div>
-                
+
             </div>
 
-            
+
             <!-- <div
                 class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
             </div> -->
@@ -61,12 +62,40 @@
 
     <div class="mt-5  flex  "> <!-- border border-red-700   -->
         <div class="left  w-[40%] p-10 "> <!--border-4 border-yellow-600  -->
-            <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl">
+            <!-- Flash message start -->
+            <div class="flash-messages">
+                <!-- <p>This is Error message</p> -->
+                <div class="msg">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="inner">
+                        {{ messages[-1] }} <!-- Display the last message in the list -->
+                    </div>
 
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                <!-- const closeBtn=document.querySelector('.close-btn');
+        closeBtn.addEventListener('click',(e)=>{
+            fmsg.classList.remove('active')
+        }) -->
+                <!-- <div class="close-btn">&times;</div> -->
+            </div>
+            <!--Flash ends  -->
+
+
+            {% if data is none %}
+            {% set myVariable = "one" %}
+            {% else %}
+            {% set myVariable = "two" %}
+            {% endif %}
+
+            <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl">
 
                 <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
                 <div class="pp ">
-                    <img src="{{ src }}" id="profile-pic" alt="" class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer">
+                    <img src="{{ src }}" id="profile-pic" alt=""
+                        class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer">
 
                     <label for="input-file" class="pp-label  cursor-pointer text-2xl rounded-full">
                         <i class="fa-solid fa-pencil fa-xl  " style="color: #000;"></i>
@@ -104,13 +133,15 @@
                     <div class="top flex space-x-3 justify-between">
 
                         <div class="donor-id input-container w-[40%] ">
-                            <input type="text" name="ID" class="input select-none" readonly value="{{ data.donor_id }}" required>
+                            <input type="text" name="ID" class="input select-none" readonly value="{{ data.donor_id }}"
+                                required>
                             <label for="">Donor ID</label>
                             <span>Donor ID</span>
                         </div>
 
                         <div class="mail-id input-container w-[60%]">
-                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly required>
+                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly
+                                required>
                             <label for="">E-Mail ID</label>
                             <span>E-Mail ID</span>
                         </div>
@@ -150,10 +181,11 @@
                         <div class="input-container w-1/2 focus">
                             <!-- <input type="" name="gender" class="input" value="{{ data.gender }}"> -->
                             <div class="dropdown input">
-                                <input type="text" class="textBox" value="{{ data.gender }}" readonly name="gender" required>
-                                <div class="options" >
-                                    <div onclick="show('Male')" >Male</div>
-                                    <div onclick="show('Female')" >Female</div>
+                                <input type="text" class="textBox" value="{{ data.gender }}" readonly name="gender"
+                                    required>
+                                <div class="options">
+                                    <div onclick="show('Male')">Male</div>
+                                    <div onclick="show('Female')">Female</div>
                                 </div>
                             </div>
                             <label for="">Gender</label>
@@ -172,8 +204,9 @@
 
                         <div class="input-container w-1/2">
                             <div class="dropdown input">
-                                <input type="text" class="textBox2" value="{{ data.blood_type }}" readonly name="Btype" required>
-                                <div class="options" >
+                                <input type="text" class="textBox2" value="{{ data.blood_type }}" readonly name="Btype"
+                                    required>
+                                <div class="options">
                                     <div onclick="showBloodType('A+')" class="blood-type">A+</div>
                                     <div onclick="showBloodType('B+')" class="blood-type">B+</div>
                                     <div onclick="showBloodType('AB+')" class="blood-type">AB+</div>
@@ -214,40 +247,41 @@
                 </form>
             </div>
 
-            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828]  h-[auto] px-[2rem] pb-[2rem]">
-                
+            <div id="appointment"
+                class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828]  h-[auto] px-[2rem] pb-[2rem]">
+
                 <div class="heading text-2xl font-bold ">Appointments</div>
                 <div class="tmp-outer ">
                     <div class="appointment-table mt-[1rem]">
 
                         <table class="table-h">
                             <thead class="">
-                              <tr class="border-[0px] mr-[1rem]">
-                                <th class="">Appointment ID</th>
-                                <th class="">Date</th>
-                                <th class="">Time</th>
-                                <th class=" ">Place</th>
-                              </tr>
+                                <tr class="border-[0px] mr-[1rem]">
+                                    <th class="">Appointment ID</th>
+                                    <th class="">Date</th>
+                                    <th class="">Time</th>
+                                    <th class=" ">Place</th>
+                                </tr>
                             </thead>
                         </table>
 
                         <div class="t-data right ">
                             <div class="tmpoo ">
-                            <table>
-                                <tbody>
-                                {% if results is not none %}
-                                {% for result in results %}
-                                  <tr>
-                                    <td class="border-t-[0px]">{{result.appointment_id}}</td>
-                                    <td class="border-t-[0px]">{{result.appointment_date}}</td>
-                                    <td class="border-t-[0px]">{{result.appointment_time}}</td>
-                                    <td class="border-t-[0px]">{{result.status}}</td>
-                                  </tr>
-                                  {% endfor %}
-                                  {% endif %}
-                                </tbody>
-                            </table>
-                        </div>
+                                <table>
+                                    <tbody>
+                                        {% if results is not none %}
+                                        {% for result in results %}
+                                        <tr>
+                                            <td class="border-t-[0px]">{{result.appointment_id}}</td>
+                                            <td class="border-t-[0px]">{{result.appointment_date}}</td>
+                                            <td class="border-t-[0px]">{{result.appointment_time}}</td>
+                                            <td class="border-t-[0px]">{{result.status}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
@@ -256,47 +290,47 @@
 
             <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[20rem]">
 
-            <div class="heading text-2xl font-bold">History</div>
+                <div class="heading text-2xl font-bold">History</div>
 
-            <table>
-              <thead>
-                <tr>
-                  <th>Appointment ID</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Place</th>
-                  <th>Status</th>
-                  <th>Download</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>10001</td>
-                  <td>12/01/2023</td>
-                  <td>9:00 AM</td>
-                  <td>SURAT</td>
-                  <td>Success</td>
-                  <td>Certificate</td>
-                </tr>
-                <tr>
-                  <td>10002</td>
-                  <td>17/05/2023</td>
-                  <td>12:00 PM</td>
-                  <td>SURAT</td>
-                  <td>Failed</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>10003</td>
-                  <td>17/07/2023</td>
-                  <td>4:00 PM</td>
-                  <td>RAJKOT</td>
-                  <td>Success</td>
-                  <td>Certificate</td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Place</th>
+                            <th>Status</th>
+                            <th>Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10001</td>
+                            <td>12/01/2023</td>
+                            <td>9:00 AM</td>
+                            <td>SURAT</td>
+                            <td>Success</td>
+                            <td>Certificate</td>
+                        </tr>
+                        <tr>
+                            <td>10002</td>
+                            <td>17/05/2023</td>
+                            <td>12:00 PM</td>
+                            <td>SURAT</td>
+                            <td>Failed</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>10003</td>
+                            <td>17/07/2023</td>
+                            <td>4:00 PM</td>
+                            <td>RAJKOT</td>
+                            <td>Success</td>
+                            <td>Certificate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>
@@ -321,36 +355,38 @@
                 e.target.parentNode.classList.add('focus');
             });
         });
-        
+
         let pp = document.getElementById("profile-pic")
         let ppMain = document.getElementById("profile-pic-main")
         let pplabel = document.querySelector(".pp-label")
         let inputFile = document.getElementById("input-file")
 
         inputFile.onchange = function () {
-            pp.src = URL.createObjectURL(inputFile.files[0])
-            ppMain.src = URL.createObjectURL(inputFile.files[0])
 
 
             // Add AJAX here to send the image path to the server
-            const formData = new FormData();
-            formData.append('image', inputFile.files[0]);
+            if ('{{ myVariable }}' === "two") {
+                // alert('Please enter');
+                pp.src = URL.createObjectURL(inputFile.files[0])
+                ppMain.src = URL.createObjectURL(inputFile.files[0])
+                const formData = new FormData();
+                formData.append('image', inputFile.files[0]);
 
-            fetch('/update_img', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the response from the server if needed
-                    console.log(data);
+                fetch('/update_img', {
+                    method: 'POST',
+                    body: formData
                 })
-                .catch(error => {
-                    // Handle errors here
-                    console.error('Error:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle the response from the server if needed
+                    })
+            }
+            else {
+                window.location.href = '/index';
+            }
 
         }
+
         document.addEventListener('DOMContentLoaded', function () {
             const pp = document.querySelector('.pp');
             const pplabel = pp.querySelector('.pp-label');
@@ -378,10 +414,10 @@
             });
         });
 
-        function show(word){
+        function show(word) {
             document.querySelector('.textBox').value = word;
         }
-        function showBloodType(word){
+        function showBloodType(word) {
             document.querySelector('.textBox2').value = word;
         }
         let dd = document.querySelectorAll('.dropdown');
@@ -399,33 +435,43 @@
             dropdown.addEventListener('blur', function () {
                 dropdown.classList.remove('active');
             });
-            document.addEventListener("click", function(event) {
+            document.addEventListener("click", function (event) {
                 if (event.target !== dropdown && !dropdown.contains(event.target)) {
-                    if(dropdown.classList.contains('active'))
+                    if (dropdown.classList.contains('active'))
                         dropdown.classList.remove('active');
                 }
             });
         });
         //NavBar Profile Click DropDown
-        let navbtn=document.querySelector(".nav-btn");
-        function showItemS(){
+        let navbtn = document.querySelector(".nav-btn");
+        function showItemS() {
             navbtn.classList.toggle('active');
         }
-        document.addEventListener("click", function(event) {
+        document.addEventListener("click", function (event) {
             if (event.target !== navbtn && !navbtn.contains(event.target)) {
-                if(navbtn.classList.contains('active'))
+                if (navbtn.classList.contains('active'))
                     navbtn.classList.remove('active');
             }
         });
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-              // Tab is minimized or Tab is moved, remove the "active" class
-              navbtn.classList.remove('active');
+                // Tab is minimized or Tab is moved, remove the "active" class
+                navbtn.classList.remove('active');
             }
-          });
-        
-        
-        
+        });
+
+        const fmsg = document.querySelector('.flash-messages');
+
+        setTimeout(() => {
+            if (fmsg.classList.contains('active')) {
+                fmsg.classList.remove('active');
+            }
+        }, 3000)
+
+        const ims = document.querySelector('.inner');
+        if (ims.textContent != "") {
+            fmsg.classList.add('active');
+        }
 
     </script>
 </body>

@@ -1,188 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Us</title>
-    <link rel="stylesheet" href="../static/contact.css">
+    <link rel="stylesheet" href="../static/contact.css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <nav class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden">
-        <div class="flex items-center w-[20%]   max-[884px]:text-[30px]
-        ml-[24px] text-[36px]  hover:tracking-[0.1em]
-        transition-all duration-700 cursor-pointer ">
-            <a href="index">Life Saver</a>
+    <script
+      src="https://kit.fontawesome.com/3b57b3cea0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav
+      class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden"
+    >
+      <div
+        class="flex items-center w-[20%] max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+      >
+        <a href="index">Life Saver</a>
+      </div>
+
+      <div
+        class="flex w-[80%] justify-end items-center max-[884px]:text-[20px]"
+      >
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="/index">Home</a>
         </div>
 
-        <div class=" flex w-[80%] justify-end items-center max-[884px]:text-[20px]">
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
-
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a>About Us</a></div>
-
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/contact">Contact Us</a></div>
-            
-            {% if user is not none %}
-            <div class="nav-btn dropdown input ">
-                        
-                <div class="temp flex items-center">
-                    <button class="inline mx-[28px]" onclick="showItemS()">
-                        <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
-                    </button>
-                </div>
-
-                <div class="options text-[19px]" >
-                    <a href="profile" >
-                        <div onclick="show('Profile')" >
-                            Profile
-                        </div>
-                    </a>
-                    <a href="logout">
-                        <div onclick="show('Log Out')" >Log Out</div>
-                    </a>
-                </div>
-                
-            </div>
-            {% else %}
-            <div class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
-                <a href="login">Login</a>
-            </div>
-            {% endif %}
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a>About Us</a>
         </div>
+
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="/contact">Contact Us</a>
+        </div>
+
+        {% if user is not none %}
+        <div class="nav-btn dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemS()">
+              <img
+                src="{{ src }}"
+                id="profile-pic-main"
+                alt=""
+                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+              />
+            </button>
+          </div>
+
+          <div class="options text-[19px]">
+            <a href="profile">
+              <div onclick="show('Profile')">Profile</div>
+            </a>
+            <a href="logout">
+              <div onclick="show('Log Out')">Log Out</div>
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <div
+          class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="login">Login</a>
+        </div>
+        {% endif %}
+      </div>
     </nav>
     <div class="containerr">
+      <!-- <span class="big-circle"></span> -->
 
-        <!-- <span class="big-circle"></span> -->
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="ltitle">Let's get in touch</h3>
 
-        <div class="form">
-            
-            <div class="contact-info">
-                
-                <h3 class="ltitle">Let's get in touch</h3>
-                
-                <p class="ltext">To get more updates about blood camps and information about our upcoming campaigns.</p>
-                
-                <div class="info">
-                    <div class="information">
-                        <i class="fa-solid fa-location-dot" style="color: #f02828;"></i>
-                        <p>Surat,Gujarat</p>
-                    </div>
-                    <div class="information">
-                        <i class="fa-solid fa-envelope" style="color: #f02828;"></i>
-                        <p>lifesaver102023@gmail.com</p>
-                    </div>
-                    <div class="information">
-                        <i class="fa-solid fa-phone" style="color: #f02828;"></i>
-                        <p>+91 9083462356</p>
-                    </div>
-                </div>
+          <p class="ltext">
+            To get more updates about blood camps and information about our
+            upcoming campaigns.
+          </p>
 
-                <div class="social-media">  
-                    <p>Connect with us :</p>
-                    <div class="social-i">
-                        <a href="">
-                            <i class=" fa-2xl fab fa-facebook-f" ></i>
-                        </a>
-                        <a href="">
-                            <i class=" fa-2xl fab fa-twitter" ></i>
-                        </a>
-                        <a href="">
-                            <i class=" fa-2xl fab fa-instagram"></i>
-                        </a>
-                        <a href="">
-                            <i class=" fa-2xl fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-
+          <div class="info">
+            <div class="information">
+              <i class="fa-solid fa-location-dot" style="color: #f02828"></i>
+              <p>Surat,Gujarat</p>
             </div>
-
-
-
-            <div class="contact-form">
-                
-                <span class="circle c1"></span>
-                <span class="circle c2"></span>
-                
-                <form action="index.html">
-                    
-                    <h3 class="title">Contact Us</h3>
-
-                    <div class="input-container ">
-                        <input type="text" name="name" class="input">
-                        <label for="">Username</label>
-                        <span>Username</span>
-                    </div>
-                    
-                    <div class="input-container">
-                        <input type="email" name="email" class="input">
-                        <label for="">Email</label>
-                        <span>Email</span>
-                    </div>
-                    
-                    <div class="input-container">
-                        <input type="tel" name="phone" class="input">
-                        <label for="">Phone No.</label>
-                        <span>Phone No.</span>
-                    </div>
-                    
-                    <div class="input-container textarea ">
-                        <textarea name="message" class="input"></textarea>
-                        <label for="">Message</label>
-                        <span>Message</span>
-                    </div>
-
-                    <input type="submit" value="Send" class="btn">
-
-                </form>
-
+            <div class="information">
+              <i class="fa-solid fa-envelope" style="color: #f02828"></i>
+              <p>lifesaver102023@gmail.com</p>
             </div>
+            <div class="information">
+              <i class="fa-solid fa-phone" style="color: #f02828"></i>
+              <p>+91 9083462356</p>
+            </div>
+          </div>
 
-
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-i">
+              <a href="">
+                <i class="fa-2xl fab fa-facebook-f"></i>
+              </a>
+              <a href="">
+                <i class="fa-2xl fab fa-twitter"></i>
+              </a>
+              <a href="">
+                <i class="fa-2xl fab fa-instagram"></i>
+              </a>
+              <a href="">
+                <i class="fa-2xl fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
         </div>
+
+        <div class="contact-form">
+          <span class="circle c1"></span>
+          <span class="circle c2"></span>
+
+          <form action="index.html">
+            <h3 class="title">Contact Us</h3>
+
+            <div class="input-container">
+              <input type="text" name="name" class="input" />
+              <label for="">Username</label>
+              <span>Username</span>
+            </div>
+
+            <div class="input-container">
+              <input type="email" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+
+            <div class="input-container">
+              <input type="tel" name="phone" class="input" />
+              <label for="">Phone No.</label>
+              <span>Phone No.</span>
+            </div>
+
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+
+            <input type="submit" value="Send" class="btn bg-white" />
+          </form>
+        </div>
+      </div>
     </div>
 
     <script>
-        const ips = document.querySelectorAll('.input');
-        
-        ips.forEach(ip => {
-            ip.addEventListener('focus', (e) => {
-                e.target.parentNode.classList.add('focus');
-            });
-        
-            ip.addEventListener("blur", (e) => {
-                if (e.target.value === "") {
-                    e.target.parentNode.classList.remove('focus');
-                }
-            });
-        
-            ip.addEventListener("input", (e) => {
-                    e.target.parentNode.classList.add('focus');
-            });
+      const ips = document.querySelectorAll(".input");
+
+      ips.forEach((ip) => {
+        ip.addEventListener("focus", (e) => {
+          e.target.parentNode.classList.add("focus");
         });
-        let navbtn=document.querySelector(".nav-btn");
-        function showItemS(){
-            navbtn.classList.toggle('active');
+
+        ip.addEventListener("blur", (e) => {
+          if (e.target.value === "") {
+            e.target.parentNode.classList.remove("focus");
+          }
+        });
+
+        ip.addEventListener("input", (e) => {
+          e.target.parentNode.classList.add("focus");
+        });
+      });
+      let navbtn = document.querySelector(".nav-btn");
+      function showItemS() {
+        navbtn.classList.toggle("active");
+      }
+      document.addEventListener("click", function (event) {
+        if (event.target !== navbtn && !navbtn.contains(event.target)) {
+          if (navbtn.classList.contains("active"))
+            navbtn.classList.remove("active");
         }
-        document.addEventListener("click", function(event) {
-            if (event.target !== navbtn && !navbtn.contains(event.target)) {
-                if(navbtn.classList.contains('active'))
-                    navbtn.classList.remove('active');
-            }
-        });
+      });
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-              // Tab is minimized or Tab is moved, remove the "active" class
-              navbtn.classList.remove('active');
-            }
-          });
-
-          
-
-        
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          // Tab is minimized or Tab is moved, remove the "active" class
+          navbtn.classList.remove("active");
+        }
+      });
     </script>
-
-</body>
+  </body>
 </html>
