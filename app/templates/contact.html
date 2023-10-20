@@ -171,6 +171,16 @@
                     navbtn.classList.remove('active');
             }
         });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              // Tab is minimized or Tab is moved, remove the "active" class
+              navbtn.classList.remove('active');
+            }
+          });
+
+          
+
         
     </script>
 

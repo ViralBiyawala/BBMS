@@ -30,7 +30,7 @@
                     <a href="login">Login</a>
                 </div>
                 {% else %}    
-                    <div class="nav-btn dropdown input ">
+                    <div class="nav-btn dropdown input " >
                         
                         <div class="temp flex items-center">
                             <button class="inline mx-[28px]" onclick="showItemS()">
@@ -38,7 +38,7 @@
                             </button>
                         </div>
 
-                        <div class="options text-[19px]" >
+                        <div class="options text-[19px]" id="dd-id">
                             <a href="profile" >
                                 <div onclick="show('Profile')" >
                                     Profile
@@ -294,16 +294,50 @@
             }
         });
 
+        //NAvBar DropDown JS
         let navbtn=document.querySelector(".nav-btn");
+
         function showItemS(){
             navbtn.classList.toggle('active');
         }
+        //If on other part of screen clicked navbar disappears
         document.addEventListener("click", function(event) {
             if (event.target !== navbtn && !navbtn.contains(event.target)) {
                 if(navbtn.classList.contains('active'))
                     navbtn.classList.remove('active');
             }
         });
+        
+        //When Tab is minimized or Tab is moved, remove the "active" class 
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              navbtn.classList.remove('active');
+            }
+          });
+
+        //If dropdown Not Visible on screen 
+        function isDropdownVisible() {
+            const dropdown = document.getElementById('dd-id');
+            const dropdownRect = dropdown.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+          
+            if (dropdownRect.bottom >= window.scrollY) {
+                return true;
+            } else {
+              return false;
+            }
+          }
+          
+          function removeActiveClass() {
+            if (!isDropdownVisible()) {
+                if(navbtn.classList.contains('active')){
+                    navbtn.classList.remove('active');  
+                }
+            }
+          }
+          
+
+           window.addEventListener('scroll', removeActiveClass);  
         
     </script>
 

@@ -32,12 +32,31 @@
                 <!-- <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
                     <a href="logout">Log Out</a>
                 </div> -->
-                
+                <div class="nav-btn p-dropdown input ">
+                        
+                    <div class="temp flex items-center">
+                        <button class="inline mx-[28px]" onclick="showItemS()">
+                            <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                        </button>
+                    </div>
+    
+                    <div class="options text-[19px]" >
+                        <a href="profile" >
+                            <div onclick="show('Profile')" >
+                                Profile
+                            </div>
+                        </a>
+                        <a href="logout">
+                            <div onclick="show('Log Out')" >Log Out</div>
+                        </a>
+                    </div>
+                    
+                </div>
                 
                 <!-- <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white"> -->
-                    <a href="profile">
+                    <!-- <a href="profile">
                         <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer mx-[28px]">
-                    </a>
+                    </a> -->
                 <!-- </div> -->
                 {% endif %}
             
@@ -141,6 +160,24 @@
                 e.target.parentNode.classList.add('focus');
             });
         });
+
+        //NavBar Profile Click DropDown
+        let navbtn=document.querySelector(".nav-btn");
+        function showItemS(){
+            navbtn.classList.toggle('active');
+        }
+        document.addEventListener("click", function(event) {
+            if (event.target !== navbtn && !navbtn.contains(event.target)) {
+                if(navbtn.classList.contains('active'))
+                    navbtn.classList.remove('active');
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              // Tab is minimized or Tab is moved, remove the "active" class
+              navbtn.classList.remove('active');
+            }
+          });
     </script>
 </body>
 </html>

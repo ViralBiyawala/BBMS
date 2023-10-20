@@ -30,7 +30,27 @@
             <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 "><a
                     href="/contact">Contact Us</a></div>
 
-            <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7">
+            <!-- <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7"> -->
+            <div class="nav-btn p-dropdown input ">
+                        
+                <div class="temp flex items-center">
+                    <button class="inline mx-[28px]" onclick="showItemS()">
+                        <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                    </button>
+                </div>
+
+                <div class="options text-[19px]" >
+                    <a href="appointment" >
+                        <div onclick="show('Get Appointment')" >
+                            Get Appointment
+                        </div>
+                    </a>
+                    <a href="logout">
+                        <div onclick="show('Log Out')" >Log Out</div>
+                    </a>
+                </div>
+                
+            </div>
 
             
             <!-- <div
@@ -386,7 +406,23 @@
                 }
             });
         });
-        
+        //NavBar Profile Click DropDown
+        let navbtn=document.querySelector(".nav-btn");
+        function showItemS(){
+            navbtn.classList.toggle('active');
+        }
+        document.addEventListener("click", function(event) {
+            if (event.target !== navbtn && !navbtn.contains(event.target)) {
+                if(navbtn.classList.contains('active'))
+                    navbtn.classList.remove('active');
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+              // Tab is minimized or Tab is moved, remove the "active" class
+              navbtn.classList.remove('active');
+            }
+          });
         
         
         

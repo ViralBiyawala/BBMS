@@ -164,8 +164,10 @@ textarea.input{
     filter: brightness(200%); /* Adjust brightness for the label */
     transition: filter 0.3s;
 }
-
-  .dropdown{
+.p-dropdown{
+    position: relative;
+}
+.dropdown{
     /* border:2px solid red; */
     position: relative;
     /* margin-top: 100px; */
@@ -222,18 +224,41 @@ textarea.input{
     z-index: 100000;
     border: 2px solid #ff2828;
 }
-.dropdown.active .options{
+
+.p-dropdown .options{
+    z-index: -1;
+    position: absolute;
+    top:50px;
+    /* left:-11px; */
+    right: 24%;
+    width:250px;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+    color: black;
+}
+.dropdown.active .options,
+.p-dropdown.active .options{
     display: block;
 }
 
-.dropdown .options div{
+.dropdown .options div,
+.p-dropdown .options div{
     padding: 7px 20px; 
     cursor: pointer;
 }
-.dropdown .options div:hover{
+.dropdown .options div:hover,
+.p-dropdown .options div:hover{
     background: rgb(255, 127, 127);
     color:#fff; 
 }
+
+
+
 
 table {
   border-collapse: collapse;

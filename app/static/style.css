@@ -965,28 +965,13 @@ header{
 .dropdown{
     position: relative;
 }
-
-.dropdown input{
-    position: absolute;
-    outline: none;
-    border: none;
-    top:0;
-    left:0;
-    width:100%;
-    height: 100%;
-    cursor: pointer;
-    background: #fff;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    padding: 12px 20px;
-    border-radius: 10px;
-}
 .dropdown .options{
     z-index: -1;
     position: absolute;
     top:50px;
     /* left:-2px; */
     right: 24%;
-    width:20rem;
+    width:250px;
     background: #fff;
     box-shadow: 0 30px 30px rgba(0,0,0,0.05);
     border-radius: 2px;
