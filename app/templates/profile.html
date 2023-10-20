@@ -11,7 +11,7 @@
 </head>
 
 <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-2xl ">
+    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] ">
         <div class="flex items-center
             w-[20%]   
         ml-6 text-4xl  hover:tracking-[0.1em]
@@ -31,6 +31,8 @@
                     href="/contact">Contact Us</a></div>
 
             <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7">
+
+            
             <!-- <div
                 class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
             </div> -->
@@ -39,16 +41,13 @@
 
     <div class="mt-5  flex  "> <!-- border border-red-700   -->
         <div class="left  w-[40%] p-10 "> <!--border-4 border-yellow-600  -->
-            <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl
-            "> <!-- border border-red-700   -->
+            <div class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl">
 
-                <!-- <div class="pp w-[300px] h-[300px] rounded-full bg-[#d9d9d9] ">
 
-                </div> -->
                 <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
                 <div class="pp ">
-                    <img src="{{ src }}" id="profile-pic" alt="" class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer
-                    ">
+                    <img src="{{ src }}" id="profile-pic" alt="" class=" w-[300px] h-[300px] rounded-full bg-[#d9d9d9]  cursor-pointer">
+
                     <label for="input-file" class="pp-label  cursor-pointer text-2xl rounded-full">
                         <i class="fa-solid fa-pencil fa-xl  " style="color: #000;"></i>
                     </label>
@@ -56,58 +55,64 @@
                     <input type="file" name="image" accept="image/jpeg, image/png, image/jpg" id="input-file"
                         class="hidden">
                 </div>
+
                 <!-- </form> -->
 
-                <div class="mt-7 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
-                text-white   text-center
-                ">
+                <div class="mt-7 py-2 w-3/4  rounded-3xl bg-[#ff2828] text-white   text-center">
                     <a href="#donor-info" class="block">Profile</a>
                 </div>
 
-                <div class="t mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
-                text-white   text-center"><a href="#appointment" class="block">Appointments</a></div>
+                <div class="t mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] text-white   text-center">
+                    <a href="#appointment" class="block">Appointments</a>
+                </div>
 
-                <div class="mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] 
-                text-white   text-center"><a href="#history" class="block">History</a></div>
+                <div class="mt-2 py-2 w-3/4  rounded-3xl bg-[#ff2828] text-white   text-center">
+                    <a href="#history" class="block">History</a>
+                </div>
             </div>
         </div>
-        <div class="right w-[60%]   aspect-[21/13]  overflow-x-hidden overflow-y-scroll snap-y  snap-mandatory p-7 scroll-smooth
+
+        <div class="right w-[60%] aspect-[21/13]  overflow-x-hidden overflow-y-scroll snap-y  snap-mandatory p-7 scroll-smooth
         ">
             <div id="donor-info" class="  
-             mx-auto w-[100%] text-[#ff2828] bg-white rounded-2xl p-6
-            ">
-                <h1 class=" text-3xl
-                ">Donor Information</h1>
+             mx-auto w-[100%] text-[#ff2828] bg-white rounded-2xl p-6">
+
+                <h1 class=" text-3xl">Donor Information</h1>
+
                 <form action="\profile" method="post" class="">
 
                     <div class="top flex space-x-3 justify-between">
 
                         <div class="donor-id input-container w-[40%] ">
-                            <input type="text" name="ID" class="input" readonly value="{{ data.donor_id }}">
+                            <input type="text" name="ID" class="input select-none" readonly value="{{ data.donor_id }}" required>
                             <label for="">Donor ID</label>
                             <span>Donor ID</span>
                         </div>
 
                         <div class="mail-id input-container w-[60%]">
-                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
+                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly required>
                             <label for="">E-Mail ID</label>
                             <span>E-Mail ID</span>
                         </div>
+
                     </div>
 
                     <div class="name flex space-x-3">
+
                         <div class="input-container w-1/3">
-                            <input type="text" name="Fname" class="input" value="{{ data.first_name }}">
+                            <input type="text" name="Fname" class="input" value="{{ data.first_name }}" required>
                             <label for="">First Name</label>
                             <span>First Name</span>
                         </div>
+
                         <div class="input-container w-1/3">
-                            <input type="text" name="Mname" class="input" value="{{ data.middle_name }}">
+                            <input type="text" name="Mname" class="input" value="{{ data.middle_name }}" required>
                             <label for="">Middle Name</label>
                             <span>Middle Name</span>
                         </div>
+
                         <div class="input-container w-1/3">
-                            <input type="text" name="Lname" class="input" value="{{ data.last_name }}">
+                            <input type="text" name="Lname" class="input" value="{{ data.last_name }}" required>
                             <label for="">Last Name</label>
                             <span>Last Name</span>
                         </div>
@@ -115,8 +120,9 @@
                     </div>
 
                     <div class="name flex space-x-12">
+
                         <div class="input-container w-1/2 focus">
-                            <input type="date" name="DOB" class="date" value="{{ data.date_of_birth }}">
+                            <input type="date" name="DOB" class="date" value="{{ data.date_of_birth }}" required>
                             <label for="">Date of Birth</label>
                             <span>Date of Birth</span>
                         </div>
@@ -124,7 +130,7 @@
                         <div class="input-container w-1/2 focus">
                             <!-- <input type="" name="gender" class="input" value="{{ data.gender }}"> -->
                             <div class="dropdown input">
-                                <input type="text" class="textBox" value="{{ data.gender }}" readonly name="gender">
+                                <input type="text" class="textBox" value="{{ data.gender }}" readonly name="gender" required>
                                 <div class="options" >
                                     <div onclick="show('Male')" >Male</div>
                                     <div onclick="show('Female')" >Female</div>
@@ -137,14 +143,27 @@
                     </div>
 
                     <div class="name flex space-x-12">
+
                         <div class="input-container w-1/2">
-                            <input type="text" name="mob" class="input" value="{{ data.contact_phone }}">
+                            <input type="text" name="mob" class="input" value="{{ data.contact_phone }}" required>
                             <label for="">Mobile No.</label>
                             <span>Mobile No.</span>
                         </div>
 
                         <div class="input-container w-1/2">
-                            <input type="text" name="Btype" class="input" value="{{ data.blood_type }}">
+                            <div class="dropdown input">
+                                <input type="text" class="textBox2" value="{{ data.blood_type }}" readonly name="Btype" required>
+                                <div class="options" >
+                                    <div onclick="showBloodType('A+')" class="blood-type">A+</div>
+                                    <div onclick="showBloodType('B+')" class="blood-type">B+</div>
+                                    <div onclick="showBloodType('AB+')" class="blood-type">AB+</div>
+                                    <div onclick="showBloodType('O+')" class="blood-type">O+</div>
+                                    <div onclick="showBloodType('A-')" class="blood-type">A-</div>
+                                    <div onclick="showBloodType('B-')" class="blood-type">B-</div>
+                                    <div onclick="showBloodType('AB-')" class="blood-type">AB-</div>
+                                    <div onclick="showBloodType('O-')" class="blood-type">O-</div>
+                                </div>
+                            </div>
                             <label for="">Blood Type</label>
                             <span>Blood Type</span>
                         </div>
@@ -157,23 +176,17 @@
                     </div>
 
                     <div class="input-container textarea ">
-                        <textarea name="address" class="input">{{ data.contact_address }}</textarea>
+                        <textarea name="address" class="input" required>{{ data.contact_address }}</textarea>
                         <label for="">Address</label>
                         <span>Address</span>
                     </div>
 
-                    <div class="name flex space-x-12">
+                    <div class="city-name flex  -mt-[1rem]">
                         <div class="input-container w-1/2">
-                            <input type="text" name="city" class="input" value="{{ data.city }}">
+                            <input type="text" name="city" class="input" value="{{ data.city }}" required>
                             <label for="">City</label>
                             <span>City</span>
                         </div>
-
-                        <!-- <div class="input-container w-1/2">
-                            <input type="text" name="Btype" class="input" value="{{ data.blood_type }}">
-                            <label for="">Blood Type</label>
-                            <span>Blood Type</span>
-                        </div> -->
                     </div>
 
                     <input type="submit" value="Update" class="btnupdate bg-[#ff2828]">
@@ -181,44 +194,48 @@
                 </form>
             </div>
 
-            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828]  h-[20rem]
-            ">
-            <div class="heading text-2xl font-bold">Appointments</div>
-            <table>
-                <thead>
-                  <tr>
-                    <th>Appointment ID</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Place</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>10001</td>
-                    <td>12/01/2023</td>
-                    <td>9:00 AM</td>
-                    <td>SURAT</td>
-                  </tr>
-                  <tr>
-                    <td>10002</td>
-                    <td>17/05/2023</td>
-                    <td>12:00 PM</td>
-                    <td>SURAT</td>
-                  </tr>
-                  <tr>
-                    <td>10003</td>
-                    <td>17/07/2023</td>
-                    <td>4:00 PM</td>
-                    <td>RAJKOT</td>
-                  </tr>
-                </tbody>
-              </table>
-              
-              
+            <div id="appointment" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828]  h-[auto] px-[2rem] pb-[2rem]">
+                
+                <div class="heading text-2xl font-bold ">Appointments</div>
+                <div class="tmp-outer ">
+                    <div class="appointment-table mt-[1rem]">
+
+                        <table class="table-h">
+                            <thead class="">
+                              <tr class="border-[0px] mr-[1rem]">
+                                <th class="">Appointment ID</th>
+                                <th class="">Date</th>
+                                <th class="">Time</th>
+                                <th class=" ">Place</th>
+                              </tr>
+                            </thead>
+                        </table>
+
+                        <div class="t-data right ">
+                            <div class="tmpoo ">
+                            <table>
+                                <tbody>
+                                {% if results is not none %}
+                                {% for result in results %}
+                                  <tr>
+                                    <td class="border-t-[0px]">{{result.appointment_id}}</td>
+                                    <td class="border-t-[0px]">{{result.appointment_date}}</td>
+                                    <td class="border-t-[0px]">{{result.appointment_time}}</td>
+                                    <td class="border-t-[0px]">{{result.status}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                  {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[20rem]
-            ">
+
+            <div id="history" class=" rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[20rem]">
+
             <div class="heading text-2xl font-bold">History</div>
 
             <table>
@@ -344,17 +361,35 @@
         function show(word){
             document.querySelector('.textBox').value = word;
         }
-        let dd=document.querySelector('.dropdown');
-        dd.onclick=function(){
-            dd.classList.toggle('active');
-        }   
-        dd.addEventListener('focus', function () {
-            dd.classList.toggle('active');
-        });
+        function showBloodType(word){
+            document.querySelector('.textBox2').value = word;
+        }
+        let dd = document.querySelectorAll('.dropdown');
 
-        dd.addEventListener('blur', function () {
-            dd.classList.toggle('active');
+        // Loop through all .dropdown elements
+        dd.forEach(function (dropdown) {
+            dropdown.addEventListener('click', function () {
+                dropdown.classList.toggle('active');
+            });
+
+            dropdown.addEventListener('focus', function () {
+                dropdown.classList.add('active');
+            });
+
+            dropdown.addEventListener('blur', function () {
+                dropdown.classList.remove('active');
+            });
+            document.addEventListener("click", function(event) {
+                if (event.target !== dropdown && !dropdown.contains(event.target)) {
+                    if(dropdown.classList.contains('active'))
+                        dropdown.classList.remove('active');
+                }
+            });
         });
+        
+        
+        
+        
 
     </script>
 </body>

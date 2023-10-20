@@ -22,6 +22,7 @@ from app import app,myemail,server,app_login_key
 import pdfkit, shutil, re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
+from sqlalchemy import desc
 # ids = 1
 
 #initialization
@@ -62,7 +63,24 @@ def is_valid_email(email):
 #Route to Contact Page
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    src = "../static/images/profile.png"
+    user = current_user if current_user.is_authenticated else None
+    if user != None:
+        donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+        if donor:
+            allowed_extensions = ['jpg', 'jpeg', 'png']
+            # Check if an image file exists for the user
+            current_path = os.getcwd() 
+            for extension in allowed_extensions:
+                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
+                filename = current_path + image_path
+                if os.path.isfile(filename) == True:
+                    src = f"../static/images/{donor.donor_id}.{extension}"
+    return render_template('contact.html',src=src,user=user)
+
+@app.route('/form')
+def donor_form():
+    return render_template('form.html')
 
 #By default Page
 @app.route('/')
@@ -436,7 +454,7 @@ def generate_certificate(name):
 
     # Copy the source HTML file to the destination
     shutil.copyfile(destination_file,source_file)
-    return send_file("templates\\output.pdf",download_name=temp,as_attachment=False)
+    return send_file("templates\\output.pdf",download_name=temp,as_attachment=True)
 
 # User Features
 #User Logged In
@@ -520,10 +538,14 @@ def profile():
             return redirect(url_for('contact'))
 
     data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
-    print(data.gender)
+    results = None
+    # print(data.gender)
     if data is None:
         src = "../static/images/profile.png"
     else:
+        results = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
+        desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
+    ).all()
         donor_id = data.donor_id
         allowed_extensions = ['jpg', 'jpeg', 'png']
 
@@ -538,7 +560,7 @@ def profile():
                 break
         else:
             src = "../static/images/profile.png"
-    return render_template('profile.html', email=current_user, data=data,  src = src)
+    return render_template('profile.html', email=current_user, data=data,  src = src, results = results)
 
 @app.route('/update_img', methods=['POST'])
 @login_required
@@ -577,3 +599,49 @@ def update_img():
     src = image_path
 
     return redirect(url_for('profile'))
+
+
+#Home Page
+@app.route('/appointment')
+@login_required
+def appointment():
+    src = "../static/images/profile.png"
+    user = current_user if current_user.is_authenticated else None
+    full_name = user.name
+    name_parts = full_name.split()
+    initials = "".join([name[0] for name in name_parts])
+    donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+    if donor:
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Check if an image file exists for the user
+        current_path = os.getcwd() 
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{donor.donor_id}.{extension}"
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                src = f"../static/images/{donor.donor_id}.{extension}"
+        return render_template('form.html',data=donor, src = src)
+    else:
+        return redirect(url_for('profile'))
+    
+@app.route('/booking',methods=['POST','GET'])
+@login_required
+def booking():
+    if request.method == 'POST':
+        dat = request.form['date']
+        dat = datetime.strptime(dat, '%Y-%m-%d').date()
+        tim = request.form['time']
+        tim = datetime.strptime(tim, '%H:%M').time()
+        place = request.form['place']
+        user = current_user if current_user.is_authenticated else None
+        donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+        appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,status=place)
+        try:
+            db.session.add(appoint)
+            db.session.commit()
+            # print(data.gender)
+            return redirect(url_for('appointment'))
+        except Exception as e:
+            return redirect(url_for('contact'))
+    else:
+        return redirect(url_for('appointment'))

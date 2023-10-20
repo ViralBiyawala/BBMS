@@ -68,7 +68,7 @@ class Recipient(UserMixin,db.Model):
     r_hospital = db.relationship("RHospital", backref="hospitals")
 
 class DonationAppointment(UserMixin,db.Model):
-    appointment_id = db.Column(db.Integer, primary_key=True)
+    appointment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     donor_id = db.Column(db.Integer, db.ForeignKey('donor.donor_id'), nullable=False)
     appointment_date = db.Column(db.Date, nullable=False)
     appointment_time = db.Column(db.Time, nullable=False)

@@ -18,13 +18,15 @@
 }
 body,input,textarea{
     font-family: 'Montserrat', sans-serif;
+    /* background: ; */
 }
-.container{
+.containerr{
     position: relative;
     width:100%;
-    min-height: 100vh;
+    min-height: 90vh;
     padding: 2rem;
-    background-color: var(--secondary-color);
+    background-color: #FFE0E0;
+    /* background-color: var(--secondary-color); */
     /* border: 2px solid black; */
     overflow: hidden;
     display: flex;
@@ -280,7 +282,7 @@ textarea.input{
     /* background-color: #ff2828;  */
     border:22px solid #ff2828;
     border-radius: 50%;
-    bottom: -77px;
+    bottom: -57px;
     right:50px;
     opacity: 0.3;
     z-index:101;
@@ -330,7 +332,7 @@ textarea.input{
     }
     .contact-info::before{
         bottom:initial;
-        top:-75px;
+        top:-55px;
         right:65px;
         transform: scale(0.95);
     }
@@ -377,4 +379,50 @@ textarea.input{
     .btn{
         padding: 0.45rem 1.2rem;
     }
+}
+.dropdown{
+    position: relative;
+}
+
+.dropdown input{
+    position: absolute;
+    outline: none;
+    border: none;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 12px 20px;
+    border-radius: 10px;
+}
+.dropdown .options{
+    z-index: -1;
+    position: absolute;
+    top:50px;
+    /* left:-2px; */
+    right: 24%;
+    width:20rem;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+    color: black;
+}
+.dropdown.active .options{
+    display: block;
+}
+
+.dropdown .options div{
+    padding: 7px 20px; 
+    cursor: pointer;
+}
+.dropdown .options div:hover{
+    background: rgb(255, 127, 127);
+    color:#fff; 
 }

@@ -11,15 +11,14 @@
 </head>
 
 <body>
-    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
-        <div class="flex items-center
-            w-[20%]   
+    <nav class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden">
+        <div class="flex items-center w-[20%]   max-[884px]:text-[30px]
         ml-[24px] text-[36px]  hover:tracking-[0.1em]
-        transition-all duration-700 cursor-pointer
-                    ">
+        transition-all duration-700 cursor-pointer ">
             <a href="index">Life Saver</a>
-            </div>
-        <div class=" flex w-[80%] justify-end items-center">
+        </div>
+
+        <div class=" flex w-[80%] justify-end items-center max-[884px]:text-[20px]">
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
 
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a>About Us</a></div>
@@ -31,21 +30,65 @@
                     <a href="login">Login</a>
                 </div>
                 {% else %}    
-                <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
-                    <a href="logout">Log Out</a>
-                </div>
-                
-                
-                <!-- <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white"> -->
-                    <a href="profile">
-                        <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer mx-[28px]">
-                    </a>
+                    <div class="nav-btn dropdown input ">
+                        
+                        <div class="temp flex items-center">
+                            <button class="inline mx-[28px]" onclick="showItemS()">
+                                <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                            </button>
+                        </div>
+
+                        <div class="options text-[19px]" >
+                            <a href="profile" >
+                                <div onclick="show('Profile')" >
+                                    Profile
+                                </div>
+                            </a>
+                            <a href="logout">
+                                <div onclick="show('Log Out')" >Log Out</div>
+                            </a>
+                        </div>
+                        
+                    </div>
                 <!-- </div> -->
                 {% endif %}
             
             
         </div>
     </nav>
+
+
+    <nav class="small">
+        <div class="navbar">
+            <div class="nav-container">
+                
+                <input class="checkbox" type="checkbox" name="" id="" />
+
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>  
+
+                <div class="logo hover:tracking-[0.1em]
+                transition-all duration-700 cursor-pointer">  
+                  LifeSaver
+                </div>
+                 
+                
+                <div class="menu-items">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">about</a></li>
+                  <li><a href="#">blogs</a></li>
+                  <li><a href="#">portfolio</a></li>
+                  <li><a href="#">contact</a></li>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
     <!-- <nav class="navbar">
         
         <a href="index.html" class="logo-a">
@@ -192,12 +235,77 @@
             {% if user is none %}
             <a href="login" class="in-3">Donate Now</a>
             {% else %}
-            <a href="index" class="in-3">Donate Now</a>
+            <a href="appointment" class="in-3">Donate Now</a>
             {% endif %}
             
             <!-- <div class="in-3"><a href="login">Donate Now</a></div> -->
         </div>
     </div>
+
+    <div class="footer">
+        <div class="f-in f-logo">
+            <img src="../static/images/logo.png" width="330" height="330"  alt="">
+        </div>
+        <div class="f-in f-about">
+            <h2 class="f-heading" >About Us</h2>
+            <div class="f-content" >
+                At Life Saver, our mission is to connect donors with those in need, addressing blood shortages in healthcare. We prioritize patients, maintain blood records, and serve as a crucial link between hospitals and blood banks, ensuring timely access to life-saving resources.
+            </div>
+        </div>
+        <div class="f-in f-contact" >
+            <h2 class="f-heading">Contact Us</h2>
+            <div class="f-info f-content">
+                <a href="mailto:lifesaver102023@gmail.com">
+                <p>
+                    lifesaver102023@gmail.com
+                </p>
+                </a>
+                <p>+91 9034597724</p>
+                <p>Surat-394180</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <script>
+        function redirectToEmail() {
+            window.location.href = "mailto:lifesaver102023@gmail.com";
+        }
+    </script> -->
+    <script>
+        let cb = document.querySelector('.checkbox');
+        let content = document.querySelector('.content');
+        let lines = document.querySelectorAll('.line');
+
+        cb.addEventListener('change', function() {
+            if (cb.checked) {
+                setTimeout(function() {
+                    lines.forEach(function(line) {
+                        line.style.backgroundColor = '#0e2431';
+                    });
+                    content.style.display = 'none';
+                }, 300);
+            } else {
+                lines.forEach(function(line) {
+                    line.style.backgroundColor = '#fff';
+                });
+                setTimeout(function() {
+                    content.style.display = 'block'; // or 'initial', depending on the desired display style
+                }, 300);
+            }
+        });
+
+        let navbtn=document.querySelector(".nav-btn");
+        function showItemS(){
+            navbtn.classList.toggle('active');
+        }
+        document.addEventListener("click", function(event) {
+            if (event.target !== navbtn && !navbtn.contains(event.target)) {
+                if(navbtn.classList.contains('active'))
+                    navbtn.classList.remove('active');
+            }
+        });
+        
+    </script>
 
 </body>
 

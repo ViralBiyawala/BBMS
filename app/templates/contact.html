@@ -5,10 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
     <link rel="stylesheet" href="../static/contact.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
+    <nav class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden">
+        <div class="flex items-center w-[20%]   max-[884px]:text-[30px]
+        ml-[24px] text-[36px]  hover:tracking-[0.1em]
+        transition-all duration-700 cursor-pointer ">
+            <a href="index">Life Saver</a>
+        </div>
+
+        <div class=" flex w-[80%] justify-end items-center max-[884px]:text-[20px]">
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a>About Us</a></div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/contact">Contact Us</a></div>
+            
+            {% if user is not none %}
+            <div class="nav-btn dropdown input ">
+                        
+                <div class="temp flex items-center">
+                    <button class="inline mx-[28px]" onclick="showItemS()">
+                        <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                    </button>
+                </div>
+
+                <div class="options text-[19px]" >
+                    <a href="profile" >
+                        <div onclick="show('Profile')" >
+                            Profile
+                        </div>
+                    </a>
+                    <a href="logout">
+                        <div onclick="show('Log Out')" >Log Out</div>
+                    </a>
+                </div>
+                
+            </div>
+            {% else %}
+            <div class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                <a href="login">Login</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="containerr">
 
         <!-- <span class="big-circle"></span> -->
 
@@ -23,7 +66,7 @@
                 <div class="info">
                     <div class="information">
                         <i class="fa-solid fa-location-dot" style="color: #f02828;"></i>
-                        <p>Lorem ipsum dolor sit.</p>
+                        <p>Surat,Gujarat</p>
                     </div>
                     <div class="information">
                         <i class="fa-solid fa-envelope" style="color: #f02828;"></i>
@@ -117,6 +160,16 @@
             ip.addEventListener("input", (e) => {
                     e.target.parentNode.classList.add('focus');
             });
+        });
+        let navbtn=document.querySelector(".nav-btn");
+        function showItemS(){
+            navbtn.classList.toggle('active');
+        }
+        document.addEventListener("click", function(event) {
+            if (event.target !== navbtn && !navbtn.contains(event.target)) {
+                if(navbtn.classList.contains('active'))
+                    navbtn.classList.remove('active');
+            }
         });
         
     </script>

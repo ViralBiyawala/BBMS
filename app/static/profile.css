@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
-html{
-    scroll-behavior: smooth;
-}
+    html{
+        scroll-behavior: smooth;
+    }
 body{
     font-family: 'Montserrat', sans-serif;
 }
@@ -11,6 +11,7 @@ body{
 
 .right::-webkit-scrollbar {
     width: 7px;
+
   }
   
   .right::-webkit-scrollbar-track {
@@ -53,10 +54,8 @@ body{
     /* color:#FF2828; */
 }
 
-.select-items div:hover, .same-as-selected {
-    background-color: black;
-  }
 .donor-id .input,
+.personal-details .input,
 .mail-id .input{
     background-color: #fa4a4a5e;
 }
@@ -100,8 +99,8 @@ textarea.input{
 }
 .btnupdate:hover{
     background: transparent;
-	letter-spacing: 0.1rem;
-	font-size: 1.5rem;
+	/* letter-spacing: 0.1rem; */
+	/* font-size: 1.5rem; */
 	border: 2px solid  #ff2828;
 	color:#ff2828;
 }
@@ -239,7 +238,6 @@ textarea.input{
 table {
   border-collapse: collapse;
   width: 100%;
-  margin-top: 20px;
 }
 
 th, td {
@@ -251,3 +249,76 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+th:nth-child(1), td:nth-child(1) {
+    width: 30%; /* Set the width of the first column */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 30%;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 20%;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 25%; 
+}
+.table-h{
+    width: calc(100% - 7px)
+}
+
+.t-data{
+    max-height: 15rem;
+  overflow-y: scroll;
+    /* aspect-ratio: 3/1; */
+}
+.t-data::-webkit-scrollbar {
+    width: 7px;
+}
+
+.t-data::-webkit-scrollbar-track {
+    margin-left: 10rem;
+    box-shadow: inset 0 0 5px #FFF; 
+    /* border-radius: 15px; */
+}
+
+.t-data::-webkit-scrollbar-thumb {
+    background: #FF2828; 
+    border-radius: 10px;
+}
+.t-data::-webkit-scrollbar-thumb:hover {
+    background: #ff2828; 
+}
+
+.appointment-schedule input{
+    outline: none;
+}
+.appointment-schedule input[type='date'],
+.appointment-schedule input[type='text'],
+.appointment-schedule input[type='time'] {
+    /* border: 2px solid seagreen; */
+    padding-left:1rem ;
+    padding-right:1.3rem ;
+}.btnbook{
+    width:30%;
+    padding: 0.6rem 1.30rem;   
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    line-height: 1;
+    letter-spacing: 0.03rem;
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    margin: 0;
+}
+.btnbook:hover{
+    background: transparent;
+	/* letter-spacing: 0.1rem; */
+	/* font-size: 1.5rem; */
+	border: 2px solid  #ff2828;
+	color:#ff2828;
+}
+ 
