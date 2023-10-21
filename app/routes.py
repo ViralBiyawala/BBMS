@@ -84,6 +84,23 @@ def contact():
 def donor_form():
     return render_template('form.html')
 
+@app.route('/about')
+def About():
+    src = "../static/images/profile.png"
+    user = current_user if current_user.is_authenticated else None
+    if user != None:
+        donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+        if donor:
+            allowed_extensions = ['jpg', 'jpeg', 'png']
+            # Check if an image file exists for the user
+            current_path = os.getcwd() 
+            for extension in allowed_extensions:
+                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
+                filename = current_path + image_path
+                if os.path.isfile(filename) == True:
+                    src = f"../static/images/{donor.donor_id}.{extension}"
+    return render_template('AboutUs.html',src=src,user=user)
+
 #By default Page
 @app.route('/')
 def index():
@@ -676,6 +693,7 @@ def feedback():
         try:
             db.session.add(feed_msg)
             db.session.commit()
+            flash("Feedback sucessfully sent!!")
             return redirect(url_for('contact'))
         except Exception as e:
             return redirect(url_for('contact'))

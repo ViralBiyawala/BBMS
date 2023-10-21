@@ -1,92 +1,108 @@
 <!DOCTYPE html>
-<html lang="en"  >
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LifeSaver</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../static/style.css">
-    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
-</head>
+    <link rel="stylesheet" href="../static/style.css" />
+    <script
+      src="https://kit.fontawesome.com/3b57b3cea0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body>
-    <nav class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden">
-        <div class="flex items-center w-[20%]   max-[884px]:text-[30px]
-        ml-[24px] text-[36px]  hover:tracking-[0.1em]
-        transition-all duration-700 cursor-pointer ">
-            <a href="index">Life Saver</a>
+  <body>
+    <a id="button"></a>
+    <nav
+      class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[743px]:hidden"
+    >
+      <div
+        class="flex items-center w-[20%] max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+      >
+        <a href="index">Life Saver</a>
+      </div>
+
+      <div
+        class="flex w-[80%] justify-end items-center max-[884px]:text-[20px]"
+      >
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="/index">Home</a>
         </div>
 
-        <div class=" flex w-[80%] justify-end items-center max-[884px]:text-[20px]">
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/index">Home</a></div>
-
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a>About Us</a></div>
-
-            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] "><a href="/contact">Contact Us</a></div>
-
-                {% if user is none %}
-                <div class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
-                    <a href="login">Login</a>
-                </div>
-                {% else %}    
-                    <div class="nav-btn dropdown input " >
-                        
-                        <div class="temp flex items-center">
-                            <button class="inline mx-[28px]" onclick="showItemS()">
-                                <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
-                            </button>
-                        </div>
-
-                        <div class="options text-[19px]" id="dd-id">
-                            <a href="profile" >
-                                <div onclick="show('Profile')" >
-                                    Profile
-                                </div>
-                            </a>
-                            <a href="logout">
-                                <div onclick="show('Log Out')" >Log Out</div>
-                            </a>
-                        </div>
-                        
-                    </div>
-                <!-- </div> -->
-                {% endif %}
-            
-            
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="about">About Us</a>
         </div>
+
+        <div
+          class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="/contact">Contact Us</a>
+        </div>
+
+        {% if user is none %}
+        <div
+          class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="login">Login</a>
+        </div>
+        {% else %}
+        <div class="nav-btn dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemS()">
+              <img
+                src="{{ src }}"
+                id="profile-pic-main"
+                alt=""
+                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+              />
+            </button>
+          </div>
+
+          <div class="options text-[19px]" id="dd-id">
+            <a href="profile">
+              <div onclick="show('Profile')">Profile</div>
+            </a>
+            <a href="logout">
+              <div onclick="show('Log Out')">Log Out</div>
+            </a>
+          </div>
+        </div>
+        <!-- </div> -->
+        {% endif %}
+      </div>
     </nav>
 
-
     <nav class="small">
-        <div class="navbar">
-            <div class="nav-container">
-                
-                <input class="checkbox" type="checkbox" name="" id="" />
+      <div class="navbar">
+        <div class="nav-container">
+          <input class="checkbox" type="checkbox" name="" id="" />
 
-                <div class="hamburger-lines">
-                    <span class="line line1"></span>
-                    <span class="line line2"></span>
-                    <span class="line line3"></span>
-                </div>  
+          <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+          </div>
 
-                <div class="logo hover:tracking-[0.1em]
-                transition-all duration-700 cursor-pointer">  
-                  LifeSaver
-                </div>
-                 
-                
-                <div class="menu-items">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">about</a></li>
-                  <li><a href="#">blogs</a></li>
-                  <li><a href="#">portfolio</a></li>
-                  <li><a href="#">contact</a></li>
-                </div>
+          <div
+            class="logo hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+          >
+            LifeSaver
+          </div>
 
-            </div>
-
+          <div class="menu-items">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">about</a></li>
+            <li><a href="#">blogs</a></li>
+            <li><a href="#">portfolio</a></li>
+            <li><a href="#">contact</a></li>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- <nav class="navbar">
@@ -114,232 +130,273 @@
         </div>
     </nav> -->
 
-    
-    
     <header></header>
 
     <div class="content">
-        <div class="upper">Donate blood Save life !</div>
-        <div class="lower">
-            <span class="lower-in"> Your Donation  </span>
-            <span class="lower-in"> bring smile on </span>
-            <span class="lower-in"> other’s face </span>
-        </div>
+      <div class="upper">Donate blood Save life !</div>
+      <div class="lower">
+        <span class="lower-in"> Your Donation </span>
+        <span class="lower-in"> bring smile on </span>
+        <span class="lower-in"> other’s face </span>
+      </div>
     </div>
-    
-    <div class="helpful-info">
-        <div class="container">
-            <div class="h1">Helpful Information</div>
-            <div class="h2">
-                <ol>
-                    <li class="h2-in">To maintain healthy blood, it's important to consume a balanced diet rich in nutrients like iron, vitamins, and minerals.</li>
-                    <li class="h2-in">Regular exercise, such as walking or jogging, can improve blood circulation and overall health.</li>
-                    <li class="h2-in">To make the donation process more comfortable, be sure to eat a healthy meal and stay hydrated before your appointment.</li>
-                    <li class="h2-in">After donating blood, remember to drink plenty of fluids to stay hydrated and prevent dizziness.</li>
-                    <li class="h2-in">A great post-donation tip is to avoid heavy lifting or strenuous activities for at least 24 hours.</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-    
-    <div class="counts">
-        <div class="container">
 
-            <div class="count-items count-item1">
-                <div class="extra">
-                    <span class="text-red">3500+</span>
-                    <p>Happy Donors</p>
-                </div>
-            </div>
-            <div class="count-items count-item2">
-                <div class="extra">
-                    <span class="text-red">3000+</span>
-                    <p>Happy Recipients</p>
-                </div>
-            </div>
-            <div class="count-items count-item3">
-                <div class="extra">
-                    <span class="text-red">2678+</span>
-                    <p>Success Smiles</p>
-                </div>
-            </div>
-            <div class="count-items count-item4">
-                <div class="extra">
-                    <span class="text-red">20+</span>
-                    <p>Awards</p>
-                </div>
-            </div>
+    <div class="helpful-info">
+      <div class="container">
+        <div class="h1">Helpful Information</div>
+        <div class="h2">
+          <ol>
+            <li class="h2-in">
+              To maintain healthy blood, it's important to consume a balanced
+              diet rich in nutrients like iron, vitamins, and minerals.
+            </li>
+            <li class="h2-in">
+              Regular exercise, such as walking or jogging, can improve blood
+              circulation and overall health.
+            </li>
+            <li class="h2-in">
+              To make the donation process more comfortable, be sure to eat a
+              healthy meal and stay hydrated before your appointment.
+            </li>
+            <li class="h2-in">
+              After donating blood, remember to drink plenty of fluids to stay
+              hydrated and prevent dizziness.
+            </li>
+            <li class="h2-in">
+              A great post-donation tip is to avoid heavy lifting or strenuous
+              activities for at least 24 hours.
+            </li>
+          </ol>
         </div>
+      </div>
+    </div>
+
+    <div class="counts">
+      <div class="container">
+        <div class="count-items count-item1">
+          <div class="extra">
+            <span class="text-red">3500+</span>
+            <p>Happy Donors</p>
+          </div>
+        </div>
+        <div class="count-items count-item2">
+          <div class="extra">
+            <span class="text-red">3000+</span>
+            <p>Happy Recipients</p>
+          </div>
+        </div>
+        <div class="count-items count-item3">
+          <div class="extra">
+            <span class="text-red">2678+</span>
+            <p>Success Smiles</p>
+          </div>
+        </div>
+        <div class="count-items count-item4">
+          <div class="extra">
+            <span class="text-red">20+</span>
+            <p>Awards</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="process">
-        <div class="p-1">
-            Donation Process
-        </div>
-        <div class="p-2">
-            <div class="container">
-    
-                <div class="process-items process-item1">
-                    <div class="extra">
-                        <span class="text-red">Registration</span>
-                        <div>Fill out a brief registration form.Provide your contact information and relevant details.</div>
-                    </div>
-                </div>
-                <div class="process-items process-item2">
-                    <div class="extra">
-                        <span class="text-red">Health Check</span>
-                        <div>Undergo a quick health check, including a brief interview and a basic physical examination</div>
-                    </div>
-                </div>
-                <div class="process-items process-item3">
-                    <div class="extra">
-                        <span class="text-red">Donation</span>
-                        <div>A skilled phlebotomist will perform the blood collection, typically taking about 10-15 minutes</div>
-                    </div>
-                </div>
-                <div class="process-items process-item4">
-                    <div class="extra">
-                        <span class="text-red">Recovery</span>
-                        <div>Rest for a few minutes and enjoy some refreshments in our recovery area.</div>
-                    </div>
-                </div>
+      <div class="p-1">Donation Process</div>
+      <div class="p-2">
+        <div class="container">
+          <div class="process-items process-item1">
+            <div class="extra">
+              <span class="text-red">Registration</span>
+              <div>
+                Fill out a brief registration form.Provide your contact
+                information and relevant details.
+              </div>
             </div>
+          </div>
+          <div class="process-items process-item2">
+            <div class="extra">
+              <span class="text-red">Health Check</span>
+              <div>
+                Undergo a quick health check, including a brief interview and a
+                basic physical examination
+              </div>
+            </div>
+          </div>
+          <div class="process-items process-item3">
+            <div class="extra">
+              <span class="text-red">Donation</span>
+              <div>
+                A skilled phlebotomist will perform the blood collection,
+                typically taking about 10-15 minutes
+              </div>
+            </div>
+          </div>
+          <div class="process-items process-item4">
+            <div class="extra">
+              <span class="text-red">Recovery</span>
+              <div>
+                Rest for a few minutes and enjoy some refreshments in our
+                recovery area.
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    
+
     <div class="saving-lives">
-        <div class="in">
-            Join Us in Saving Lives!
-        </div>
-        <div class="opinion">
-            <div class="one">
-                <div class="one-1">
-                    Donor Opinion
-                </div>
-                <div class="one-2">
-                    <div class="one-21">
-                        Donating blood has been an incredible experience. It's quick, painless, and knowing that I'm helping others gives me a sense of fulfillment like no other. I encourage everyone to give it a try – you won't regret it
-                    </div>
-                    <div class="one-22">
-                        -Sarah Johnson
-                    </div>
-                </div>
+      <div class="in">Join Us in Saving Lives!</div>
+      <div class="opinion">
+        <div class="one">
+          <div class="one-1">Donor Opinion</div>
+          <div class="one-2">
+            <div class="one-21">
+              Donating blood has been an incredible experience. It's quick,
+              painless, and knowing that I'm helping others gives me a sense of
+              fulfillment like no other. I encourage everyone to give it a try –
+              you won't regret it
             </div>
+            <div class="one-22">-Sarah Johnson</div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="donate-now">
-        <div class="in">
-            <div class="in-1">It's Your Turn to Shine as a Blood Donor – Join Our Mission</div>
-            <div class="in-2">Are you ready to step into the spotlight and make a difference? Becoming a blood donor means joining a league of extraordinary individuals who shine brightly in the lives of those in need.</div>
-            {% if user is none %}
-            <a href="aperror" class="in-3">Donate Now</a>
-            {% else %}
-            <a href="appointment" class="in-3">Donate Now</a>
-            {% endif %}
-            <!-- <div class="in-3"><a href="login">Donate Now</a></div> -->
+      <div class="in">
+        <div class="in-1">
+          It's Your Turn to Shine as a Blood Donor – Join Our Mission
         </div>
+        <div class="in-2">
+          Are you ready to step into the spotlight and make a difference?
+          Becoming a blood donor means joining a league of extraordinary
+          individuals who shine brightly in the lives of those in need.
+        </div>
+        {% if user is none %}
+        <a href="aperror" class="in-3">Donate Now</a>
+        {% else %}
+        <a href="appointment" class="in-3">Donate Now</a>
+        {% endif %}
+        <!-- <div class="in-3"><a href="login">Donate Now</a></div> -->
+      </div>
     </div>
 
     <div class="footer">
-        <div class="f-in f-logo">
-            <img src="../static/images/logo.png" width="330" height="330"  alt="">
+      <div class="f-in f-logo">
+        <img src="../static/images/logo.png" width="330" height="330" alt="" />
+      </div>
+      <div class="f-in f-about">
+        <h2 class="f-heading">About Us</h2>
+        <div class="f-content">
+          At Life Saver, our mission is to connect donors with those in need,
+          addressing blood shortages in healthcare. We prioritize patients,
+          maintain blood records, and serve as a crucial link between hospitals
+          and blood banks, ensuring timely access to life-saving resources.
         </div>
-        <div class="f-in f-about">
-            <h2 class="f-heading" >About Us</h2>
-            <div class="f-content" >
-                At Life Saver, our mission is to connect donors with those in need, addressing blood shortages in healthcare. We prioritize patients, maintain blood records, and serve as a crucial link between hospitals and blood banks, ensuring timely access to life-saving resources.
-            </div>
+      </div>
+      <div class="f-in f-contact">
+        <h2 class="f-heading">Contact Us</h2>
+        <div class="f-info f-content">
+          <a href="mailto:lifesaver102023@gmail.com">
+            <p>lifesaver102023@gmail.com</p>
+          </a>
+          <p>+91 9034597724</p>
+          <p>Surat-394180</p>
         </div>
-        <div class="f-in f-contact" >
-            <h2 class="f-heading">Contact Us</h2>
-            <div class="f-info f-content">
-                <a href="mailto:lifesaver102023@gmail.com">
-                <p>
-                    lifesaver102023@gmail.com
-                </p>
-                </a>
-                <p>+91 9034597724</p>
-                <p>Surat-394180</p>
-            </div>
-        </div>
+      </div>
     </div>
-    
-    <!-- <script>
-        function redirectToEmail() {
-            window.location.href = "mailto:lifesaver102023@gmail.com";
-        }
-    </script> -->
+
     <script>
-        let cb = document.querySelector('.checkbox');
-        let content = document.querySelector('.content');
-        let lines = document.querySelectorAll('.line');
+      //->Hamburger Menu JS<-
+      let cb = document.querySelector(".checkbox");
+      let content = document.querySelector(".content");
+      let lines = document.querySelectorAll(".line");
 
-        cb.addEventListener('change', function() {
-            if (cb.checked) {
-                setTimeout(function() {
-                    lines.forEach(function(line) {
-                        line.style.backgroundColor = '#0e2431';
-                    });
-                    content.style.display = 'none';
-                }, 300);
-            } else {
-                lines.forEach(function(line) {
-                    line.style.backgroundColor = '#fff';
-                });
-                setTimeout(function() {
-                    content.style.display = 'block'; // or 'initial', depending on the desired display style
-                }, 300);
-            }
-        });
-
-        //NAvBar DropDown JS
-        let navbtn=document.querySelector(".nav-btn");
-
-        function showItemS(){
-            navbtn.classList.toggle('active');
-        }
-        //If on other part of screen clicked navbar disappears
-        document.addEventListener("click", function(event) {
-            if (event.target !== navbtn && !navbtn.contains(event.target)) {
-                if(navbtn.classList.contains('active'))
-                    navbtn.classList.remove('active');
-            }
-        });
-        
-        //When Tab is minimized or Tab is moved, remove the "active" class 
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-              navbtn.classList.remove('active');
-            }
+      cb.addEventListener("change", function () {
+        if (cb.checked) {
+          setTimeout(function () {
+            lines.forEach(function (line) {
+              line.style.backgroundColor = "#0e2431";
+            });
+            content.style.display = "none";
+          }, 300);
+        } else {
+          lines.forEach(function (line) {
+            line.style.backgroundColor = "#fff";
           });
+          setTimeout(function () {
+            content.style.display = "block"; // or 'initial', depending on the desired display style
+          }, 300);
+        }
+      });
 
-        //If dropdown Not Visible on screen 
-        function isDropdownVisible() {
-            const dropdown = document.getElementById('dd-id');
-            const dropdownRect = dropdown.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-          
-            if (dropdownRect.bottom >= window.scrollY) {
-                return true;
-            } else {
-              return false;
-            }
-          }
-          
-          function removeActiveClass() {
-            if (!isDropdownVisible()) {
-                if(navbtn.classList.contains('active')){
-                    navbtn.classList.remove('active');  
-                }
-            }
-          }
-          
+      //->NAvBar DropDown JS<-
+      let navbtn = document.querySelector(".nav-btn");
 
-           window.addEventListener('scroll', removeActiveClass);  
-        
+      function showItemS() {
+        navbtn.classList.toggle("active");
+      }
+      //If on other part of screen clicked navbar disappears
+      document.addEventListener("click", function (event) {
+        if (event.target !== navbtn && !navbtn.contains(event.target)) {
+          if (navbtn.classList.contains("active"))
+            navbtn.classList.remove("active");
+        }
+      });
+
+      //When Tab is minimized or Tab is moved, remove the "active" class
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          navbtn.classList.remove("active");
+        }
+      });
+
+      //If dropdown Not Visible on screen
+      function isDropdownVisible() {
+        const dropdown = document.getElementById("dd-id");
+        const dropdownRect = dropdown.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (dropdownRect.bottom >= window.scrollY) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function removeActiveClass() {
+        if (!isDropdownVisible()) {
+          if (navbtn.classList.contains("active")) {
+            navbtn.classList.remove("active");
+          }
+        }
+      }
+      window.addEventListener("scroll", removeActiveClass);
+
+      //->Back To Top Button JS<-
+      // Get the button element
+      var btn = document.getElementById("button");
+
+      // Add a scroll event listener to the window
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 300) {
+          // Add the "show" class when scrolled down
+          btn.classList.add("show");
+        } else {
+          // Remove the "show" class when at the top
+          btn.classList.remove("show");
+        }
+      });
+
+      // Add a click event listener to the button
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        // Smoothly scroll to the top
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
     </script>
-
-</body>
-
+  </body>
 </html>

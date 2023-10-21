@@ -33,7 +33,7 @@
         <div
           class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
         >
-          <a>About Us</a>
+          <a href="about">About Us</a>
         </div>
 
         <div
@@ -77,6 +77,16 @@
       <!-- <span class="big-circle"></span> -->
 
       <div class="form">
+        <!-- Flash message start -->
+        <div class="flash-messages">
+          <div class="msg">
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <div class="inner">{{ messages[-1] }}</div>
+
+            {% endif %} {% endwith %}
+          </div>
+        </div>
+        <!--Flash ends  -->
         <div class="contact-info">
           <h3 class="ltitle">Let's get in touch</h3>
 
@@ -191,6 +201,19 @@
           navbtn.classList.remove("active");
         }
       });
+
+      const fmsg = document.querySelector(".flash-messages");
+
+      setTimeout(() => {
+        if (fmsg.classList.contains("active")) {
+          fmsg.classList.remove("active");
+        }
+      }, 3000);
+
+      const ims = document.querySelector(".inner");
+      if (ims.textContent != "") {
+        fmsg.classList.add("active");
+      }
     </script>
   </body>
 </html>

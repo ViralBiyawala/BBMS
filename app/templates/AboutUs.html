@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='profile.css') }}"
+    />
+    <script
+      src="https://kit.fontawesome.com/3b57b3cea0.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#FFE0E0]">
+    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+      <div
+        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+      >
+        <a href="index">Life Saver</a>
+      </div>
+
+      <div class="flex w-[80%] justify-end items-center">
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a href="/index">Home</a>
+        </div>
+
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a>About Us</a>
+        </div>
+
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a href="/contact">Contact Us</a>
+        </div>
+        {% if user is not none %}
+        <!-- <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-12 h-12 cursor-pointer mx-7"> -->
+        <div class="nav-btn p-dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemS()">
+              <img
+                src="{{ src }}"
+                id="profile-pic-main"
+                alt=""
+                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+              />
+            </button>
+          </div>
+
+          <div class="options text-[19px]">
+            <a href="profile">
+              <div onclick="show('Profile')">Profile</div>
+            </a>
+            <a href="logout">
+              <div onclick="show('Log Out')">Log Out</div>
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <div
+          class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="login">Login</a>
+        </div>
+        {% endif %}
+
+        <!-- <div
+                class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
+            </div> -->
+      </div>
+    </nav>
+
+    <div class="containerr flex flex-col space-y-10 my-14 w-[80%] mx-auto">
+      <div
+        class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
+      >
+        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+          About Us
+        </div>
+        <p class="text-xl tracking-[1px] text-justify">
+          We, at Life Saver assure you to the maximum that we'll connect the
+          authentic donors to the people who actually are in need. We aim to
+          help people through the best possible way when they require urgent
+          help. Many government hospitals still lack this basic amenity of
+          adequate blood being present and thus, we'll keep a record of the
+          blood being present and we give our patients and their relatives the
+          utmost priority and emphasis. We also aim to function as a bridge
+          between hospitals and blood banks.
+        </p>
+      </div>
+
+      <div
+        class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
+      >
+        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+          What we do
+        </div>
+        <p class="text-xl tracking-[1px] text-justify">
+          The prime objective of our website is to serve as a bridge between the
+          blood donors and people who are in need of blood. We assure you the
+          authenticity of the hospitals in our concilation We also provide the
+          additional functionality of keeping track of your history whether you
+          have donated blood in past and also provide you with certificate as a
+          token of appreciation. We do it all for humanity and responsible
+          citizens of country
+        </p>
+      </div>
+
+      <div
+        class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
+      >
+        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+          Our Commitment
+        </div>
+        <p class="text-xl tracking-[1px] text-justify">
+          We are dedicated to the ongoing enhancement of our services in
+          response to the changing requirements of our users. Your feedback is
+          of great value to us, and we warmly invite you to express your
+          thoughts, helping us improve your LifeSaver experience.
+        </p>
+      </div>
+
+      <div
+        class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
+      >
+        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+          Connect With Us
+        </div>
+        <p class="text-xl tracking-[1px] text-justify">
+          Follow us on social media to stay connected and receive real-time
+          updates. Whether you're a blood seeker or blood donor, we've got you
+          covered!
+        </p>
+      </div>
+    </div>
+    <script>
+      //NavBar Profile Click DropDown
+      let navbtn = document.querySelector(".nav-btn");
+      function showItemS() {
+        navbtn.classList.toggle("active");
+      }
+      document.addEventListener("click", function (event) {
+        if (event.target !== navbtn && !navbtn.contains(event.target)) {
+          if (navbtn.classList.contains("active"))
+            navbtn.classList.remove("active");
+        }
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          // Tab is minimized or Tab is moved, remove the "active" class
+          navbtn.classList.remove("active");
+        }
+      });
+
+      const fmsg = document.querySelector(".flash-messages");
+
+      setTimeout(() => {
+        if (fmsg.classList.contains("active")) {
+          fmsg.classList.remove("active");
+        }
+      }, 3000);
+
+      const ims = document.querySelector(".inner");
+      if (ims.textContent != "") {
+        fmsg.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
