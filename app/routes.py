@@ -18,7 +18,7 @@ from flask_login import (
 )
 from flask_mail import Message
 from app.models import *
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import os
 from app import app,myemail,server,app_login_key
 import pdfkit, shutil, re, random
@@ -662,3 +662,22 @@ def booking():
 def aperror():
     flash("Login first for an Appointment")
     return redirect(url_for('login'))
+
+@app.route('/feedback',methods=['POST'])
+def feedback():
+    if request.method == 'POST':
+        username = request.form['uname']
+        email = request.form['email']
+        phone = request.form['phone']
+        message = request.form['message']
+        current_date = date.today()
+
+        feed_msg = ContactUS(username=username, email=email, mob=phone,feedback= message,date= current_date)
+        try:
+            db.session.add(feed_msg)
+            db.session.commit()
+            return redirect(url_for('contact'))
+        except Exception as e:
+            return redirect(url_for('contact'))
+    else:
+        return redirect(url_for('contact'))
