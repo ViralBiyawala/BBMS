@@ -761,6 +761,9 @@ header{
     font-weight: 700;
     /* border: 2px solid black; */
 }
+.in-1-lower{
+    display: none;
+}
 .in-2{
     font-weight: 600;
     text-align: center;
@@ -802,7 +805,7 @@ header{
     }
     .in-3{
         font-size: calc(var(--text-md) - 0.2rem);
-        /* height: 30px; */
+        margin: 1.7rem 0;
     }
 }
 @media (max-width:1070px) {
@@ -814,16 +817,73 @@ header{
     }
     .in-3{
         font-size: calc(var(--text-md) - 0.4rem);
-        padding: 0.3rem 3rem ;
+        padding: 0.3rem 1.8rem ;
+        margin: 1rem 0;
+        
     }
 }
 @media (max-width:1000px) {
-    .donate-now{
+    .in-1{
+        font-size: 1.9rem;
+    }
+    .in-2{
+        font-size: 1.5rem;
+    }
+    .in-3{
+        font-size: 1.4rem;
+        padding: 0.3rem 1.7rem;
+        margin: 0.8rem 0;
+    }
+}
+@media (max-width:936px) {
+    .in-1{
+        font-size: 1.8rem;
+    }
+    .in-2{
+        font-size: 1.4rem;
+    }
+    .in-3{
+        font-size: 1.3rem;
+        padding: 0.3rem 1.5rem;
+        margin: 0.8rem 0;
+    }
+}
+@media (max-width:888px) {
+    .in-1{
+        font-size: 1.6rem;
+        /* text-align: center; */
+    }
+    .in-2{
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .in-3{
+        font-size: 1.1rem;
+        padding: 0.3rem 1.5rem;
+        margin: 0.5rem 0;
+    }
+}
+@media (max-width:793px) {
+    .in-1{
         display: none;
+        font-size: 1.6rem;
+        text-align: center;
+    }
+    .in-1-lower{
+        display: block;
+        color:#ff2828;
+        font-weight: 700;
+        font-size: 1.6rem;
+        text-align: center;
+    }
+    .in-3{
+        font-size: 1rem;
+        padding: 0.3rem 1.5rem;
+        margin: 0.4rem 0;
     }
 }
 
-/* FooTer */
+/* Footer CSS Start */
 .footer{
     display: flex;
     /* border: 2px solid red; */
@@ -959,7 +1019,7 @@ header{
     }
     .f-about{width:32rem ;} 
 }
-
+/* Footer CSS Over */
 .large{
 }
 .dropdown{
