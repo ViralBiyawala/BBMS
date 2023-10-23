@@ -664,7 +664,7 @@ def booking():
         place = request.form['place']
         user = current_user if current_user.is_authenticated else None
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
-        appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,status=place)
+        appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place)
         try:
             db.session.add(appoint)
             db.session.commit()
