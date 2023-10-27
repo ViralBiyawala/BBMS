@@ -76,6 +76,88 @@ header {
 .small {
   display: none;
 }
+.hamburger {
+  position: relative;
+  display: block;
+  width: 35px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  outline: none;
+  border: none;
+}
+.hamburger .bar,
+.hamburger:after,
+.hamburger:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 5px;
+  background-color: #fff;
+  margin: 6px 0px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.hamburger.is-active:before {
+  -webkit-transform: rotate(-45deg) translate(-8px, 6px);
+  transform: rotate(-45deg) translate(-8px, 6px);
+}
+.hamburger.is-active:after {
+  -webkit-transform: rotate(45deg) translate(-9px, -8px);
+  transform: rotate(45deg) translate(-9px, -8px);
+}
+.hamburger.is-active .bar {
+  opacity: 0;
+}
+.mobile-nav {
+  position: fixed;
+  top: 59.5px;
+  left: 100%;
+  width: 40%;
+  /* min-height: 100vh; */
+  display: block;
+  z-index: 98;
+  background-color: #ffe0e0;
+  /* padding-top: 120px; */
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.mobile-nav.is-active {
+  left: 60%;
+}
+ 
+.ni{
+  margin:8px 0 ;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav {
+    display: block;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 564px) {
+  .mobile-nav {
+    width:50%;
+  }
+  .mobile-nav.is-active {
+    left: 50%;
+  }
+}
+@media (max-width: 464px) {
+  .mobile-nav {
+    width:100%;
+  }
+  .mobile-nav.is-active {
+    left: 0%;
+  }
+}
+ 
 .container {
   width: 100%;
   /* max-width: 1050px; */
@@ -530,7 +612,7 @@ header {
   .container .process-items {
     width: 25rem;
     height: 19rem;
-    margin-top: 0.5rem;
+    margin-top: 0.7rem;
   }
   .p-1 {
     font-size: var(--text-xl);
@@ -703,9 +785,9 @@ header {
 @media (max-width: 342px) {
   .saving-lives .opinion {
     padding-bottom: 6rem;
-    /* top:150%;
+    top:140%;
         left:50%;
-        transform: translate(-50%,-150%); */
+        transform: translate(-50%,-150%);
   }
   .opinion .one .one-1 {
     font-size: 2.5rem;
