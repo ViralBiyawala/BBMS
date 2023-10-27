@@ -123,6 +123,7 @@ body{
 }
 .login-box{
 	width: 60%;
+	width: 39rem;
 	position: absolute;
     top: 50%;
     left: 50%;
