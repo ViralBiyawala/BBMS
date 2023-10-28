@@ -30,7 +30,7 @@ from sqlalchemy import desc
 # Store OTPs for email verification with their creation time
 otp_storage = {}
 
-# Define the OTP timeout duration in seconds (100 seconds in this case)
+# Define the OTP timeout duration in seconds (240 seconds in this case)
 OTP_TIMEOUT = 240
 
 # Initialize Flask-Login
