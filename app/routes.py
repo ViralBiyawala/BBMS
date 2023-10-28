@@ -25,7 +25,6 @@ import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
 from sqlalchemy import desc
-# ids = 1
 
 #initialization
 # Store OTPs for email verification with their creation time
