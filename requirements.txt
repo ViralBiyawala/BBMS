@@ -21,7 +21,7 @@ Flask-Mail==0.9.1
 Flask-SQLAlchemy==3.0.5
 fonttools==4.38.0
 greenlet==2.0.2
-gunicorn==21.2.0
+gunicorn
 html5lib==1.1
 idna==3.4
 itsdangerous==2.1.2
