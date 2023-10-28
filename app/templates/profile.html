@@ -319,13 +319,20 @@
 
             <div class="city-name flex -mt-[1rem]">
               <div class="input-container w-1/2">
-                <input
-                  type="text"
-                  name="city"
-                  class="input"
-                  value="{{ data.city }}"
-                  required
-                />
+                <div class="dropdown input">
+                  <input
+                    type="text"
+                    class="textBox"
+                    value="{{ data.city }}"
+                    name="city"
+                    required
+                  />
+                  <div class="options" id="city-op-len">
+                    {% for city in cities %}
+                      <div onclick='show("{{ city }}")'>{{ city }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
                 <label for="">City</label>
                 <span>City</span>
               </div>

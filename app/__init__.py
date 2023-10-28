@@ -1,11 +1,14 @@
 import os, smtplib
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_wkhtmltopdf import Wkhtmltopdf
 # import smtplib
+import pandas as pd
+
+city = pd.read_csv('app\city.csv')
+cities = city["City"]
 
 app = Flask(__name__)
-wkhtmltopdf = Wkhtmltopdf(app)
+
 myemail = 'lifesaver102023@gmail.com'
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587

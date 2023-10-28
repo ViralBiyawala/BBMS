@@ -66,3 +66,41 @@ h2 {
     text-decoration: underline;
     font-size: 26px;
 }
+
+#print_btn{
+    margin-top:50px;
+    align-items: center;
+}
+
+.in-3 {
+    outline: none;
+    border: none;
+    height: auto;
+    cursor: pointer;
+    margin: 2rem 0;
+    padding: 0.5rem 2rem;
+    background-color: #ff2828;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 2.5rem;
+    transition: 0.3s ease-in-out;
+    /* letter-spacing: 0.2rem; */
+    font-size: var(--text-md);
+  }
+  .in-3:hover {
+    letter-spacing: 0.05rem;
+    /* border: 2px solid var(--primary-color); */
+    /* color: ; */
+  }
+
+@media print{
+    .header {
+        margin-top: 300px;
+    }
+    .content {
+        margin-top: 10px;
+    }
+    #print_btn{
+        display:none;
+    }
+}

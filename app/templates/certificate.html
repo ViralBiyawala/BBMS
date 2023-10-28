@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donation Certificate</title>
+    <title>{{name[0]}}</title>
+    <!-- <link rel="stylesheet" href="../static/print.css" media="print"> -->
     <link rel="stylesheet" href="../static/certificate.css">
 </head>
 
 <body>
     <!-- <img src="../static/images/border.png" > -->
+    <button id="print_btn" class="in-3">Print Certificate</button>
     <div class="certificate">
         <div class="header">
             <img src="../static/images/logo.png" alt="Blood Bank Logo">
@@ -19,5 +21,10 @@
             <p>This is to certify that <span class="bold">{{ name[0] }}</span> has generously donated blood on  <br><span class="italic">{{ name[1] }}</span> at <span class="underline">{{ name[2] }}</span>. <p>Thank you for your life-saving donation!</p></p>
         </div>
     </div>
+    <script>
+        document.getElementById("print_btn").addEventListener("click", function() {
+            window.print(); // This command triggers the print dialog.
+        });
+    </script>
 </body>
 </html>

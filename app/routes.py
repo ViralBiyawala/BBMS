@@ -20,8 +20,8 @@ from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
-from app import app,myemail,server,app_login_key
-import pdfkit, shutil, re, random
+from app import app,myemail,server,app_login_key,cities
+import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
 from sqlalchemy import desc
@@ -82,7 +82,7 @@ def contact():
 
 @app.route('/form')
 def donor_form():
-    return render_template('form.html')
+    return render_template('form.html',cities=cities)
 
 @app.route('/about')
 def About():
@@ -464,22 +464,19 @@ def generate_certificate(name):
     # html_template = render_template('certificate.html', name=name)
     html_template = render_template('certificate.html', name=(name,"10-1-2021", "Surat"))
 
-    # Save the HTML content to a file with a specific name
-    # html_file_name = f"app/templates/certificate{name}.html"
-    with open("app/templates/certificate.html", 'w') as html_file:
-        html_file.write(html_template)
+    # # Save the HTML content to a file with a specific name
+    # # html_file_name = f"app/templates/certificate{name}.html"
+    # with open("app/templates/certificate.html", 'w') as html_file:
+    #     html_file.write(html_template)
 
-    pdfkit.from_url("http://127.0.0.1:5000/certificate","app/templates/output.pdf")
-    # os.remove(html_file_name)
-    temp = str(name) + ".pdf"
-    source_file = 'app/templates/certificate.html'
+    # source_file = 'app/templates/certificate.html'
 
-    # Destination file path (where you want to copy the HTML file)
-    destination_file = 'app/templates/temp.html'
+    # # Destination file path (where you want to copy the HTML file)
+    # destination_file = 'app/templates/temp.html'
 
-    # Copy the source HTML file to the destination
-    shutil.copyfile(destination_file,source_file)
-    return send_file("templates\\output.pdf",download_name=temp,as_attachment=True)
+    # # Copy the source HTML file to the destination
+    # shutil.copyfile(destination_file,source_file)
+    return html_template
 
 # User Features
 #User Logged In
@@ -585,7 +582,7 @@ def profile():
                 break
         else:
             src = "../static/images/profile.png"
-    return render_template('profile.html', email=current_user, data=data,  src = src, results = results)
+    return render_template('profile.html', email=current_user, data=data,  src = src, results = results, cities=cities)
 
 @app.route('/update_img', methods=['POST'])
 @login_required
@@ -648,7 +645,7 @@ def appointment():
             filename = current_path + image_path
             if os.path.isfile(filename) == True:
                 src = f"../static/images/{donor.donor_id}.{extension}"
-        return render_template('form.html',data=donor, src = src)
+        return render_template('form.html',data=donor, src = src,cities=cities)
     else:
         flash("Fill the Donor Information")
         return redirect(url_for('profile'))

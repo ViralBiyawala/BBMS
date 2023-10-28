@@ -65,21 +65,25 @@ body{
 	font-size: var(--text-md);
 }
 
-.right::-webkit-scrollbar {
+.right::-webkit-scrollbar,
+#city-op-len::-webkit-scrollbar {
     width: 7px;
 
   }
   
-  .right::-webkit-scrollbar-track {
+  .right::-webkit-scrollbar-track,
+  #city-op-len::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px #FFE0E0; 
     /* border-radius: 15px; */
   }
    
-  .right::-webkit-scrollbar-thumb {
+  .right::-webkit-scrollbar-thumb,
+  #city-op-len::-webkit-scrollbar-thumb {
     background: #FF2828; 
     border-radius: 10px;
   }
-  .right::-webkit-scrollbar-thumb:hover {
+  .right::-webkit-scrollbar-thumb:hover,
+  #city-op-len::-webkit-scrollbar-thumb:hover {
     background: #ff2828; 
   }
 
@@ -297,6 +301,12 @@ textarea.input{
     border: 2px solid #ff2828;
     color: black;
 }
+
+#city-op-len{
+    height: 250px;
+    overflow-y: scroll;
+}
+
 .dropdown.active .options,
 .p-dropdown.active .options{
     display: block;
