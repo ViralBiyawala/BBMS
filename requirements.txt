@@ -55,4 +55,4 @@ wcwidth==0.2.5
 webencodings==0.5.1
 Werkzeug==0.16.1
 yarg==0.1.9
-zopfli==0.2.3
+zopfli==0.2.2
