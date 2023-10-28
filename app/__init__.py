@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 # import smtplib
 import pandas as pd
 
-city = pd.read_csv('app\city.csv')
+city = pd.read_csv('city.csv')
 cities = city["City"]
 
 app = Flask(__name__)
