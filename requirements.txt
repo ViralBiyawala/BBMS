@@ -19,7 +19,7 @@ Flask==2.2.5
 Flask-Login==0.6.2
 Flask-Mail==0.9.1
 Flask-SQLAlchemy==3.0.5
-fonttools==4.43.1
+fonttools==4.38.0
 greenlet==2.0.2
 gunicorn==21.2.0
 html5lib==1.1
