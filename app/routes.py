@@ -20,11 +20,17 @@ from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
-from app import app,myemail,server,app_login_key,cities
+from app import app,myemail,server,app_login_key
 import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
 from sqlalchemy import desc
+import pandas as pd
+
+
+pt = os.path.join(app.root_path, 'city.csv')
+city = pd.read_csv(pt)
+cities = city["City"]
 
 #initialization
 # Store OTPs for email verification with their creation time
