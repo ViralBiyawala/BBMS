@@ -62,12 +62,18 @@
                                 <i class="fa-solid fa-eye-slash " style="color: #f02828;"></i>
                             </div>
                             <div class="btns">
-                                <input type="radio" name="admin" id="donor" value="donor" checked>
-                                <label for="donor">Donor</label>
-                                <input type="radio" name="admin" id="hospital" value="hospital">
-                                <label for="hospital">Hospital</label>
-                                <input type="radio" name="admin" id="admin" value="admin">
-                                <label for="admin">Admin</label>
+                                <div class="checkbox btn-donor">
+                                    <input type="radio" name="admin" id="donor" value="donor" checked>
+                                    <label for="donor">Donor</label>
+                                </div>
+                                <div class="checkbox btn-hospital">
+                                    <input type="radio" name="admin" id="hospital" value="hospital">
+                                    <label for="hospital">Hospital</label>
+                                </div>
+                                <div class="checkbox btn-admin">
+                                    <input type="radio" name="admin" id="admin" value="admin">
+                                    <label for="admin">Admin</label>
+                                </div>
                             </div>
                             <div class="forget-password">
                                 <a href="/forget">Forget Password?</a>
