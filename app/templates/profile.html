@@ -57,10 +57,10 @@
 
           <div class="options text-[19px]">
             <a href="appointment">
-              <div onclick="show('Get Appointment')">Get Appointment</div>
+              <div>Get Appointment</div>
             </a>
             <a href="logout">
-              <div onclick="show('Log Out')">Log Out</div>
+              <div>Log Out</div>
             </a>
           </div>
         </div>
@@ -232,15 +232,15 @@
                 <div class="dropdown input">
                   <input
                     type="text"
-                    class="textBox"
+                    class="textBoxGender"
                     value="{{ data.gender }}"
                     readonly
                     name="gender"
                     required
                   />
                   <div class="options">
-                    <div onclick="show('Male')">Male</div>
-                    <div onclick="show('Female')">Female</div>
+                    <div onclick="showGender('Male')">Male</div>
+                    <div onclick="showGender('Female')">Female</div>
                   </div>
                 </div>
                 <label for="">Gender</label>
@@ -265,7 +265,7 @@
                 <div class="dropdown input">
                   <input
                     type="text"
-                    class="textBox2"
+                    class="textBoxBlood"
                     value="{{ data.blood_type }}"
                     readonly
                     name="Btype"
@@ -322,14 +322,15 @@
                 <div class="dropdown input">
                   <input
                     type="text"
-                    class="textBox"
+                    class="textBoxCity"
                     value="{{ data.city }}"
                     name="city"
+                    id="CitytextBox"
                     required
                   />
-                  <div class="options" id="city-op-len">
+                  <div class="options" id="OptionsCity">
                     {% for city in cities %}
-                      <div onclick='show("{{ city }}")'>{{ city }}</div>
+                      <div onclick='showCity("{{ city }}")'>{{ city }}</div>
                     {% endfor %}
                   </div>
                 </div>
@@ -438,8 +439,8 @@
       </div>
     </div>
     <script>
+      // InputBox Animation JS
       const ips = document.querySelectorAll(".input");
-
       ips.forEach((ip) => {
         ip.addEventListener("focus", (e) => {
           e.target.parentNode.classList.add("focus");
@@ -486,6 +487,7 @@
         }
       };
 
+      // Change Profile Photo Pencil JS
       document.addEventListener("DOMContentLoaded", function () {
         const pp = document.querySelector(".pp");
         const pplabel = pp.querySelector(".pp-label");
@@ -512,15 +514,19 @@
         });
       });
 
-      function show(word) {
-        document.querySelector(".textBox").value = word;
+      // Js for Updating Value in Input after Selecting
+      function showCity(word) {
+        document.querySelector(".textBoxCity").value = word;
+      }
+      function showGender(word) {
+        document.querySelector(".textBoxGender").value = word;
       }
       function showBloodType(word) {
-        document.querySelector(".textBox2").value = word;
+        document.querySelector(".textBoxBlood").value = word;
       }
-      let dd = document.querySelectorAll(".dropdown");
 
       // Loop through all .dropdown elements
+      let dd = document.querySelectorAll(".dropdown");
       dd.forEach(function (dropdown) {
         dropdown.addEventListener("click", function () {
           dropdown.classList.toggle("active");
@@ -540,6 +546,7 @@
           }
         });
       });
+
       //NavBar Profile Click DropDown
       let navbtn = document.querySelector(".nav-btn");
       function showItemS() {
@@ -558,6 +565,7 @@
         }
       });
 
+      // Flash Message JS
       const fmsg = document.querySelector(".flash-messages");
 
       setTimeout(() => {
@@ -567,9 +575,52 @@
       }, 3000);
 
       const ims = document.querySelector(".inner");
-      if (ims.textContent != "") {
+      if (ims !== null && ims.textContent != "") {
         fmsg.classList.add("active");
       }
+
+      //City Search Box Js
+
+      function fetchCities() {
+        fetch("/get_cities_json")
+          .then((response) => response.json())
+          .then((data) => {
+            var cities = data["cities"];
+            const resultBox = document.getElementById("OptionsCity");
+            const inputBox = document.getElementById("CitytextBox");
+            const rBHTML=resultBox.innerHTML;
+            inputBox.onkeyup = function () {
+
+              let result = [];
+              let input = inputBox.value;
+              if (input.length) {
+                result = cities.filter((keyword) => {
+                  return keyword.toLowerCase().startsWith(input.toLowerCase());
+                });
+              }
+
+              display(result);
+
+              if(!result.length){
+                resultBox.innerHTML = "";
+              }
+              if(!input.length){
+                resultBox.innerHTML = rBHTML;
+              }
+            };
+
+            function display(result) {
+              resultBox.innerHTML = "";
+              const content = result.map((div)=>{
+                return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+              });
+              resultBox.innerHTML = content.join('');
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+      fetchCities();
+
     </script>
   </body>
 </html>

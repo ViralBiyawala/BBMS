@@ -32,6 +32,12 @@ pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
 cities = city["City"]
 
+# For sending list of cities to JS file
+@app.route('/get_cities_json')
+def get_cities_json():
+    cities = city["City"].tolist()
+    return jsonify(cities=cities)
+
 #initialization
 # Store OTPs for email verification with their creation time
 otp_storage = {}
@@ -524,7 +530,11 @@ def profile():
         address = request.form['address']
         city = request.form['city']
         Btype = request.form['Btype']
-        print(gender)
+        # print(gender)
+        if city.lower() not in [cit.lower() for cit in cities]:
+            flash("No City Found")
+            return redirect(url_for('profile'))
+            
 
         data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
         if data:
@@ -667,6 +677,9 @@ def booking():
         user = current_user if current_user.is_authenticated else None
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place)
+        if place.lower() not in [cit.lower() for cit in cities]:
+            flash("No City Found")
+            return redirect(url_for('appointment'))
         try:
             db.session.add(appoint)
             db.session.commit()
