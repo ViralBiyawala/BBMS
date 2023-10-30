@@ -15,7 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    <nav class="large bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
       >
@@ -77,14 +77,66 @@
       </div>
     </nav>
 
+    <!-- Hamburger for smaller screens  -->
+    <nav
+      class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden"
+    >
+      <div
+        class="flex items-center max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white"
+      >
+        <a href="index">Life Saver</a>
+      </div>
+
+      <button class="hamburger mx-[28px]">
+        <div class="bar"></div>
+      </button>
+
+      <div class="mobile-nav flex flex-col items-center">
+        {% if user is none %}
+        <!-- No user has logged in -->
+        <a href="login" class="ni">Log In</a>
+        {% else %}
+
+        <div class="h-head ni flex mt-[30px] items-center pl-[0.3rem]">
+          <a href="profile">
+            <img
+              src="{{ src }}"
+              id="profile-pic-main"
+              alt=""
+              class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px]"
+            />
+          </a>
+        </div>
+
+        <div class="ni h-head-2 w-full justify-evenly flex">
+          <a href="profile">
+            <div class="hh2-1 flex flex-col items-center cursor-pointer">
+              <i class="fa-regular fa-user"></i>
+              My Profile
+            </div>
+          </a>
+          <a href="logout">
+            <div class="hh2-2 flex flex-col items-center cursor-pointer">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              Log Out
+            </div>
+          </a>
+        </div>
+        {% endif %}
+        <a href="index" class="ni">Home</a>
+        <a href="about" class="ni">About Us</a>
+        <a href="contact" class="ni">Contact Us</a>
+      </div>
+    </nav>
+
     <div class="containerr flex flex-col space-y-10 my-14 w-[80%] mx-auto">
       <div
         class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
       >
-        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+        <div class="heading font-bold text-3xl max-sm:text-2xl max-[442px]:text-xl  text-[#FF2828] tracking-[2px] max-[360px]:text-center">
           About Us
         </div>
-        <p class="text-xl tracking-[1px] text-justify">
+        <p class="text-xl max-sm:text-lg max-[442px]:text-base tracking-[1px] text-justify">
           We, at Life Saver assure you to the maximum that we'll connect the
           authentic donors to the people who actually are in need. We aim to
           help people through the best possible way when they require urgent
@@ -99,10 +151,10 @@
       <div
         class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
       >
-        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+        <div class="heading font-bold text-3xl max-sm:text-2xl max-[442px]:text-xl text-[#FF2828] tracking-[2px] max-[360px]:text-center">
           What we do
         </div>
-        <p class="text-xl tracking-[1px] text-justify">
+        <p class="text-xl  max-sm:text-lg max-[442px]:text-base tracking-[1px] text-justify">
           The prime objective of our website is to serve as a bridge between the
           blood donors and people who are in need of blood. We assure you the
           authenticity of the hospitals in our concilation We also provide the
@@ -116,10 +168,10 @@
       <div
         class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
       >
-        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+        <div class="heading font-bold text-3xl max-sm:text-2xl max-[442px]:text-xl text-[#FF2828] tracking-[2px] max-[360px]:text-center">
           Our Commitment
         </div>
-        <p class="text-xl tracking-[1px] text-justify">
+        <p class="text-xl max-sm:text-lg max-[442px]:text-base tracking-[1px] text-justify">
           We are dedicated to the ongoing enhancement of our services in
           response to the changing requirements of our users. Your feedback is
           of great value to us, and we warmly invite you to express your
@@ -130,10 +182,10 @@
       <div
         class="aboutus border border-[#ff2828] bg-white space-y-3 p-4 rounded-xl"
       >
-        <div class="heading font-bold text-3xl text-[#FF2828] tracking-[2px]">
+        <div class="heading font-bold text-3xl max-sm:text-2xl max-[442px]:text-xl text-[#FF2828] tracking-[2px] max-[360px]:text-center">
           Connect With Us
         </div>
-        <p class="text-xl tracking-[1px] text-justify">
+        <p class="text-xl max-sm:text-lg max-[442px]:text-base tracking-[1px] text-justify">
           Follow us on social media to stay connected and receive real-time
           updates. Whether you're a blood seeker or blood donor, we've got you
           covered!
@@ -141,6 +193,17 @@
       </div>
     </div>
     <script>
+      
+      //->Hamburger Menu JS<-
+
+      const menu_btn = document.querySelector(".hamburger");
+      const mobile_menu = document.querySelector(".mobile-nav");
+
+      menu_btn.addEventListener("click", function () {
+        menu_btn.classList.toggle("is-active");
+        mobile_menu.classList.toggle("is-active");
+      });
+
       //NavBar Profile Click DropDown
       let navbtn = document.querySelector(".nav-btn");
       function showItemS() {

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://kit.fontawesome.com/3b57b3cea0.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='profile.css') }}"
+    />
+  </head>
+
+  <body>
+    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+      <div
+        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+      >
+        <a href="index">Life Saver</a>
+      </div>
+
+      <!-- <div class="flex w-[80%] justify-end items-center">
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a href="/index">Home</a>
+        </div>
+
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a href="about">About Us</a>
+        </div>
+
+        <div
+          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+        >
+          <a href="/contact">Contact Us</a>
+        </div>
+
+        <div class="nav-btn p-dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemS()">
+              <img
+                src=""
+                id="profile-pic-main"
+                alt=""
+                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+              />
+            </button>
+          </div>
+
+          <div class="options text-[19px]">
+            <a href="appointment">
+              <div>Get Appointment</div>
+            </a>
+            <a href="logout">
+              <div>Log Out</div>
+            </a>
+          </div>
+        </div>
+
+      </div> -->
+    </nav>
+
+    <div class="mt-8 flex ">
+      <!-- border border-red-700   -->
+        <div class="left w-[30%]   p-1">
+
+            <!-- Flash message start -->
+            <div class="flash-messages">
+                <div class="msg">
+                  {% with messages = get_flashed_messages() %} {% if messages %}
+                  <div class="inner">{{ messages[-1] }}</div>
+
+                  {% endif %} {% endwith %}
+                </div>
+            </div>
+            <!--Flash message ends  -->
+
+            <div class="options  border-2 border-[#ff2828] flex flex-col text-2xl">
+                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center bg-[#FFE0E0]">Home</div> </a>
+                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests</div> </a>
+                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests</div> </a>
+                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div> </a>
+                <a href=""> <div class="py-2  w-full text-center">Hospital</div> </a>
+            </div>
+
+
+        </div>
+
+        <div
+            class="a-right w-[70%] aspect-[21/13] overflow-x-hidden overflow-y-scroll snap-y snap-mandatory px-7 pt-1 scroll-smooth  "
+          >
+            <div class="bi   mb-8  text-2xl font-medium">Blood Inventory</div>
+
+            <table>
+                <tr>
+                  <th>Type</th>
+                  <th>In-Flow</th>
+                  <th>Out-Flow</th>
+                  <th>Inventory</th>
+                </tr>
+                <tr>
+                  <td>O +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>O -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>A +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>A -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>B +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>B -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>AB +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                    <td>AB -</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            
+            <div class="search border border-black rounded-2xl my-12   flex flex-col pb-2">
+                
+                <div class="heading bg-[#ff2828] rounded-t-[14px] text-white text-2xl pl-4 py-3">
+                    Search Blood Stock
+                </div>
+
+                <div class="a-ips flex w-full justify-evenly">
+                    <div class="input-container  ">
+                        <div class="dropdown ">
+                          <input
+                            type="text"
+                            class="textBoxCity input"
+                            value=""
+                            name="city"
+                            id="CitytextBox"
+                            required
+                          />
+                          <div class="options" id="OptionsCity">
+                            <!-- {% for city in cities %}
+                              <div onclick='showCity("{{ city }}")'>{{ city }}</div>
+                            {% endfor %} -->
+                          </div>
+                        </div>
+                        <label for="">City</label>
+                        <span>City</span>
+                    </div>
+
+
+                    <div class="input-container ">
+                        <div class="dropdown ">
+                          <input
+                            type="text"
+                            class="textBoxCity input"
+                            value=""
+                            name="city"
+                            id="CitytextBox"
+                            required
+                          />
+                          <div class="options" id="OptionsCity">
+                            <!-- {% for city in cities %}
+                              <div onclick='showCity("{{ city }}")'>{{ city }}</div>
+                            {% endfor %} -->
+                          </div>
+                        </div>
+                        <label for="">Blood Type</label>
+                        <span>Blood Type</span>
+                    </div>
+                    
+                </div>
+                <input type="submit" value="Search" class="btnsrch bg-[#ff2828] self-center">
+            </div>
+
+
+            <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div>
+
+            <table class="mb-8">
+                <tr>
+                  <th>Type</th>
+                  <th>In-Flow</th>
+                  <th>Out-Flow</th>
+                  <th>Inventory</th>
+                </tr>
+                <tr>
+                  <td>O +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>O -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>A +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>A -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>B +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>B -</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>AB +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                    <td>AB -</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+    <script>
+      // InputBox Animation JS
+      const ips = document.querySelectorAll(".input");
+      ips.forEach((ip) => {
+        ip.addEventListener("focus", (e) => {
+          e.target.parentNode.classList.add("focus");
+        });
+        if (ip.value != "") {
+          ip.parentNode.classList.add("focus");
+        }
+
+        ip.addEventListener("blur", (e) => {
+          if (e.target.value === "") {
+            e.target.parentNode.classList.remove("focus");
+          }
+        });
+
+        ip.addEventListener("input", (e) => {
+          e.target.parentNode.classList.add("focus");
+        });
+      });
+
+       
+
+      // Js for Updating Value in Input after Selecting
+      function showCity(word) {
+        document.querySelector(".textBoxCity").value = word;
+      }
+      function showGender(word) {
+        document.querySelector(".textBoxGender").value = word;
+      }
+      function showBloodType(word) {
+        document.querySelector(".textBoxBlood").value = word;
+      }
+
+      // Loop through all .dropdown elements
+      let dd = document.querySelectorAll(".dropdown");
+      dd.forEach(function (dropdown) {
+        dropdown.addEventListener("click", function () {
+          dropdown.classList.toggle("active");
+        });
+
+        dropdown.addEventListener("focus", function () {
+          dropdown.classList.add("active");
+        });
+
+        dropdown.addEventListener("blur", function () {
+          dropdown.classList.remove("active");
+        });
+        document.addEventListener("click", function (event) {
+          if (event.target !== dropdown && !dropdown.contains(event.target)) {
+            if (dropdown.classList.contains("active"))
+              dropdown.classList.remove("active");
+          }
+        });
+      });
+
+      //NavBar Profile Click DropDown
+      let navbtn = document.querySelector(".nav-btn");
+      function showItemS() {
+        navbtn.classList.toggle("active");
+      }
+      document.addEventListener("click", function (event) {
+        if (event.target !== navbtn && !navbtn.contains(event.target)) {
+          if (navbtn.classList.contains("active"))
+            navbtn.classList.remove("active");
+        }
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          // Tab is minimized or Tab is moved, remove the "active" class
+          navbtn.classList.remove("active");
+        }
+      });
+
+      // Flash Message JS
+      const fmsg = document.querySelector(".flash-messages");
+
+      setTimeout(() => {
+        if (fmsg.classList.contains("active")) {
+          fmsg.classList.remove("active");
+        }
+      }, 3000);
+
+      const ims = document.querySelector(".inner");
+      if (ims !== null && ims.textContent != "") {
+        fmsg.classList.add("active");
+      }
+
+      //City Search Box Js
+
+      function fetchCities() {
+        fetch("/get_cities_json")
+          .then((response) => response.json())
+          .then((data) => {
+            var cities = data["cities"];
+            const resultBox = document.getElementById("OptionsCity");
+            const inputBox = document.getElementById("CitytextBox");
+            const rBHTML=resultBox.innerHTML;
+            inputBox.onkeyup = function () {
+
+              let result = [];
+              let input = inputBox.value;
+              if (input.length) {
+                result = cities.filter((keyword) => {
+                  return keyword.toLowerCase().startsWith(input.toLowerCase());
+                });
+              }
+
+              display(result);
+
+              if(!result.length){
+                resultBox.innerHTML = "";
+              }
+              if(!input.length){
+                resultBox.innerHTML = rBHTML;
+              }
+            };
+
+            function display(result) {
+              resultBox.innerHTML = "";
+              const content = result.map((div)=>{
+                return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+              });
+              resultBox.innerHTML = content.join('');
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+      fetchCities();
+
+    </script>
+  </body>
+</html>

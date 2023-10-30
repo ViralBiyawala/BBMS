@@ -49,6 +49,9 @@ OTP_TIMEOUT = 240
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+@app.route('/Admin')
+def AdminHome():
+    return render_template('Admin_Home.html')
 
 #Helper functions
 #loading user

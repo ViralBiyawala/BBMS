@@ -16,7 +16,11 @@
   </head>
 
   <body>
+    <!-- Back To Top Button -->
     <a id="button"></a>
+    
+    <!-- NavBar  -->
+
     <nav class="large bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[767px]:hidden">
       <div class="flex items-center w-[20%] max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
         <a href="index">Life Saver</a>
@@ -76,6 +80,7 @@
       </div>
     </nav>
 
+    <!-- Hamburger for smaller screens  -->
     <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[768px]:hidden">
        
       <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
@@ -119,63 +124,13 @@
           </a>
         </div>
         {% endif %} 
-        <!-- <div class="line h-[1px] bg-[#ff2828] w-full"></div> -->
-        <!-- </div> -->
-        <a href="#" class="ni">Home</a>
-        <!-- <div class="line h-[1px] bg-[#ff2828] w-full"></div> -->
-        <a href="#" class="ni">About Us</a>
-        <!-- <div class="line h-[1px] bg-[#ff2828] w-full"></div> -->
-        <a href="#" class="ni">Contact Us</a>
+        <a href="index" class="ni">Home</a>
+        <a href="about" class="ni">About Us</a>
+        <a href="contact" class="ni">Contact Us</a>
       </div>
-      <!-- <div class="navbar">
-        <div class="nav-container">
-          <input class="checkbox" type="checkbox" name="" id="" />
-
-          <div class="hamburger-lines">
-            <span class="line line1"></span>
-            <span class="line line2"></span>
-            <span class="line line3"></span>
-          </div>
-
-          <div class="logo hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
-            LifeSaver
-          </div>
-
-          <div class="menu-items">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">about</a></li>
-            <li><a href="#">blogs</a></li>
-            <li><a href="#">portfolio</a></li>
-            <li><a href="#">contact</a></li>
-          </div>
-        </div>
-      </div> -->
     </nav>
 
-    <!-- <nav class="navbar">
-        
-        <a href="index.html" class="logo-a">
-            <h1 class="logo ">Life Saver</h1>                
-        </a>
-        
-        <div class="nav-items">
-            <ul>
-                <li class="nav-item"> <a href="/">Home</a> </li>
-                <li class="nav-item"> <a href="about">About Us</a> </li>
-                <li class="nav-item"> <a href="contact">Contact Us</a> </li>
-                {% if user is none %}
-                <li class="nav-item"> <a href="login">Login</a></li>
-                {% else %}    
-                <li><a href="logout">Log Out</a></li>
-                <li class="nav-item">
-                    <a href="profile">
-                        {{ name }}
-                    </a>
-                </a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav> -->
+  
 
     <header></header>
 

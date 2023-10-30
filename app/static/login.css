@@ -414,7 +414,7 @@ input[type=radio] {
 		/* border:2px solid black; */
 		flex-direction: column;
 		justify-content: space-between;
-		padding-left: 25%;
+		/* padding-left: 25%; */
 		/* align-items: center; */
 	}	
 }
@@ -448,7 +448,6 @@ input[type=radio] {
     
     /* background-size: cover; */
     background-size: 70%;
-    background-size: calc(10% + var(--left-per));
     background-repeat: no-repeat;
     position: relative;
 	background-color: #FDCFCF;
@@ -570,7 +569,7 @@ input[type=radio] {
 	justify-content: center;
 }
 .otp-6 button{
-	padding:1rem 2rem;
+	padding:0.6rem 2rem;
 	letter-spacing: 0.1rem;
 	
 	border-radius: 3.5rem;
@@ -590,11 +589,85 @@ input[type=radio] {
 
 	background: transparent;
 	letter-spacing: 0.3rem;
-	font-size: var(--text-elg);
+	/* font-size: var(--text-elg); */
 	border: 2px solid  var(--primary-color);
 	color:var(--primary-color);
 }
+@media (max-width:1050px){
+	:root{
+		--left-per:50%;
+	}
+	.container .otp-left{
+		background-size: 80%;
+	}
+}
+@media (max-width:849px){
+	:root{
+		--left-per:45%;
+	}
+	.container .otp-left{
+		background-size: 100%;
+	}
+}
+@media (max-width:762px){
+	:root{
+		--left-per:0%;
+	}
 
+	.container .otp-right{
+		border-radius: var(--border-rad-main) var(--border-rad-main) var(--border-rad-main) var(--border-rad-main);
+		display: flex;		
+		justify-content: center;
+	}
+}
+@media (max-width:459px){
+	.container .otp-box{
+		width : 35rem;
+	}
+}
+@media (max-width:393px){
+	.container .otp-box{
+		width : 32rem;
+		height: 40rem;
+	}
+	.otp-box-inside h1{
+		font-size: calc(var(--text-xxl) - 0.3rem);
+	}
+	
+	.otp-box-inside .otp-2{
+		font-size: calc(var(--text-md) - 0.3rem);
+	}
+}
+@media (max-width:374px){
+	.container .otp-box{
+		width : 30rem;
+		height: 39rem;
+	}
+	.otp-box-inside h1{
+		font-size: var(--text-elg);
+	}
+	.otp-box-inside .otp-2{
+		font-size: var(--text-sm);
+	}
+}
+@media (max-width:352px){
+	.container .otp-box{
+		width : 26rem;
+		height: 39rem;
+	}
+	.otp-box-inside h1{
+		font-size: var(--text-lg);
+	}
+	.otp-box-inside .otp-2{
+		font-size: 0.8rem;
+	}
+	.otp-6 button{
+		font-size: var(--text-md);
+	}
+	.otp-box-inside .otp-3{
+		justify-content: space-between;
+	}
+}
 
 
 
