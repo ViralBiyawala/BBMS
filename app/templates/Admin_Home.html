@@ -82,12 +82,12 @@
             </div>
             <!--Flash message ends  -->
 
-            <div class="options  border-2 border-[#ff2828] flex flex-col text-2xl">
-                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center bg-[#FFE0E0]">Home</div> </a>
-                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests</div> </a>
-                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests</div> </a>
-                <a href=""> <div class="border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div> </a>
-                <a href=""> <div class="py-2  w-full text-center">Hospital</div> </a>
+            <div class="a-options  border-2 border-[#ff2828] flex flex-col text-2xl">
+                <div id="op-1" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center selected">Home</div>
+                <div id="op-2" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests</div>
+                <div id="op-3" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests</div>
+                <div id="op-4" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div>
+                <div id="op-5" class="ops cursor-pointer py-2  w-full text-center">Hospital</div>
             </div>
 
 
@@ -182,26 +182,48 @@
                         <span>City</span>
                     </div>
 
-
-                    <div class="input-container ">
-                        <div class="dropdown ">
+                    <div class="input-container focus">
+                        <div class="dropdown a-dropdown">
                           <input
                             type="text"
-                            class="textBoxCity input"
-                            value=""
-                            name="city"
-                            id="CitytextBox"
+                            class="textBoxBlood input"
+                            value="A+"
+                            readonly
+                            name="Btype"
                             required
                           />
-                          <div class="options" id="OptionsCity">
-                            <!-- {% for city in cities %}
-                              <div onclick='showCity("{{ city }}")'>{{ city }}</div>
-                            {% endfor %} -->
+                          <div class="options">
+                            <div onclick="showBloodType('A+')" class="blood-type">
+                              A+
+                            </div>
+                            <div onclick="showBloodType('B+')" class="blood-type">
+                              B+
+                            </div>
+                            <div onclick="showBloodType('AB+')" class="blood-type">
+                              AB+
+                            </div>
+                            <div onclick="showBloodType('O+')" class="blood-type">
+                              O+
+                            </div>
+                            <div onclick="showBloodType('A-')" class="blood-type">
+                              A-
+                            </div>
+                            <div onclick="showBloodType('B-')" class="blood-type">
+                              B-
+                            </div>
+                            <div onclick="showBloodType('AB-')" class="blood-type">
+                              AB-
+                            </div>
+                            <div onclick="showBloodType('O-')" class="blood-type">
+                              O-
+                            </div>
                           </div>
                         </div>
                         <label for="">Blood Type</label>
                         <span>Blood Type</span>
-                    </div>
+                      </div>
+
+                     
                     
                 </div>
                 <input type="submit" value="Search" class="btnsrch bg-[#ff2828] self-center">
@@ -327,24 +349,7 @@
         });
       });
 
-      //NavBar Profile Click DropDown
-      let navbtn = document.querySelector(".nav-btn");
-      function showItemS() {
-        navbtn.classList.toggle("active");
-      }
-      document.addEventListener("click", function (event) {
-        if (event.target !== navbtn && !navbtn.contains(event.target)) {
-          if (navbtn.classList.contains("active"))
-            navbtn.classList.remove("active");
-        }
-      });
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          // Tab is minimized or Tab is moved, remove the "active" class
-          navbtn.classList.remove("active");
-        }
-      });
-
+ 
       // Flash Message JS
       const fmsg = document.querySelector(".flash-messages");
 
@@ -400,6 +405,23 @@
           .catch((error) => console.error("Error:", error));
       }
       fetchCities();
+
+
+      //JS for Options on LEft Side
+      let ops=document.querySelectorAll('.ops');
+
+      ops.forEach((op)=>{
+        op.addEventListener("click",(e)=>{
+            
+            ops.forEach(op=>{
+                if(op.classList.contains('selected')){
+                    op.classList.remove('selected');
+                }
+            })
+            e.target.classList.add('selected');
+        })
+      })
+
 
     </script>
   </body>

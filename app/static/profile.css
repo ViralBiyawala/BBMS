@@ -387,6 +387,19 @@ textarea.input{
     z-index: 100000;
     border: 2px solid #ff2828;
 }
+.a-dropdown .options{
+    position: absolute;
+    top:43px;
+    left:-2px;
+    width:101%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+}
 
 .p-dropdown .options{
     z-index: -1;
@@ -409,7 +422,9 @@ textarea.input{
     max-height: 250px;
     overflow-y: scroll;
 }
-
+.selected{
+    background-color: #FFE0E0;
+}
 .dropdown.active .options,
 .p-dropdown.active .options{
     display: block;
