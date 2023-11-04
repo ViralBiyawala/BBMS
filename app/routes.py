@@ -698,3 +698,57 @@ def feedback():
             return redirect(url_for('contact'))
     else:
         return redirect(url_for('contact'))
+    
+# Admin Page 
+
+@app.route('/plot')
+def plot_real_data():
+    return render_template('admin.html')
+
+# from collections import defaultdict
+
+@app.route('/plot_positive_data')
+def plot_positive_data():
+    # Get a list of all unique dates
+    unique_dates = set(record.collection_date.strftime('%Y-%m-%d') for record in BloodDonationRecord.query.all())
+
+    # Create a dictionary to store the positive blood data
+    positive_data_dict = {'dates': list(unique_dates), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
+
+    # Query the database and populate the dictionary
+    for date in unique_dates:
+        for blood_type in ['A+', 'B+', 'AB+', 'O+']:
+            # Find the corresponding record or set quantity to 0
+            record = (
+                BloodDonationRecord.query
+                .filter(BloodDonationRecord.donation_type == blood_type)
+                .filter(BloodDonationRecord.collection_date == date)
+                .first()
+            )
+            quantity = record.quantity_donated if record else 0
+            positive_data_dict[blood_type.replace('+', 'p')].append(quantity)
+
+    return jsonify(positive_data_dict)
+
+@app.route('/plot_negative_data')
+def plot_negative_data():
+    # Get a list of all unique dates
+    unique_dates = set(record.collection_date.strftime('%Y-%m-%d') for record in BloodDonationRecord.query.all())
+
+    # Create a dictionary to store the negative blood data
+    negative_data_dict = {'dates': list(unique_dates), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
+
+    # Query the database and populate the dictionary
+    for date in unique_dates:
+        for blood_type in ['A-', 'B-', 'AB-', 'O-']:
+            # Find the corresponding record or set quantity to 0
+            record = (
+                BloodDonationRecord.query
+                .filter(BloodDonationRecord.donation_type == blood_type)
+                .filter(BloodDonationRecord.collection_date == date)
+                .first()
+            )
+            quantity = record.quantity_donated if record else 0
+            negative_data_dict[blood_type.replace('-', 'n')].append(quantity)
+
+    return jsonify(negative_data_dict)

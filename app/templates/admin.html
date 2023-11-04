@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Highcharts library -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!-- Link to external JavaScript files using url_for -->
+    <script src="{{ url_for('static', filename='positiveChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='negativeChart.js') }}"></script>
+</head>
+
+<body>
+    <div id="positiveChart" style="width: 50%; float: left;"></div>
+    <div id="negativeChart" style="width: 50%; float: right;"></div>
+</body>
+</html>
