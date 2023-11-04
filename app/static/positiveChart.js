@@ -2,13 +2,16 @@
 fetch('/plot_positive_data')
     .then(response => response.json())
     .then(data => {
-        // Create the Highcharts column chart for positive blood types
+        // Create the Highcharts column chart for positive blood types with animation
         var chart = Highcharts.chart('positiveChart', {
             chart: {
                 type: 'line',
                 zoomType: 'x', // Enable x-axis zoom
                 panning: true, // Enable panning
-                panKey: 'shift' // Hold Shift key to enable panning
+                panKey: 'shift', // Hold Shift key to enable panning
+                backgroundColor: 'rgba(150, 15, 100, 0.2)', // Set background color with transparency
+                borderWidth: 2, // Add a border to the chart
+                borderColor: 'Red' // Set border color
             },
             title: {
                 text: 'Positive Blood Types vs. Volume Inflow'
@@ -75,7 +78,14 @@ fetch('/plot_positive_data')
                         enabled: false // Disable markers
                     }   
                 }
-            ]
+            ],
+            plotOptions: {
+                series: {
+                    animation: {
+                        duration: 2500 // Set the animation duration (milliseconds)
+                    }
+                }
+            }
         });
 
         // Function to toggle the visibility of a series
