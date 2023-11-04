@@ -25,7 +25,8 @@ import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
 from sqlalchemy import desc
-import pandas as pd
+import pandas as pd 
+pas = False
 
 
 pt = os.path.join(app.root_path, 'city.csv')
@@ -241,7 +242,6 @@ def register():
         server.quit()
         
         # Render the OTP verification page and pass us*-er data along with the email
-        # flash('OTP Sent.Valid for 4 minutes.')
         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
 
     return render_template('register.html')
@@ -383,7 +383,6 @@ def resend_forget():
 # New User Register
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
-    # flash("")
     if request.method == 'POST':
         email = request.form.get('email')
         user_otp = ''.join([request.form.get(f'otp{i}') for i in range(1, 7)])  # Concatenate OTP digits
@@ -393,41 +392,36 @@ def verify_otp():
         password = request.form.get('password')
         admin_type = request.form.get('admin')
 
-        # if user_otp == None:
-        #     return render_template('otp.html')
-        print(user_otp)   
         stored_data = otp_storage.get(email)
-        # print(stored_data)
-        if stored_data and user_otp == stored_data['otp']:
-            # Check if the OTP is still valid
-            created_at = stored_data['created_at']
-            print(email,user_otp,name,city,mobile_no,password,admin_type)
-            if datetime.now() - created_at <= timedelta(seconds=OTP_TIMEOUT):
-                # Check the user type and create the appropriate object
-                if admin_type == 'donor':
-                    # Create an RDonor object and populate it
-                    new_user = RDonor(d_email_id=email, name=name, city=city, contact_phone=mobile_no)
-                    new_user.set_password(password)  # Set the password using set_password method
-                elif admin_type == 'hospital':
-                    # Create an RHospital object and populate it
-                    new_user = RHospital(h_email_id=email, name=name, city=city, contact_phone=mobile_no)
-                    new_user.set_password(password)  # Set the password using set_password method
-                
-                # Add the new user to the appropriate table in the database
-                try:
-                    db.session.add(new_user)
-                    db.session.commit()
-                    return redirect(url_for('login'))
-                except Exception as e:
-                    print(e)
-                    return redirect(url_for('contact'))
-        else:
-            flash('Wrong OTP!!!')                
-            return render_template('otp.html')
-        # flash('Wrong OTP!!!')                
-        return render_template('otp.html')
+        print(stored_data)
+        if not stored_data or user_otp != stored_data['otp']:
+            flash('Wrong OTP!!!')
+            return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
+            # return redirect(url_for('register'))
 
-# Paasword update in Database
+        # Check if the OTP is still valid
+        created_at = stored_data['created_at']
+
+        if datetime.now() - created_at <= timedelta(seconds=OTP_TIMEOUT):
+            if admin_type == 'donor':
+                new_user = RDonor(d_email_id=email, name=name, city=city, contact_phone=mobile_no)
+                new_user.set_password(password)
+            elif admin_type == 'hospital':
+                new_user = RHospital(h_email_id=email, name=name, city=city, contact_phone=mobile_no)
+                new_user.set_password(password)
+
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('login'))
+            except Exception as e:
+                print(e)
+                return redirect(url_for('contact'))
+        else:
+            flash('OTP has expired. Please try again.')
+            return render_template('otp.html')
+
+
 @app.route('/verify_forget_otp', methods=['POST'])
 def verify_forget_otp():
     if request.method == 'POST':
@@ -439,37 +433,36 @@ def verify_forget_otp():
         if donor:
             admin_type = "donor"
 
-        # Check if the user_id is for an RHospital
         hospital = RHospital.query.get(email)
         if hospital:
             admin_type = "hospital"
 
         stored_data = otp_storage.get(email)
-        # print(stored_data)
-        if stored_data and user_otp == stored_data['otp']:
-            # Check if the OTP is still valid
-            created_at = stored_data['created_at']
-            if datetime.now() - created_at <= timedelta(seconds=OTP_TIMEOUT):
-                # Check the user type and create the appropriate object
-                if admin_type == 'donor':
-                    # Create an RDonor object and populate it
-                    new_user = RDonor.query.get(email)
-                    new_user.set_password(password)  # Set the password using set_password method
-                elif admin_type == 'hospital':
-                    # Create an RHospital object and populate it
-                    new_user = RHospital.query.get(email)
-                    new_user.set_password(password)  # Set the password using set_password method
-                
-                # Add the new user to the appropriate table in the database
-                try:
-                    db.session.add(new_user)
-                    db.session.commit()
-                    return redirect(url_for('login'))
-                except Exception as e:
-                    print(e)
-                    return redirect(url_for('contact'))
-                        
-        return render_template('forget_otp.html')
+
+        if not stored_data or user_otp != stored_data['otp']:
+            flash('Wrong OTP!!!')
+            return render_template('forget_otp.html', email=email,password=password)
+
+        created_at = stored_data['created_at']
+
+        if datetime.now() - created_at <= timedelta(seconds=OTP_TIMEOUT):
+            if admin_type == 'donor':
+                new_user = RDonor.query.get(email)
+                new_user.set_password(password)
+            elif admin_type == 'hospital':
+                new_user = RHospital.query.get(email)
+                new_user.set_password(password)
+
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('login'))
+            except Exception as e:
+                print(e)
+                return redirect(url_for('contact'))
+        else:
+            flash('OTP has expired. Please try again.')
+            return render_template('forget_otp.html')
 
 #Certificate
 #Route to Download Certificate Page
@@ -478,18 +471,6 @@ def generate_certificate(name):
     # html_template = render_template('certificate.html', name=name)
     html_template = render_template('certificate.html', name=(name,"10-1-2021", "Surat"))
 
-    # # Save the HTML content to a file with a specific name
-    # # html_file_name = f"app/templates/certificate{name}.html"
-    # with open("app/templates/certificate.html", 'w') as html_file:
-    #     html_file.write(html_template)
-
-    # source_file = 'app/templates/certificate.html'
-
-    # # Destination file path (where you want to copy the HTML file)
-    # destination_file = 'app/templates/temp.html'
-
-    # # Copy the source HTML file to the destination
-    # shutil.copyfile(destination_file,source_file)
     return html_template
 
 # User Features
