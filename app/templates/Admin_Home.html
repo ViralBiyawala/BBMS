@@ -9,13 +9,17 @@
       src="https://kit.fontawesome.com/3b57b3cea0.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!-- Link to external JavaScript files using url_for -->
+    <script src="{{ url_for('static', filename='positiveChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='negativeChart.js') }}"></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='profile.css') }}"
     />
   </head>
 
-  <body>
+  <body class="bg-[#ffe0e0]">
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
@@ -23,26 +27,26 @@
         <a href="index">Life Saver</a>
       </div>
 
-      <!-- <div class="flex w-[80%] justify-end items-center">
+      <div class="flex w-[80%] justify-end items-center">
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="/index">Home</a>
+          <a href="Admin">Dashboard</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="about">About Us</a>
+          <a href="about">Requests</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="/contact">Contact Us</a>
+          <a href="/contact">Client</a>
         </div>
 
-        <div class="nav-btn p-dropdown input">
+        <!-- <div class="nav-btn p-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
               <img
@@ -62,14 +66,14 @@
               <div>Log Out</div>
             </a>
           </div>
-        </div>
+        </div> -->
 
-      </div> -->
+      </div>
     </nav>
 
-    <div class="mt-8 flex ">
+    <div class="mt-8 flex justify-center mb-[4rem]">
       <!-- border border-red-700   -->
-        <div class="left w-[30%]   p-1">
+        <div class="left w-[0%]   p-1 hidden">
 
             <!-- Flash message start -->
             <div class="flash-messages">
@@ -94,204 +98,225 @@
         </div>
 
         <div
-            class="a-right w-[70%] aspect-[21/13] overflow-x-hidden overflow-y-scroll snap-y snap-mandatory px-7 pt-1 scroll-smooth  "
+            class="a-right w-[90%]   px-7 pt-1 "
           >
+            <div class="charts flex flex-wrap justify-between items-between p-2 h-[42rem]">
+              <div class="c1 w-[49%] h-[19rem] border border-black bg-white p-4">
+                <div class="chart-heaing font-bold text-2xl">Donation(+ve)</div>
+                <div id="positiveChart" class="chart  h-[90%]"></div>
+              </div>
+              <div class="c2 w-[49%] h-[19rem] border border-black bg-white p-4">
+                <div class="chart-heaing font-bold text-2xl">Donation(-ve)</div>
+                <div id="negativeChart" class="chart  h-[90%]"></div>
+              </div>
+              <div class="c3 w-[49%] h-[19rem] border border-black bg-white p-4">
+                <div class="chart-heaing font-bold text-2xl">Requests(+ve)</div>
+                <div class="chart border border-black h-[90%]"></div>
+              </div>
+              <div class="c4 w-[49%] h-[19rem] border border-black bg-white p-4">
+                <div class="chart-heaing font-bold text-2xl">Requests(-ve)</div>
+                <div class="chart border border-black h-[90%]"></div>
+              </div>
+            </div>
+
             <div class="bi   mb-8  text-2xl font-medium">Blood Inventory</div>
 
             <table>
                 <tr>
-                  <th>Type</th>
-                  <th>In-Flow</th>
-                  <th>Out-Flow</th>
-                  <th>Inventory</th>
+                  <th class="bg-[#ff2828] text-white">Type</th>
+                  <th class="bg-[#ff2828] text-white">In-Flow</th>
+                  <th class="bg-[#ff2828] text-white">Out-Flow</th>
+                  <th class="bg-[#ff2828] text-white">Inventory</th>
                 </tr>
                 <tr>
-                  <td>O +</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>O -</td>
+                  <td class="font-bold">O+</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>A +</td>
+                  <td class="font-bold">O -</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>A -</td>
+                  <td class="font-bold">A +</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>B +</td>
+                  <td class="font-bold">A -</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>B -</td>
+                  <td class="font-bold">B +</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>AB +</td>
+                  <td class="font-bold">B -</td>
                   <td></td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                    <td>AB -</td>
+                  <td class="font-bold">AB +</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                    <td class="font-bold">AB -</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
             </table>
             
-            <div class="search border border-black rounded-2xl my-12   flex flex-col pb-2">
+            <form action="CitySearch" method="POST">
+              <div class="search border border-black rounded-2xl my-12   flex flex-col pb-2 bg-white">
                 
                 <div class="heading bg-[#ff2828] rounded-t-[14px] text-white text-2xl pl-4 py-3">
                     Search Blood Stock
                 </div>
 
-                <div class="a-ips flex w-full justify-evenly">
-                    <div class="input-container  ">
-                        <div class="dropdown ">
-                          <input
-                            type="text"
-                            class="textBoxCity input"
-                            value=""
-                            name="city"
-                            id="CitytextBox"
-                            required
-                          />
-                          <div class="options" id="OptionsCity">
-                            <!-- {% for city in cities %}
-                              <div onclick='showCity("{{ city }}")'>{{ city }}</div>
-                            {% endfor %} -->
-                          </div>
-                        </div>
-                        <label for="">City</label>
-                        <span>City</span>
-                    </div>
-
-                    <div class="input-container focus">
-                        <div class="dropdown a-dropdown">
-                          <input
-                            type="text"
-                            class="textBoxBlood input"
-                            value="A+"
-                            readonly
-                            name="Btype"
-                            required
-                          />
-                          <div class="options">
-                            <div onclick="showBloodType('A+')" class="blood-type">
-                              A+
-                            </div>
-                            <div onclick="showBloodType('B+')" class="blood-type">
-                              B+
-                            </div>
-                            <div onclick="showBloodType('AB+')" class="blood-type">
-                              AB+
-                            </div>
-                            <div onclick="showBloodType('O+')" class="blood-type">
-                              O+
-                            </div>
-                            <div onclick="showBloodType('A-')" class="blood-type">
-                              A-
-                            </div>
-                            <div onclick="showBloodType('B-')" class="blood-type">
-                              B-
-                            </div>
-                            <div onclick="showBloodType('AB-')" class="blood-type">
-                              AB-
-                            </div>
-                            <div onclick="showBloodType('O-')" class="blood-type">
-                              O-
+                  <div class="a-ips flex w-full justify-evenly ">
+                      <div class="input-container focus ">
+                          <div class="dropdown ">
+                            <input
+                              type="text"
+                              class="textBoxCity input"
+                              value="{{cities[0]}}"
+                              name="city"
+                              id="CitytextBox"
+                              required
+                            />
+                            <div class="options mt-1" id="OptionsCity">
+                              {% for city in cities %}
+                                <div onclick='showCity("{{ city }}")'>{{ city }}</div>
+                              {% endfor %}
                             </div>
                           </div>
-                        </div>
-                        <label for="">Blood Type</label>
-                        <span>Blood Type</span>
+                          <label for="">City</label>
+                          <span>City</span>
                       </div>
 
-                     
-                    
+                      <div class="input-container focus">
+                          <div class="dropdown a-dropdown">
+                            <input
+                              type="text"
+                              class="textBoxBlood input"
+                              value="A+"
+                              readonly
+                              name="Btype"
+                              required
+                            />
+                            <div class="options">
+                              <div onclick="showBloodType('A+')" class="blood-type">
+                                A+
+                              </div>
+                              <div onclick="showBloodType('B+')" class="blood-type">
+                                B+
+                              </div>
+                              <div onclick="showBloodType('AB+')" class="blood-type">
+                                AB+
+                              </div>
+                              <div onclick="showBloodType('O+')" class="blood-type">
+                                O+
+                              </div>
+                              <div onclick="showBloodType('A-')" class="blood-type">
+                                A-
+                              </div>
+                              <div onclick="showBloodType('B-')" class="blood-type">
+                                B-
+                              </div>
+                              <div onclick="showBloodType('AB-')" class="blood-type">
+                                AB-
+                              </div>
+                              <div onclick="showBloodType('O-')" class="blood-type">
+                                O-
+                              </div>
+                            </div>
+                          </div>
+                          <label for="">Blood Type</label>
+                          <span>Blood Type</span>
+                        </div>
+                  </div>
+
+                  <input type="submit" value="Search" class="btnsrch bg-[#ff2828] self-center">
                 </div>
-                <input type="submit" value="Search" class="btnsrch bg-[#ff2828] self-center">
-            </div>
+              </form>
 
 
             <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div>
 
-            <table class="mb-8">
-                <tr>
-                  <th>Type</th>
-                  <th>In-Flow</th>
-                  <th>Out-Flow</th>
-                  <th>Inventory</th>
-                </tr>
-                <tr>
-                  <td>O +</td>
+            <table>
+              <tr>
+                <th class="bg-[#ff2828] text-white">Type</th>
+                <th class="bg-[#ff2828] text-white">In-Flow</th>
+                <th class="bg-[#ff2828] text-white">Out-Flow</th>
+                <th class="bg-[#ff2828] text-white">Inventory</th>
+              </tr>
+              <tr>
+                <td class="font-bold">O+</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">O -</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">A +</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">A -</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">B +</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">B -</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">AB +</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                  <td class="font-bold">AB -</td>
                   <td></td>
                   <td></td>
                   <td></td>
-                </tr>
-                <tr>
-                  <td>O -</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>A +</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>A -</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>B +</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>B -</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>AB +</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                    <td>AB -</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
+              </tr>
+          </table>
 
         </div>
 
     </div>
+
+
     <script>
       // InputBox Animation JS
       const ips = document.querySelectorAll(".input");

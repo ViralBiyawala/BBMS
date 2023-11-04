@@ -9,9 +9,8 @@ fetch('/plot_positive_data')
                 zoomType: 'x', // Enable x-axis zoom
                 panning: true, // Enable panning
                 panKey: 'shift', // Hold Shift key to enable panning
-                backgroundColor: 'rgba(150, 15, 100, 0.2)', // Set background color with transparency
-                borderWidth: 2, // Add a border to the chart
-                borderColor: 'Red' // Set border color
+                // borderWidth: 2, // Add a border to the chart
+                // borderColor: 'Red' // Set border color
             },
             title: {
                 text: 'Positive Blood Types vs. Volume Inflow'
@@ -19,6 +18,9 @@ fetch('/plot_positive_data')
             xAxis: {
                 categories: data.dates,
                 crosshair: true,
+                labels: {
+                    enabled:false // Enable labels
+                }
             },
             yAxis: {
                 title: {

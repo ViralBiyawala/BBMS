@@ -16,6 +16,9 @@ fetch('/plot_negative_data')
             xAxis: {
                 categories: data.dates,
                 crosshair: true,
+                labels: {
+                    enabled:false // Enable labels
+                }
             },
             yAxis: {
                 title: {

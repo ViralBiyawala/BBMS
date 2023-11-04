@@ -52,7 +52,7 @@ login_manager.login_view = 'login'
 
 @app.route('/Admin')
 def AdminHome():
-    return render_template('Admin_Home.html')
+    return render_template('Admin_Home.html',cities=cities)
 
 #Helper functions
 #loading user
@@ -714,7 +714,7 @@ def plot_positive_data():
 
     # Create a dictionary to store the positive blood data
     positive_data_dict = {'dates': list(unique_dates), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
-
+    
     # Query the database and populate the dictionary
     for date in unique_dates:
         for blood_type in ['A+', 'B+', 'AB+', 'O+']:
@@ -728,7 +728,13 @@ def plot_positive_data():
             quantity = record.quantity_donated if record else 0
             positive_data_dict[blood_type.replace('+', 'p')].append(quantity)
 
-    return jsonify(positive_data_dict)
+    # Sort the data by 'dates'
+    sorted_data = {'dates': sorted(positive_data_dict['dates']), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
+    for blood_type in ['A+', 'B+', 'AB+', 'O+']:
+        sorted_data[blood_type.replace('+', 'p')] = [positive_data_dict[blood_type.replace('+', 'p')][positive_data_dict['dates'].index(date)] for date in sorted_data['dates']]
+
+    return jsonify(sorted_data)
+
 
 @app.route('/plot_negative_data')
 def plot_negative_data():
@@ -751,4 +757,9 @@ def plot_negative_data():
             quantity = record.quantity_donated if record else 0
             negative_data_dict[blood_type.replace('-', 'n')].append(quantity)
 
-    return jsonify(negative_data_dict)
+    # Sort the data by 'dates'
+    sorted_data = {'dates': sorted(negative_data_dict['dates']), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
+    for blood_type in ['A-', 'B-', 'AB-', 'O-']:
+        sorted_data[blood_type.replace('-', 'n')] = [negative_data_dict[blood_type.replace('-', 'n')][negative_data_dict['dates'].index(date)] for date in sorted_data['dates']]
+
+    return jsonify(sorted_data)

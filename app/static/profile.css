@@ -456,9 +456,15 @@ th, td {
 }
 .a-right th, 
 .a-right td {
-  border: 1px solid black;
+  border: none;
   padding: 10px;
   text-align: center;
+}
+.a-right tr:nth-child(even){
+  background-color: white;
+}
+.a-right table{
+  border:2px solid white;
 }
 
 #appointment tr:nth-child(even),
@@ -480,6 +486,24 @@ th:nth-child(3), td:nth-child(3) {
 th:nth-child(4), td:nth-child(4) {
     width: 25%; 
 }
+
+.a-right th:nth-child(1), td:nth-child(1) {
+  width: 19%; /* Set the width of the first column */
+}
+
+.a-right th:nth-child(2), td:nth-child(2) {
+  width: 27%;
+}
+
+.a-right th:nth-child(3), td:nth-child(3) {
+  width: 27%;
+}
+
+.a-right th:nth-child(4), td:nth-child(4) {
+  width: 27%; 
+}
+
+
 .table-h{
     width: calc(100% - 7px)
 }
