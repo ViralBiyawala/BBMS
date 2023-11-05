@@ -221,12 +221,36 @@ def About():
 #By default Page
 @app.route('/')
 @user_required
-def index():
+def base():
     src = "../static/images/profile.png"
+    notifications = None
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
+        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+        latest_record = None
+        if appointment_ids:
+            # Step 2: Retrieve the latest BloodDonationRecord
+            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+            if latest_record:
+                # Step 3: Calculate the difference in days
+                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                if difference_in_days >= 5:
+                    # Add a record to the Notification table
+                    notification_message = "Now you can donate Blood Again."
+                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                    if not existing_notification:
+                        # If the notification does not exist, create and commit a new one
+                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                        db.session.add(new_notification)
+                        db.session.commit()
+        
+        notifications = Notification.query.filter_by(donor_id=id_noti).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -243,17 +267,41 @@ def index():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src)
+    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
 
 #Home Page
 @app.route('/index')
 @user_required
-def base():
+def index():
     src = "../static/images/profile.png"
+    notifications = None
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
+        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+        latest_record = None
+        if appointment_ids:
+            # Step 2: Retrieve the latest BloodDonationRecord
+            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+            if latest_record:
+                # Step 3: Calculate the difference in days
+                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                if difference_in_days >= 5:
+                    # Add a record to the Notification table
+                    notification_message = "Now you can donate Blood Again."
+                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                    if not existing_notification:
+                        # If the notification does not exist, create and commit a new one
+                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                        db.session.add(new_notification)
+                        db.session.commit()
+        
+        notifications = Notification.query.filter_by(donor_id=id_noti).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -270,7 +318,7 @@ def base():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src)
+    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
 
 # generating basic template for certficate
 @login_required
@@ -877,3 +925,17 @@ def plot_negative_data():
         sorted_data[blood_type.replace('-', 'n')] = [negative_data_dict[blood_type.replace('-', 'n')][negative_data_dict['dates'].index(date)] for date in sorted_data['dates']]
 
     return jsonify(sorted_data)
+
+
+@app.route('/mark_notification_as_read')
+def mark_notifications_as_read():
+    user = current_user
+    id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+    notifications = Notification.query.filter_by(donor_id=id_noti, read=False).all()
+
+    for notification in notifications:
+        notification.read = True
+
+    db.session.commit()
+
+    return jsonify(True)

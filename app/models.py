@@ -127,3 +127,20 @@ class AdminUser(UserMixin,db.Model):
     
     def has_role(self, role):
         return role in self.roles
+
+class Notification(db.Model):
+    donor_id = db.Column(db.Integer, db.ForeignKey('donor.donor_id'), primary_key=True)
+    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'), primary_key=True)
+    message = db.Column(db.String(1024), nullable=False, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    read = db.Column(db.Boolean, default=False)
+
+    donor = db.relationship('Donor', backref='notifications')
+    appointment = db.relationship('DonationAppointment', backref='notifications')
+
+    def __init__(self, donor_id, appointment_id, message,read):
+        self.donor_id = donor_id
+        self.appointment_id = appointment_id
+        self.message = message
+        self.read = read
+

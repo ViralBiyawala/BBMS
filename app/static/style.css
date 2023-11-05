@@ -1194,3 +1194,11 @@ header {
   opacity: 1;
   visibility: visible;
 }
+
+.unread {
+  background-color: #FFFF99; /* Light yellow background */
+  border: 1px solid #FFD700; /* Gold border */
+  /* padding: 10px; Add some padding for spacing */
+  font-weight: bold; /* Make the text bold */
+  color: #333; /* Set text color */
+}
