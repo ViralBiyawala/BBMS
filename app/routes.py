@@ -20,14 +20,14 @@ from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
-from app import app,myemail,server,app_login_key
+from app import app,myemail,server,app_login_key,mypass
 import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
-from sqlalchemy import desc
+from sqlalchemy import desc,func
 import pandas as pd 
 pas = False
-
+from functools import wraps
 
 pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
@@ -50,9 +50,106 @@ OTP_TIMEOUT = 240
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-@app.route('/Admin')
-def AdminHome():
-    return render_template('Admin_Home.html',cities=cities)
+# Define custom role-based decorators
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated and current_user.has_role('admin'):
+            return f(*args, **kwargs)
+        else:
+            flash('Admin only have permission for this Page.')
+            return redirect(url_for('index'))
+    return decorated_function
+
+def user_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+            if not current_user.has_role('admin'):
+                return f(*args, **kwargs)
+            else:
+                flash('Donor only permission for this Page.')
+                return redirect(url_for('Admin'))
+        else:
+            return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route('/Admin',methods=['POST','GET'])
+@login_required
+@admin_required
+def Admin():
+    selected_city = cities[0]
+    sb = 'ALL'
+    if request.method == 'POST':
+        selected_city  = request.form['city']
+        sb = request.form['Btype']
+        
+    # Define the order of blood types
+    blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+
+    # Create a list to store the summarized data
+    summarized_data = []
+
+    # Query the database to group by blood type and sum up quantities
+    for blood_type in blood_types:
+        result = (
+            db.session.query(
+                func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+            )
+            .filter(BloodDonationRecord.donation_type == blood_type)
+            .first()
+        )
+        summarized_data.append(result.total_quantity if result[0] != None else 0.0)
+        
+        # Create a list to store the summarized data
+    sd_city = {}
+    
+    # Query the database to find appointment IDs where city == selected_city
+    appointment_ids = (
+        DonationAppointment.query
+        .filter(DonationAppointment.place == selected_city)
+        .with_entities(DonationAppointment.appointment_id)
+        .all()
+    )
+    if sb == 'ALL' :
+        # Query the database to group by blood type and sum up quantities
+        for blood_type in blood_types:
+                total_quantity = 0
+
+                for appointment_id in appointment_ids:
+                    result = (
+                        db.session.query(
+                            func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                        )
+                        .filter(BloodDonationRecord.donation_type == blood_type)
+                        .filter(BloodDonationRecord.appointment_id == appointment_id[0])
+                        .first()
+                    )
+
+                    if result and result.total_quantity:
+                        total_quantity += result.total_quantity
+
+                sd_city[blood_type] = total_quantity
+    
+    else :
+        total_quantity = 0
+        for appointment_id in appointment_ids:
+            result = (
+                db.session.query(
+                    func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                )
+                .filter(BloodDonationRecord.donation_type == sb)
+                .filter(BloodDonationRecord.appointment_id == appointment_id[0])
+                .first()
+            )
+            
+            if result and result.total_quantity:
+                total_quantity += result.total_quantity
+        sd_city[sb] = total_quantity
+    
+
+    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,sd_city=sd_city,sc=selected_city,sb=sb)
 
 #Helper functions
 #loading user
@@ -67,6 +164,10 @@ def load_user(user_id):
     hospital = RHospital.query.get(user_id)
     if hospital:
         return hospital
+    
+    admin = AdminUser.query.get(user_id)
+    if admin:
+        return admin
     # If the user_id doesn't match either type, return None
     return None
 
@@ -78,10 +179,11 @@ def is_valid_email(email):
 
 #Page Routing
 #Route to Contact Page
+@user_required
 @app.route('/contact')
 def contact():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin') else None
     if user != None:
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
@@ -95,14 +197,14 @@ def contact():
                     src = f"../static/images/{donor.donor_id}.{extension}"
     return render_template('contact.html',src=src,user=user)
 
-@app.route('/form')
-def donor_form():
-    return render_template('form.html',cities=cities)
+# @app.route('/form')
+# def donor_form():
+#     return render_template('form.html',cities=cities)
 
 @app.route('/about')
 def About():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user != None:
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
@@ -118,12 +220,37 @@ def About():
 
 #By default Page
 @app.route('/')
-def index():
+@user_required
+def base():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    notifications = None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
+        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+        latest_record = None
+        if appointment_ids:
+            # Step 2: Retrieve the latest BloodDonationRecord
+            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+            if latest_record:
+                # Step 3: Calculate the difference in days
+                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                if difference_in_days >= 5:
+                    # Add a record to the Notification table
+                    notification_message = "Now you can donate Blood Again."
+                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                    if not existing_notification:
+                        # If the notification does not exist, create and commit a new one
+                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                        db.session.add(new_notification)
+                        db.session.commit()
+        
+        notifications = Notification.query.filter_by(donor_id=id_noti).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -140,16 +267,41 @@ def index():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src)
+    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
 
 #Home Page
 @app.route('/index')
-def base():
+@user_required
+def index():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    notifications = None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
+        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+        latest_record = None
+        if appointment_ids:
+            # Step 2: Retrieve the latest BloodDonationRecord
+            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+            if latest_record:
+                # Step 3: Calculate the difference in days
+                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                if difference_in_days >= 5:
+                    # Add a record to the Notification table
+                    notification_message = "Now you can donate Blood Again."
+                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                    if not existing_notification:
+                        # If the notification does not exist, create and commit a new one
+                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                        db.session.add(new_notification)
+                        db.session.commit()
+        
+        notifications = Notification.query.filter_by(donor_id=id_noti).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -166,9 +318,11 @@ def base():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src)
+    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
 
 # generating basic template for certficate
+@login_required
+@user_required
 @app.route('/certificate', methods=['GET'])
 def verify():
     return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
@@ -488,9 +642,16 @@ def login():
             user = RDonor.query.filter_by(d_email_id=user_id).first()
         elif admin_type == 'hospital':
             user = RHospital.query.filter_by(h_email_id=user_id).first()
+        elif admin_type == 'admin':
+            admin_user = AdminUser.query.filter_by(username=user_id).first()
+            if admin_user is not None and admin_user.password_hash == password:
+                login_user(admin_user)
+                return redirect(url_for('Admin'))
+            else:
+                flash('Invalid username or password.')
+                return redirect(url_for('login'))  # Change 'home' to the desired page
         
         if user is not None and user.check_password(password):  # Check the password using check_password method
-            # Log in the user using Flask-Login
             login_user(user)
             return redirect(url_for('index'))  # Change 'index' to the desired page
         else:
@@ -502,6 +663,7 @@ def login():
 # Profile Page
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
+@user_required
 def profile():
     if request.method == 'POST':
         Fname = request.form['Fname']
@@ -630,7 +792,7 @@ def update_img():
 @login_required
 def appointment():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     full_name = user.name
     name_parts = full_name.split()
     initials = "".join([name[0] for name in name_parts])
@@ -658,7 +820,7 @@ def booking():
         tim = request.form['time']
         tim = datetime.strptime(tim, '%H:%M').time()
         place = request.form['place']
-        user = current_user if current_user.is_authenticated else None
+        user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place)
         if place.lower() not in [cit.lower() for cit in cities]:
@@ -701,9 +863,9 @@ def feedback():
     
 # Admin Page 
 
-@app.route('/plot')
-def plot_real_data():
-    return render_template('admin.html')
+# @app.route('/plot')
+# def plot_real_data():
+#     return render_template('admin.html')
 
 # from collections import defaultdict
 
@@ -763,3 +925,17 @@ def plot_negative_data():
         sorted_data[blood_type.replace('-', 'n')] = [negative_data_dict[blood_type.replace('-', 'n')][negative_data_dict['dates'].index(date)] for date in sorted_data['dates']]
 
     return jsonify(sorted_data)
+
+
+@app.route('/mark_notification_as_read')
+def mark_notifications_as_read():
+    user = current_user
+    id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+    notifications = Notification.query.filter_by(donor_id=id_noti, read=False).all()
+
+    for notification in notifications:
+        notification.read = True
+
+    db.session.commit()
+
+    return jsonify(True)

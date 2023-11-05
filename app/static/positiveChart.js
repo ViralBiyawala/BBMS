@@ -80,14 +80,7 @@ fetch('/plot_positive_data')
                         enabled: false // Disable markers
                     }   
                 }
-            ],
-            plotOptions: {
-                series: {
-                    animation: {
-                        duration: 2500 // Set the animation duration (milliseconds)
-                    }
-                }
-            }
+            ]
         });
 
         // Function to toggle the visibility of a series

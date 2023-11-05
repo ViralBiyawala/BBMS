@@ -46,6 +46,14 @@
         >
           <a href="/contact">Contact Us</a>
         </div>
+
+        {% if user is none %}
+        <div
+          class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
+        >
+          <a href="login">Login</a>
+        </div>
+        {% else %}
         <div
           class="cursor-pointer mx-[10px]"
         >
@@ -57,32 +65,14 @@
             Notifications
           </div>
           <div class="sep"></div>
-          <div class="nfs ">
-            <div class="nf-content text-[20px]">Notification - 1 </div>
-            <div class="dt text-[5px] text-[gray]">04-11-23</div>
-          </div>
-          <div class="nfs ">
-            <div class="nf-content text-[20px]">Notification - 2 </div>
-            <div class="dt text-[5px] text-[gray]">04-11-23</div>
-          </div>
-          <div class="nfs ">
-            <div class="nf-content text-[20px]">Notification - 3 </div>
-            <div class="dt text-[5px] text-[gray]">04-11-23</div>
-          </div>
-          <div class="nfs ">
-            <div class="nf-content text-[20px]">Notification - 4 </div>
-            <div class="dt text-[5px] text-[gray]">04-11-23</div>
-          </div>
+          {% for notification in notifications %}
+            <div class="nfs {% if not notification.read %}unread{% endif %}">
+              <div class="nf-content text-[15px] ">{{ notification.message }}</div>
+              <div class="dt text-[10px] text-[gray]">{{ notification.timestamp }}</div>
+            </div>
+          {% endfor %}
         </div>
         </div>
-
-        {% if user is none %}
-        <div
-          class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
-        >
-          <a href="login">Login</a>
-        </div>
-        {% else %}
         <div class="nav-btn dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
@@ -348,6 +338,10 @@
       if(notificationBell){
         notificationBell.addEventListener('click',(e)=>{
           notificationBox.classList.toggle("notification-active");
+          fetch('/mark_notification_as_read')
+            .then()
+            .then()
+            .catch(error => console.error(error));
         })
       }
       //->Hamburger Menu JS<-
