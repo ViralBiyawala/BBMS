@@ -80,8 +80,10 @@ def user_required(f):
 @admin_required
 def Admin():
     selected_city = cities[0]
+    sb = 'ALL'
     if request.method == 'POST':
         selected_city  = request.form['city']
+        sb = request.form['Btype']
         
     # Define the order of blood types
     blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
@@ -98,12 +100,10 @@ def Admin():
             .filter(BloodDonationRecord.donation_type == blood_type)
             .first()
         )
-        # print(result[0])
-        # Append the summarized data to the list
         summarized_data.append(result.total_quantity if result[0] != None else 0.0)
         
         # Create a list to store the summarized data
-    sd_city = []
+    sd_city = {}
     
     # Query the database to find appointment IDs where city == selected_city
     appointment_ids = (
@@ -112,27 +112,44 @@ def Admin():
         .with_entities(DonationAppointment.appointment_id)
         .all()
     )
+    if sb == 'ALL' :
+        # Query the database to group by blood type and sum up quantities
+        for blood_type in blood_types:
+                total_quantity = 0
 
-    # Query the database to group by blood type and sum up quantities
-    for blood_type in blood_types:
-            total_quantity = 0
-
-            for appointment_id in appointment_ids:
-                result = (
-                    db.session.query(
-                        func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                for appointment_id in appointment_ids:
+                    result = (
+                        db.session.query(
+                            func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                        )
+                        .filter(BloodDonationRecord.donation_type == blood_type)
+                        .filter(BloodDonationRecord.appointment_id == appointment_id[0])
+                        .first()
                     )
-                    .filter(BloodDonationRecord.donation_type == blood_type)
-                    .filter(BloodDonationRecord.appointment_id == appointment_id[0])
-                    .first()
-                )
 
-                if result and result.total_quantity:
-                    total_quantity += result.total_quantity
+                    if result and result.total_quantity:
+                        total_quantity += result.total_quantity
 
-            sd_city.append(total_quantity)
+                sd_city[blood_type] = total_quantity
     
-    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,city_in_qu=sd_city,sc=selected_city)
+    else :
+        total_quantity = 0
+        for appointment_id in appointment_ids:
+            result = (
+                db.session.query(
+                    func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                )
+                .filter(BloodDonationRecord.donation_type == sb)
+                .filter(BloodDonationRecord.appointment_id == appointment_id[0])
+                .first()
+            )
+            
+            if result and result.total_quantity:
+                total_quantity += result.total_quantity
+        sd_city[sb] = total_quantity
+    
+
+    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,sd_city=sd_city,sc=selected_city,sb=sb)
 
 #Helper functions
 #loading user
@@ -180,9 +197,9 @@ def contact():
                     src = f"../static/images/{donor.donor_id}.{extension}"
     return render_template('contact.html',src=src,user=user)
 
-@app.route('/form')
-def donor_form():
-    return render_template('form.html',cities=cities)
+# @app.route('/form')
+# def donor_form():
+#     return render_template('form.html',cities=cities)
 
 @app.route('/about')
 def About():
@@ -256,6 +273,8 @@ def base():
     return render_template('index.html',user=user, name=initials, src = src)
 
 # generating basic template for certficate
+@login_required
+@user_required
 @app.route('/certificate', methods=['GET'])
 def verify():
     return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
@@ -596,6 +615,7 @@ def login():
 # Profile Page
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
+@user_required
 def profile():
     if request.method == 'POST':
         Fname = request.form['Fname']

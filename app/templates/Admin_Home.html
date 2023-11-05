@@ -216,12 +216,15 @@
                             <input
                               type="text"
                               class="textBoxBlood input"
-                              value="A+"
+                              value="{{ sb }}"
                               readonly
                               name="Btype"
                               required
                             />
                             <div class="options">
+                              <div onclick="showBloodType('ALL')" class="blood-type">
+                                ALL
+                              </div>
                               <div onclick="showBloodType('A+')" class="blood-type">
                                 A+
                               </div>
@@ -267,54 +270,14 @@
                 <th class="bg-[#ff2828] text-white">Out-Flow</th>
                 <th class="bg-[#ff2828] text-white">Inventory</th>
               </tr>
-              <tr>
-                <td class="font-bold">A +</td>
-                <td>{{ city_in_qu[0] }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">A -</td>
-                <td>{{ city_in_qu[1] }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">B +</td>
-                <td>{{ city_in_qu[2] }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">B -</td>
-                <td>{{ city_in_qu[3] }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">AB +</td>
-                <td>{{ city_in_qu[4] }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">AB -</td>
-                <td>{{ city_in_qu[5] }}</td>
-                  <td></td>
-                  <td></td>
-                </tr>
+              {% for blood_type, total_quantity in sd_city.items() %}
                 <tr>
-                  <td class="font-bold">O+</td>
-                  <td>{{ city_in_qu[6] }}</td>
+                  <td class="font-bold">{{ blood_type }}</td>
+                  <td>{{ total_quantity }}</td>
                   <td></td>
                   <td></td>
                 </tr>
-                <tr>
-                  <td class="font-bold">O -</td>
-                  <td>{{ city_in_qu[7] }}</td>
-                  <td></td>
-                  <td></td>
-                </tr>
+              {% endfor %}
               </table>
               
         </div>
