@@ -45,7 +45,12 @@
         >
           <a href="/contact">Client</a>
         </div>
-
+        
+        <div
+        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+      >
+      <a href="logout">Logout</a>
+      </div>
         <!-- <div class="nav-btn p-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
@@ -129,56 +134,56 @@
                   <th class="bg-[#ff2828] text-white">Inventory</th>
                 </tr>
                 <tr>
-                  <td class="font-bold">O+</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td class="font-bold">O -</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
                   <td class="font-bold">A +</td>
-                  <td></td>
+                  <td>{{ in_qu[0] }}</td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td class="font-bold">A -</td>
-                  <td></td>
+                  <td>{{ in_qu[1] }}</td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td class="font-bold">B +</td>
-                  <td></td>
+                  <td>{{ in_qu[2] }}</td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td class="font-bold">B -</td>
-                  <td></td>
+                  <td>{{ in_qu[3] }}</td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
                   <td class="font-bold">AB +</td>
-                  <td></td>
+                  <td>{{ in_qu[4] }}</td>
                   <td></td>
                   <td></td>
                 </tr>
                 <tr>
-                    <td class="font-bold">AB -</td>
-                    <td></td>
+                  <td class="font-bold">AB -</td>
+                  <td>{{ in_qu[5] }}</td>
                     <td></td>
                     <td></td>
                 </tr>
-            </table>
-            
-            <form action="CitySearch" method="POST">
+                <tr>
+                  <td class="font-bold">O+</td>
+                  <td>{{ in_qu[6] }}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">O -</td>
+                  <td>{{ in_qu[7] }}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </table>
+              
+              <form action="Admin" method="POST">
               <div class="search border border-black rounded-2xl my-12   flex flex-col pb-2 bg-white">
                 
                 <div class="heading bg-[#ff2828] rounded-t-[14px] text-white text-2xl pl-4 py-3">
@@ -191,7 +196,7 @@
                             <input
                               type="text"
                               class="textBoxCity input"
-                              value="{{cities[0]}}"
+                              value="{{sc}}"
                               name="city"
                               id="CitytextBox"
                               required
@@ -263,55 +268,55 @@
                 <th class="bg-[#ff2828] text-white">Inventory</th>
               </tr>
               <tr>
-                <td class="font-bold">O+</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="font-bold">O -</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
                 <td class="font-bold">A +</td>
-                <td></td>
+                <td>{{ city_in_qu[0] }}</td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td class="font-bold">A -</td>
-                <td></td>
+                <td>{{ city_in_qu[1] }}</td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td class="font-bold">B +</td>
-                <td></td>
+                <td>{{ city_in_qu[2] }}</td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td class="font-bold">B -</td>
-                <td></td>
+                <td>{{ city_in_qu[3] }}</td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td class="font-bold">AB +</td>
-                <td></td>
+                <td>{{ city_in_qu[4] }}</td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
-                  <td class="font-bold">AB -</td>
+                <td class="font-bold">AB -</td>
+                <td>{{ city_in_qu[5] }}</td>
                   <td></td>
                   <td></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">O+</td>
+                  <td>{{ city_in_qu[6] }}</td>
                   <td></td>
-              </tr>
-          </table>
-
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="font-bold">O -</td>
+                  <td>{{ city_in_qu[7] }}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </table>
+              
         </div>
 
     </div>

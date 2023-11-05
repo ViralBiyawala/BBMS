@@ -20,14 +20,14 @@ from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
-from app import app,myemail,server,app_login_key
+from app import app,myemail,server,app_login_key,mypass
 import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
-from sqlalchemy import desc
+from sqlalchemy import desc,func
 import pandas as pd 
 pas = False
-
+from functools import wraps
 
 pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
@@ -50,9 +50,89 @@ OTP_TIMEOUT = 240
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-@app.route('/Admin')
-def AdminHome():
-    return render_template('Admin_Home.html',cities=cities)
+# Define custom role-based decorators
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated and current_user.has_role('admin'):
+            return f(*args, **kwargs)
+        else:
+            flash('Admin only have permission for this Page.')
+            return redirect(url_for('index'))
+    return decorated_function
+
+def user_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+            if not current_user.has_role('admin'):
+                return f(*args, **kwargs)
+            else:
+                flash('Donor only permission for this Page.')
+                return redirect(url_for('Admin'))
+        else:
+            return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route('/Admin',methods=['POST','GET'])
+@login_required
+@admin_required
+def Admin():
+    selected_city = cities[0]
+    if request.method == 'POST':
+        selected_city  = request.form['city']
+        
+    # Define the order of blood types
+    blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+
+    # Create a list to store the summarized data
+    summarized_data = []
+
+    # Query the database to group by blood type and sum up quantities
+    for blood_type in blood_types:
+        result = (
+            db.session.query(
+                func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+            )
+            .filter(BloodDonationRecord.donation_type == blood_type)
+            .first()
+        )
+        # print(result[0])
+        # Append the summarized data to the list
+        summarized_data.append(result.total_quantity if result[0] != None else 0.0)
+        
+        # Create a list to store the summarized data
+    sd_city = []
+    
+    # Query the database to find appointment IDs where city == selected_city
+    appointment_ids = (
+        DonationAppointment.query
+        .filter(DonationAppointment.place == selected_city)
+        .with_entities(DonationAppointment.appointment_id)
+        .all()
+    )
+
+    # Query the database to group by blood type and sum up quantities
+    for blood_type in blood_types:
+            total_quantity = 0
+
+            for appointment_id in appointment_ids:
+                result = (
+                    db.session.query(
+                        func.sum(BloodDonationRecord.quantity_donated).label('total_quantity')
+                    )
+                    .filter(BloodDonationRecord.donation_type == blood_type)
+                    .filter(BloodDonationRecord.appointment_id == appointment_id[0])
+                    .first()
+                )
+
+                if result and result.total_quantity:
+                    total_quantity += result.total_quantity
+
+            sd_city.append(total_quantity)
+    
+    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,city_in_qu=sd_city,sc=selected_city)
 
 #Helper functions
 #loading user
@@ -67,6 +147,10 @@ def load_user(user_id):
     hospital = RHospital.query.get(user_id)
     if hospital:
         return hospital
+    
+    admin = AdminUser.query.get(user_id)
+    if admin:
+        return admin
     # If the user_id doesn't match either type, return None
     return None
 
@@ -78,10 +162,11 @@ def is_valid_email(email):
 
 #Page Routing
 #Route to Contact Page
+@user_required
 @app.route('/contact')
 def contact():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin') else None
     if user != None:
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
@@ -102,7 +187,7 @@ def donor_form():
 @app.route('/about')
 def About():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user != None:
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
@@ -118,9 +203,10 @@ def About():
 
 #By default Page
 @app.route('/')
+@user_required
 def index():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
@@ -144,9 +230,10 @@ def index():
 
 #Home Page
 @app.route('/index')
+@user_required
 def base():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
     else:
@@ -488,9 +575,16 @@ def login():
             user = RDonor.query.filter_by(d_email_id=user_id).first()
         elif admin_type == 'hospital':
             user = RHospital.query.filter_by(h_email_id=user_id).first()
+        elif admin_type == 'admin':
+            admin_user = AdminUser.query.filter_by(username=user_id).first()
+            if admin_user is not None and admin_user.password_hash == password:
+                login_user(admin_user)
+                return redirect(url_for('Admin'))
+            else:
+                flash('Invalid username or password.')
+                return redirect(url_for('login'))  # Change 'home' to the desired page
         
         if user is not None and user.check_password(password):  # Check the password using check_password method
-            # Log in the user using Flask-Login
             login_user(user)
             return redirect(url_for('index'))  # Change 'index' to the desired page
         else:
@@ -630,7 +724,7 @@ def update_img():
 @login_required
 def appointment():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated else None
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     full_name = user.name
     name_parts = full_name.split()
     initials = "".join([name[0] for name in name_parts])
@@ -658,7 +752,7 @@ def booking():
         tim = request.form['time']
         tim = datetime.strptime(tim, '%H:%M').time()
         place = request.form['place']
-        user = current_user if current_user.is_authenticated else None
+        user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place)
         if place.lower() not in [cit.lower() for cit in cities]:
@@ -701,9 +795,9 @@ def feedback():
     
 # Admin Page 
 
-@app.route('/plot')
-def plot_real_data():
-    return render_template('admin.html')
+# @app.route('/plot')
+# def plot_real_data():
+#     return render_template('admin.html')
 
 # from collections import defaultdict
 

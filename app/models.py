@@ -8,6 +8,7 @@ class RDonor(UserMixin, db.Model):
     city = db.Column(db.String(50), nullable=False)
     contact_phone = db.Column(db.String(15), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    roles = ['donor']
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -17,6 +18,10 @@ class RDonor(UserMixin, db.Model):
     
     def get_id(self):
         return self.d_email_id  # Return a unique identifier for the user
+    
+    def has_role(self, role):
+        return role in self.roles
+
 
 class RHospital(UserMixin, db.Model):
     h_email_id = db.Column(db.String(100), primary_key=True)
@@ -76,12 +81,12 @@ class DonationAppointment(UserMixin,db.Model):
 
 class BloodDonationRecord(UserMixin,db.Model):
     donation_id = db.Column(db.Integer, primary_key=True)
-    donor_id = db.Column(db.Integer, db.ForeignKey('donor.donor_id'), nullable=False)
+    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'), nullable=False)
     collection_date = db.Column(db.Date, nullable=False)
     donation_type = db.Column(db.String(20), nullable=False)
     quantity_donated = db.Column(db.Float, nullable=False)
 
-    donor = db.relationship('Donor', backref='donation_records')
+    donation_appointment = db.relationship('DonationAppointment', backref='donation_records')
 
 class BloodInventory(UserMixin,db.Model):
     blood_id = db.Column(db.Integer, primary_key=True)
@@ -111,3 +116,14 @@ class ContactUS(UserMixin,db.Model):
     date = db.Column(db.Date, nullable=False)
     mob = db.Column(db.Integer, nullable=False)
     feedback = db.Column(db.String(1000), nullable=False)
+    
+class AdminUser(UserMixin,db.Model):
+    username = db.Column(db.String(50),primary_key=True,nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    roles = ['admin']
+    
+    def get_id(self):
+        return self.username  
+    
+    def has_role(self, role):
+        return role in self.roles
