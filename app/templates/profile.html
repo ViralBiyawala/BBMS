@@ -413,7 +413,7 @@
               </table> -->
 
               <div class="t-data right">
-                <div class="tmpoo overflow-x-scroll">
+                <div class="tmpoo">
                   
                   <table>
                   <thead class="">
@@ -425,25 +425,25 @@
                     </tr>
                   </thead>
                     <tbody>
-                      {% if results is not none %} {% for result in results %}
+                      {% if appointments is not none %} {% for appointment in appointments %}
                       <tr>
                         <td class="border-t-[0px]">
-                          {{result.appointment_id}}
+                          {{appointment.appointment_id}}
                         </td>
                         <td class="border-t-[0px]">
-                          {{result.appointment_date}}
+                          {{appointment.appointment_date}}
                         </td>
                         <td class="border-t-[0px]">
-                          {{result.appointment_time}}
+                          {{appointment.appointment_time}}
                         </td>
-                        <td class="border-t-[0px]">{{result.place}}</td>
+                        <td class="border-t-[0px]">{{appointment.place}}</td>
                       </tr>
                       {% endfor %} {% endif %}
                     </tbody>
                   </table>
-
                 </div>
               </div>
+              {{ pagination.links }}
             </div>
           </div>
         </div>
@@ -646,6 +646,15 @@
       if (ims !== null && ims.textContent != "") {
         fmsg.classList.add("active");
       }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('page')) {
+        // Scroll to the "appointment" section when the page loads
+        const element = document.getElementById('appointment');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 
       //City Search Box Js
 

@@ -28,6 +28,8 @@ from sqlalchemy import desc,func
 import pandas as pd 
 pas = False
 from functools import wraps
+from flask_paginate import Pagination, get_page_args
+
 
 pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
@@ -665,6 +667,24 @@ def login():
 @login_required
 @user_required
 def profile():
+    data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+    all_appointments = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
+                desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
+            ).all()
+
+    # Get page arguments from the request
+    page, per_page_t, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    
+    # Calculate the start and end indices for the current page
+    start = (page - 1) * per_page_t
+    end = start + per_page_t
+
+    # Slice the data for the current page
+    appointments = all_appointments[start:end]
+
+    # Create a Pagination object
+    pagination = Pagination(page=page, per_page=per_page_t, total=len(all_appointments), css_framework='bootstrap4')
+
     if request.method == 'POST':
         Fname = request.form['Fname']
         Mname = request.form['Mname']
@@ -720,16 +740,11 @@ def profile():
             print(e)
             return redirect(url_for('contact'))
 
-    data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
-    results = None
-    # print(data.gender)
     if data is None:
         src = "../static/images/profile.png"
     else:
-        results = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
-        desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
-    ).all()
-        donor_id = data.donor_id
+        # Fetch all appointment records
+        donor_id = data.donor_id        
         allowed_extensions = ['jpg', 'jpeg', 'png']
 
         # Check if an image file exists for the user
@@ -743,7 +758,7 @@ def profile():
                 break
         else:
             src = "../static/images/profile.png"
-    return render_template('profile.html', email=current_user, data=data,  src = src, results = results, cities=cities)
+    return render_template('profile.html', email=current_user, data=data,  src = src, appointments=appointments, pagination=pagination, cities=cities)
 
 @app.route('/update_img', methods=['POST'])
 @login_required
@@ -939,3 +954,8 @@ def mark_notifications_as_read():
     db.session.commit()
 
     return jsonify(True)
+
+
+@app.route('/DRequests')
+def Drequests():
+    return render_template('Admin_DRequests.html')
