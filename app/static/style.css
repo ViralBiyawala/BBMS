@@ -154,7 +154,7 @@ header {
   width: 40%;
   /* min-height: 100vh; */
   border: 2px solid #ff2828;
-    border-radius: 1rem;
+  border-radius: 16px;
   display: block;
   z-index: 98;
   background-color: #ffe0e0;
