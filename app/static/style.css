@@ -153,6 +153,8 @@ header {
   left: 100%;
   width: 40%;
   /* min-height: 100vh; */
+  border: 2px solid #ff2828;
+    border-radius: 1rem;
   display: block;
   z-index: 98;
   background-color: #ffe0e0;
@@ -1195,10 +1197,9 @@ header {
   visibility: visible;
 }
 
-.unread {
-  background-color: #FFFF99; /* Light yellow background */
-  border: 1px solid #FFD700; /* Gold border */
-  /* padding: 10px; Add some padding for spacing */
-  font-weight: bold; /* Make the text bold */
-  color: #333; /* Set text color */
-}
+/* .unread {
+  background-color: #FFFF99;  
+  border: 1px solid #FFD700; 
+  font-weight: bold;
+  color: #333;
+} */

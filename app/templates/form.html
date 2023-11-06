@@ -81,6 +81,7 @@
             <!-- Flash message start -->
             <div class="flash-messages">
                 <div class="msg">
+                    <!-- <div class="inner">Error </div> -->
                   {% with messages = get_flashed_messages() %} {% if messages %}
                   <div class="inner">{{ messages[-1] }}</div>
                   {% endif %} {% endwith %}

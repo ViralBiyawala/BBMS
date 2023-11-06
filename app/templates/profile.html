@@ -16,7 +16,8 @@
   </head>
 
   <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    
+    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
       >
@@ -71,12 +72,64 @@
       </div>
     </nav>
 
-    <div class="mt-5 flex">
+    <!-- Hamburger for smaller screens  -->
+    <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
+       
+      <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+        <a href="index">Life Saver</a>
+      </div>
+
+      <button class="hamburger mx-[28px]">
+				<div class="bar"></div>
+			</button>
+
+      <div class="mobile-nav flex flex-col items-center ">
+        {% if user is none %}
+        <!-- No user has logged in -->
+        <a href="login" class="ni">Log In</a>
+        {% else %}
+        
+        <div class="h-head  ni flex mt-[30px] items-center 
+        pl-[0.3rem]">
+          <a href="profile">
+            <img
+            src="{{ src }}"
+            id="profile-pic-main"
+            alt=""
+            class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] "
+            />
+          </a>
+        </div>
+
+        <div class="ni h-head-2 w-full justify-evenly flex  ">
+          <a href="appointment">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
+              Get Appointment
+            </div>
+          </a>
+          <a href="logout">
+            <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
+              <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
+              Log Out
+            </div>
+          </a>
+        </div>
+        {% endif %} 
+        <a href="index" class="ni">Home</a>
+        <a href="about" class="ni">About Us</a>
+        <a href="contact" class="ni">Contact Us</a>
+      </div>
+    </nav>
+
+
+    <div class="p-container mt-5 flex">
       <!-- border border-red-700   -->
       <div class="left w-[40%] p-10">
         <!-- Flash message start -->
         <div class="flash-messages">
           <div class="msg">
+            <!-- <div class="inner">hello This is error </div> -->
             {% with messages = get_flashed_messages() %} {% if messages %}
             <div class="inner">{{ messages[-1] }}</div>
 
@@ -89,7 +142,7 @@
         myVariable = "two" %} {% endif %}
 
         <div
-          class="flex flex-col items-center sm:text-xl md:text-2xl lg:text-3xl"
+          class="flex flex-col items-center text-3xl   max-[750px]:text-2xl "
         >
           <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
           <div class="pp">
@@ -97,7 +150,8 @@
               src="{{ src }}"
               id="profile-pic"
               alt=""
-              class="w-[300px] h-[300px] rounded-full bg-[#d9d9d9] cursor-pointer"
+              class="w-[300px] h-[300px] rounded-full bg-[#d9d9d9] 
+              cursor-pointer max-[430px]:w-[250px] max-[430px]:h-[250px]"
             />
 
             <label
@@ -119,19 +173,19 @@
           <!-- </form> -->
 
           <div
-            class="mt-7 py-2 w-3/4 rounded-3xl bg-[#ff2828] text-white text-center"
+            class="mt-7 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%] rounded-3xl bg-[#ff2828] text-white text-center"
           >
             <a href="#donor-info" class="block">Profile</a>
           </div>
 
           <div
-            class="t mt-2 py-2 w-3/4 rounded-3xl bg-[#ff2828] text-white text-center"
+            class="t mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center"
           >
             <a href="#appointment" class="block">Appointments</a>
           </div>
 
           <div
-            class="mt-2 py-2 w-3/4 rounded-3xl bg-[#ff2828] text-white text-center"
+            class="mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center "
           >
             <a href="#history" class="block">History</a>
           </div>
@@ -139,7 +193,7 @@
       </div>
 
       <div
-        class="right w-[60%] aspect-[18/13] overflow-x-hidden overflow-y-scroll snap-y snap-mandatory p-7 scroll-smooth "
+        class="right w-[60%] min-[1095px]:aspect-[18/13]  min-[1095px]:overflow-y-scroll min-[1095px]:snap-y min-[1095px]:snap-mandatory  p-7 scroll-smooth "
       >
         <div
           id="donor-info"
@@ -148,8 +202,8 @@
           <h1 class="text-3xl">Donor Information</h1>
 
           <form action="\profile" method="post" class="">
-            <div class="top flex space-x-3 justify-between">
-              <div class="donor-id input-container w-[40%]">
+            <div class="top flex space-x-3 justify-between max-[614px]:flex-col max-[614px]:space-x-0 ">
+              <div class="donor-id input-container w-[40%] max-[615px]:w-full">
                 <input
                   type="text"
                   name="ID"
@@ -162,7 +216,7 @@
                 <span>Donor ID</span>
               </div>
 
-              <div class="mail-id input-container w-[60%]">
+              <div class="mail-id input-container w-[60%] max-[615px]:w-full">
                 <input
                   type="text"
                   name="email"
@@ -176,8 +230,8 @@
               </div>
             </div>
 
-            <div class="name flex space-x-3">
-              <div class="input-container w-1/3">
+            <div class="name flex space-x-3 max-[614px]:flex-col max-[614px]:space-x-0">
+              <div class="input-container w-1/3 max-[615px]:w-full">
                 <input
                   type="text"
                   name="Fname"
@@ -189,7 +243,7 @@
                 <span>First Name</span>
               </div>
 
-              <div class="input-container w-1/3">
+              <div class="input-container w-1/3 max-[615px]:w-full">
                 <input
                   type="text"
                   name="Mname"
@@ -201,7 +255,7 @@
                 <span>Middle Name</span>
               </div>
 
-              <div class="input-container w-1/3">
+              <div class="input-container w-1/3 max-[615px]:w-full">
                 <input
                   type="text"
                   name="Lname"
@@ -214,8 +268,8 @@
               </div>
             </div>
 
-            <div class="name flex space-x-12">
-              <div class="input-container w-1/2 focus">
+            <div class="dob flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
+              <div class="input-container w-1/2 max-[615px]:w-full focus">
                 <input
                   type="date"
                   name="DOB"
@@ -227,8 +281,7 @@
                 <span>Date of Birth</span>
               </div>
 
-              <div class="input-container w-1/2 focus">
-                <!-- <input type="" name="gender" class="input" value="{{ data.gender }}"> -->
+              <div class="input-container w-1/2 max-[615px]:w-full focus">
                 <div class="dropdown input">
                   <input
                     type="text"
@@ -248,8 +301,8 @@
               </div>
             </div>
 
-            <div class="name flex space-x-12">
-              <div class="input-container w-1/2">
+            <div class="name flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
+              <div class="input-container w-1/2 max-[615px]:w-full">
                 <input
                   type="text"
                   name="mob"
@@ -261,7 +314,7 @@
                 <span>Mobile No.</span>
               </div>
 
-              <div class="input-container w-1/2">
+              <div class="input-container w-1/2 max-[615px]:w-full">
                 <div class="dropdown input">
                   <input
                     type="text"
@@ -301,12 +354,6 @@
                 <label for="">Blood Type</label>
                 <span>Blood Type</span>
               </div>
-
-              <!-- <div class="mail-id input-container w-1/2">
-                            <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly>
-                            <label for="">E-Mail ID</label>
-                            <span>E-Mail ID</span>
-                        </div> -->
             </div>
 
             <div class="input-container textarea">
@@ -317,8 +364,8 @@
               <span>Address</span>
             </div>
 
-            <div class="city-name flex -mt-[1rem]">
-              <div class="input-container w-1/2">
+            <div class="city-name flex -mt-[1rem] ">
+              <div class="input-container w-1/2 max-[615px]:w-full">
                 <div class="dropdown input">
                   <input
                     type="text"
@@ -349,25 +396,34 @@
 
         <div
           id="appointment"
-          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem]"
+          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
         >
           <div class="heading text-2xl font-bold">Appointments</div>
           <div class="tmp-outer">
-            <div class="appointment-table mt-[1rem]">
-              <table class="table-h">
+            <div class="appointment-table mt-[1rem] ">
+              <!-- <table class="table-h">
                 <thead class="">
-                  <tr class="border-[0px] mr-[1rem]">
+                  <tr>
                     <th class="">Appointment ID</th>
                     <th class="">Date</th>
                     <th class="">Time</th>
                     <th class=" ">Place</th>
                   </tr>
                 </thead>
-              </table>
+              </table> -->
 
               <div class="t-data right">
-                <div class="tmpoo">
+                <div class="tmpoo overflow-x-scroll">
+                  
                   <table>
+                  <thead class="">
+                    <tr>
+                      <th class="">Appointment ID</th>
+                      <th class="">Date</th>
+                      <th class="">Time</th>
+                      <th class=" ">Place</th>
+                    </tr>
+                  </thead>
                     <tbody>
                       {% if results is not none %} {% for result in results %}
                       <tr>
@@ -385,6 +441,7 @@
                       {% endfor %} {% endif %}
                     </tbody>
                   </table>
+
                 </div>
               </div>
             </div>
@@ -393,10 +450,10 @@
 
         <div
           id="history"
-          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[20rem]"
+          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
         >
-          <div class="heading text-2xl font-bold">History</div>
-
+          <div class="heading text-2xl font-bold mb-[1rem]">History</div>
+          <div class="ht overflow-x-scroll">
           <table>
             <thead>
               <tr>
@@ -435,6 +492,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
@@ -564,6 +622,16 @@
           navbtn.classList.remove("active");
         }
       });
+
+      //->Hamburger Menu JS<-
+      const menu_btn = document.querySelector('.hamburger');
+      const mobile_menu = document.querySelector('.mobile-nav');
+        console.log(menu_btn);
+        console.log(mobile_menu);
+      menu_btn.addEventListener('click', function () {
+                menu_btn.classList.toggle('is-active');
+                mobile_menu.classList.toggle('is-active');
+            });
 
       // Flash Message JS
       const fmsg = document.querySelector(".flash-messages");
