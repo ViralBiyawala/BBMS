@@ -236,9 +236,6 @@ header {
   font-weight: bolder;
 }
 
-.nav-container {
-}
-
 .nav-container .checkbox {
   position: absolute;
   display: block;
@@ -1124,8 +1121,7 @@ header {
   }
 }
 /* Footer CSS Over */
-.large {
-}
+
 .dropdown {
   position: relative;
 }

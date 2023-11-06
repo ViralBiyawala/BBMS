@@ -532,9 +532,6 @@ th,td {
   white-space: nowrap;
 }
 
-.table-h{
-    /* width: calc(100% - 7px) */
-}
 
 .t-data{
   max-height: 15rem;
