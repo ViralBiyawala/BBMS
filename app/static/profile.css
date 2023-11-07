@@ -500,6 +500,41 @@ th:nth-child(4), td:nth-child(4) {
     width: 25%; 
 }
 
+/* Customize pagination links */
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  color: #ff2828;
+}
+
+/* Style the current page link */
+.pagination .active {
+  border-radius: 3px;
+  background-color: #ffe0e0;
+}
+
+/* .pagination .active a {
+  color: #000;
+} */
+
+
+/* Style the previous and next buttons */
+.pagination .prev, .pagination .next {
+  padding: 5px 10px;
+  margin: 0 5px;
+  color: #007BFF;
+}
+
+/* Style the disabled previous and next buttons */
+.pagination .disabled {
+  display: none;
+}
+
 
 .a-right th:nth-child(1),.a-right td:nth-child(1) {
   width: 19%; /* Set the width of the first column */
@@ -516,11 +551,11 @@ th:nth-child(4), td:nth-child(4) {
 .a-right th:nth-child(4),.a-right td:nth-child(4) {
   width: 27%; 
 }
-@media (min-width: 617px) {
+/* @media (min-width: 617px) {
   .tmpoo {
     overflow-x: scroll;
   }
-}
+} */
 
 /* Prevent text in the table header from wrapping */
 th,td {
