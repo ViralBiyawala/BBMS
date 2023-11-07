@@ -939,3 +939,7 @@ def mark_notifications_as_read():
     db.session.commit()
 
     return jsonify(True)
+
+@app.route('/DRequests')
+def Drequests():
+    return render_template('Admin_DRequests.html')
