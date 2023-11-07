@@ -19,7 +19,7 @@
     />
   </head>
 
-  <body class="bg-[#ffe0e0]">
+  <body class="dreq-body bg-[#ffe0e0]">
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
@@ -98,7 +98,11 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+                  <td>
+                    <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm()">
+                      Fill
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <td class="font-bold">2</td>
@@ -110,68 +114,73 @@
                 
               </table>
               
-              <form action="Admin" method="POST">
+              <!-- <form action="Admin" method="POST"> -->
+              <div class="overlay flex items-center justify-center hidden">
+                <div class="a-dform rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
 
-              <div class="dform  rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
-                
-                <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
-                    Donation Form
-                </div>
-
-                  <div class="a-ips flex flex-col w-full items-center ">
-
-
-                      <div class="input-container w-[90%] max-[615px]:w-full ">
-                        <input
-                          type="text"
-                          name="DOB"
-                          class="date input"
-                          value=""
-                          required
-                        />
-                        <label for="">Donation Id</label>
-                        <span>Donation Id</span>
-                      </div>
-                      <div class="input-container w-[90%] max-[615px]:w-full focus">
-                        <input
-                          type="date"
-                          name="DOB"
-                          class="date "
-                          value=""
-                          required
-                        />
-                        <label for="">Collection Date</label>
-                        <span>Collection Date</span>
-                      </div>
-                      <div class="input-container w-[90%] max-[615px]:w-full ">
-                        <input
-                          type="text"
-                          name="DOB"
-                          class="input"
-                          value=""
-                          required
-                        />
-                        <label for="">Quantity Donated</label>
-                        <span>Quantity Donated</span>
-                      </div>
-                      <div class="input-container w-[90%] max-[615px]:w-full ">
-                        <input
-                          type="text"
-                          name="DOB"
-                          class="date input"
-                          value=""
-                          required
-                        />
-                        <label for="">Blood Bag Number</label>
-                        <span>Blood Bag Number</span>
-                      </div>
-
-
+                  <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
+                      Donation Form
                   </div>
 
-                  <input type="submit" value="Submit" class="btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl">
+                    <div class="flex flex-col w-full items-center ">
+
+
+                        <div class="input-container w-[90%] max-[615px]:w-full ">
+                          <input
+                            type="text"
+                            name="DOB"
+                            class="date input"
+                            value=""
+                            required
+                          />
+                          <label for="">Donation Id</label>
+                          <span>Donation Id</span>
+                        </div>
+
+                        <div class="input-container w-[90%] max-[615px]:w-full focus">
+                          <input
+                            type="date"
+                            name="DOB"
+                            class="date "
+                            value=""
+                            required
+                          />
+                          <label for="">Collection Date</label>
+                          <span>Collection Date</span>
+                        </div>
+
+                        <div class="input-container w-[90%] max-[615px]:w-full ">
+                          <input
+                            type="text"
+                            name="DOB"
+                            class="input"
+                            value=""
+                            required
+                          />
+                          <label for="">Quantity Donated</label>
+                          <span>Quantity Donated</span>
+                        </div>
+
+                        <div class="input-container w-[90%] max-[615px]:w-full ">
+                          <input
+                            type="text"
+                            name="DOB"
+                            class="date input"
+                            value=""
+                            required
+                          />
+                          <label for="">Blood Bag Number</label>
+                          <span>Blood Bag Number</span>
+                        </div>
+
+
+                    </div>
+
+                    <input type="submit" value="Submit" class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
+                  
                 </div>
-              </form>
+              </div>  
+              <!-- </form> -->
 
 
             <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
@@ -208,37 +217,17 @@
        
 
       // Js for Updating Value in Input after Selecting
-      function showCity(word) {
-        document.querySelector(".textBoxCity").value = word;
-      }
-      function showGender(word) {
-        document.querySelector(".textBoxGender").value = word;
-      }
-      function showBloodType(word) {
-        document.querySelector(".textBoxBlood").value = word;
-      }
+      //function showCity(word) {
+      //  document.querySelector(".textBoxCity").value = word;
+      //}
+      //function showGender(word) {
+      //  document.querySelector(".textBoxGender").value = word;
+      //}
+      //function showBloodType(word) {
+      //  document.querySelector(".textBoxBlood").value = word;
+      //}
 
-      // Loop through all .dropdown elements
-      let dd = document.querySelectorAll(".dropdown");
-      dd.forEach(function (dropdown) {
-        dropdown.addEventListener("click", function () {
-          dropdown.classList.toggle("active");
-        });
-
-        dropdown.addEventListener("focus", function () {
-          dropdown.classList.add("active");
-        });
-
-        dropdown.addEventListener("blur", function () {
-          dropdown.classList.remove("active");
-        });
-        document.addEventListener("click", function (event) {
-          if (event.target !== dropdown && !dropdown.contains(event.target)) {
-            if (dropdown.classList.contains("active"))
-              dropdown.classList.remove("active");
-          }
-        });
-      });
+       
 
  
       // Flash Message JS
@@ -257,62 +246,59 @@
 
       //City Search Box Js
 
-      function fetchCities() {
-        fetch("/get_cities_json")
-          .then((response) => response.json())
-          .then((data) => {
-            var cities = data["cities"];
-            const resultBox = document.getElementById("OptionsCity");
-            const inputBox = document.getElementById("CitytextBox");
-            const rBHTML=resultBox.innerHTML;
-            inputBox.onkeyup = function () {
+      //function fetchCities() {
+      //  fetch("/get_cities_json")
+      //    .then((response) => response.json())
+      //    .then((data) => {
+      //      var cities = data["cities"];
+      //      const resultBox = document.getElementById("OptionsCity");
+      //      const inputBox = document.getElementById("CitytextBox");
+      //      const rBHTML=resultBox.innerHTML;
+      //      inputBox.onkeyup = function () {
+//
+      //        let result = [];
+      //        let input = inputBox.value;
+      //        if (input.length) {
+      //          result = cities.filter((keyword) => {
+      //            return keyword.toLowerCase().startsWith(input.toLowerCase());
+      //          });
+      //        }
+//
+      //        display(result);
+//
+      //        if(!result.length){
+      //          resultBox.innerHTML = "";
+      //        }
+      //        if(!input.length){
+      //          resultBox.innerHTML = rBHTML;
+      //        }
+      //      };
+//
+      //      function display(result) {
+      //        resultBox.innerHTML = "";
+      //        const content = result.map((div)=>{
+      //          return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+      //        });
+      //        resultBox.innerHTML = content.join('');
+      //      }
+      //    })
+      //    .catch((error) => console.error("Error:", error));
+      //}
+      //fetchCities();
 
-              let result = [];
-              let input = inputBox.value;
-              if (input.length) {
-                result = cities.filter((keyword) => {
-                  return keyword.toLowerCase().startsWith(input.toLowerCase());
-                });
-              }
-
-              display(result);
-
-              if(!result.length){
-                resultBox.innerHTML = "";
-              }
-              if(!input.length){
-                resultBox.innerHTML = rBHTML;
-              }
-            };
-
-            function display(result) {
-              resultBox.innerHTML = "";
-              const content = result.map((div)=>{
-                return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
-              });
-              resultBox.innerHTML = content.join('');
-            }
-          })
-          .catch((error) => console.error("Error:", error));
-      }
-      fetchCities();
-
-
-      //JS for Options on LEft Side
-      let ops=document.querySelectorAll('.ops');
-
-      ops.forEach((op)=>{
-        op.addEventListener("click",(e)=>{
-            
-            ops.forEach(op=>{
-                if(op.classList.contains('selected')){
-                    op.classList.remove('selected');
-                }
-            })
-            e.target.classList.add('selected');
-        })
-      })
-
+        let dform=document.querySelector('.a-dform');
+        let dfSubmit=document.querySelector('.a-df-submit');
+        let overlay = document.querySelector('.overlay');
+        function OpenForm(){
+          dform.classList.add('df-active');
+          overlay.classList.remove('hidden')
+          overlay.classList.add('block')
+        }
+        dfSubmit.addEventListener('click',(e)=>{
+          dform.classList.remove('df-active');
+          overlay.classList.remove('block')
+          overlay.classList.add('hidden')
+        });
 
     </script>
   </body>

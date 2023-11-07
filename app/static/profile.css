@@ -1,7 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
-    html{
-        scroll-behavior: smooth;
-    }
 body{
     font-family: 'Montserrat', sans-serif;
 }
@@ -20,10 +17,6 @@ body{
 	background-color: rgba(255, 40, 40, 0.375);
 }
 .flash-messages{
-	/* border: 2px solid red; */
-	/* max-width: 70%; */
-	/* width:75%; */
-	/* border-radius: var(--border-rad-main) 0 var(--border-rad-main) 0; */
 	border-radius: 10px;
 	position: absolute;
 	
@@ -594,7 +587,8 @@ th,td {
     /* border: 2px solid seagreen; */
     padding-left:1rem ;
     padding-right:1.3rem ;
-}.btnbook{
+}
+.btnbook{
     width:30%;
     padding: 0.6rem 1.30rem;   
     font-size: 1.2rem;
@@ -616,6 +610,10 @@ th,td {
 	color:#ff2828;
 }
  
+.p-container{
+  /* flex-direction: column; */
+ 
+}
 @media (max-width:1094px){
   .p-container{
     flex-direction: column;
@@ -626,5 +624,40 @@ th,td {
   .p-container .right{
     width: 100%;
     aspect-ratio: 1;
+  }
+}
+
+/* Admin DRequests */
+.dreq-body{
+  /* filter: blur(8px); */
+}
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  backdrop-filter: blur(5px);
+}
+.a-donation-form .input,
+.a-donation-form .date{
+  padding: 0.5rem 1rem;
+}
+.a-dform{
+  transform: scale(0);
+  z-index: 3;
+}
+.a-dform.df-active{
+  animation:  anim-dform 0.5s ease-in-out 1;
+  transform: scale(1);
+  transition: 0.5s;
+}
+@keyframes anim-dform{
+  0%{
+    transform: scale(0);
+  }
+  100%{
+    transform: scale(1);
   }
 }

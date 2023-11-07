@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+<html lang="en" class="box-border  ">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -123,7 +123,7 @@
     </nav>
 
 
-    <div class="p-container mt-5 flex">
+    <div class="p-container mt-5 flex    mb-[0rem]">
       <!-- border border-red-700   -->
       <div class="left w-[40%] p-10">
         <!-- Flash message start -->
@@ -399,6 +399,7 @@
           class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
         >
           <div class="heading text-2xl font-bold">Appointments</div>
+          
           <div class="tmp-outer">
             <div class="appointment-table mt-[1rem] ">
               <!-- <table class="table-h">
@@ -443,7 +444,9 @@
                   </table>
                 </div>
               </div>
-              {{ pagination.links }}
+              <div class="">
+                {{ pagination.links }}
+              </div>
             </div>
           </div>
         </div>
