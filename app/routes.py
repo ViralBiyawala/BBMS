@@ -28,7 +28,7 @@ from sqlalchemy import desc,func
 import pandas as pd 
 pas = False
 from functools import wraps
-from flask_paginate import Pagination, get_page_args
+
 
 
 pt = os.path.join(app.root_path, 'city.csv')
