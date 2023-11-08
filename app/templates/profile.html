@@ -16,6 +16,8 @@
   </head>
 
   <body class="bg-[#FFE0E0]">
+    <!-- Back To Top Button -->
+    <a id="button"></a>
     
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
       <div
@@ -398,7 +400,7 @@
           id="appointment"
           class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
         >
-          <div class="heading text-2xl font-bold">Appointments</div>
+          <div class="heading text-2xl font-bold ">Appointments</div>
           
           <div class="tmp-outer">
             <div class="appointment-table mt-[1rem] ">
@@ -413,10 +415,10 @@
                 </thead>
               </table> -->
 
-              <div class="t-data right">
-                <div class="tmpoo">
+              <div class="t-data t-scroll">
+                <!-- <div class="tmpoo overflow-x-scroll"> -->
                   
-                  <table>
+                  <table class="overflow-x-scroll">
                   <thead class="">
                     <tr>
                       <th class="">Appointment ID</th>
@@ -426,7 +428,7 @@
                     </tr>
                   </thead>
                     <tbody>
-                      {% if appointments is not none %} {% for appointment in appointments %}
+                      {% if appointments is not none %} {% for appointment in results %}
                       <tr>
                         <td class="border-t-[0px]">
                           {{appointment.appointment_id}}
@@ -442,10 +444,7 @@
                       {% endfor %} {% endif %}
                     </tbody>
                   </table>
-                </div>
-              </div>
-              <div class="">
-                {{ pagination.links }}
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -456,7 +455,7 @@
           class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
         >
           <div class="heading text-2xl font-bold mb-[1rem]">History</div>
-          <div class="ht overflow-x-scroll">
+          <div class="ht overflow-x-scroll t-scroll">
           <table>
             <thead>
               <tr>
@@ -500,6 +499,33 @@
       </div>
     </div>
     <script>
+       //->Back To Top Button JS<-
+      // Get the button element
+      var btn = document.getElementById("button");
+
+      // Add a scroll event listener to the window
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 300) {
+          // Add the "show" class when scrolled down
+          btn.classList.add("show");
+        } else {
+          // Remove the "show" class when at the top
+          btn.classList.remove("show");
+        }
+      });
+
+      // Add a click event listener to the button
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        // Smoothly scroll to the top
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+
+
       // InputBox Animation JS
       const ips = document.querySelectorAll(".input");
       ips.forEach((ip) => {

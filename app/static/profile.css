@@ -16,6 +16,48 @@ body{
 ::selection{
 	background-color: rgba(255, 40, 40, 0.375);
 }
+
+/* Back To Top Button */
+#button {
+  display: inline-block;
+  background-color: #ff2828;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color 0.3s, opacity 0.5s, visibility 0.5s;
+
+  opacity: 0;
+  /* visibility: hidden; */
+  z-index: 1000;
+}
+
+#button::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 50px;
+  color: #fff;
+}
+#button:hover {
+  cursor: pointer;
+  background-color: #ff2828b0;
+}
+#button:active {
+  background-color: #ff2828d8;
+}
+#button.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+
 .flash-messages{
 	border-radius: 10px;
 	position: absolute;
@@ -89,6 +131,8 @@ body{
     background: #ff2828; 
   }
 
+
+
 /* Hamburger CSS Starts */
   .hamburger {
     position: relative;
@@ -134,7 +178,7 @@ body{
     border: 2px solid #ff2828;
     border-radius: 1rem;
     display: block;
-    z-index: 98;
+    z-index: 1111;
     background-color: #ffe0e0;
     /* padding-top: 120px; */
     -webkit-transition: 0.4s;
@@ -493,41 +537,8 @@ th:nth-child(4), td:nth-child(4) {
     width: 25%; 
 }
 
-/* Customize pagination links */
-.pagination {
-  display: flex;
-  justify-content: center;
-}
-
-.pagination a {
-  display: inline-block;
-  padding: 5px 10px;
-  color: #ff2828;
-}
-
-/* Style the current page link */
-.pagination .active {
-  border-radius: 3px;
-  background-color: #ffe0e0;
-}
-
-/* .pagination .active a {
-  color: #000;
-} */
-
-
-/* Style the previous and next buttons */
-.pagination .prev, .pagination .next {
-  padding: 5px 10px;
-  margin: 0 5px;
-  color: #007BFF;
-}
-
-/* Style the disabled previous and next buttons */
-.pagination .disabled {
-  display: none;
-}
-
+ 
+ 
 
 .a-right th:nth-child(1),.a-right td:nth-child(1) {
   width: 19%; /* Set the width of the first column */
@@ -544,11 +555,7 @@ th:nth-child(4), td:nth-child(4) {
 .a-right th:nth-child(4),.a-right td:nth-child(4) {
   width: 27%; 
 }
-/* @media (min-width: 617px) {
-  .tmpoo {
-    overflow-x: scroll;
-  }
-} */
+
 
 /* Prevent text in the table header from wrapping */
 th,td {
@@ -560,22 +567,31 @@ th,td {
   max-height: 15rem;
   overflow-y: scroll;
 }
-.t-data::-webkit-scrollbar {
+.t-data thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+ 
+      
+.t-scroll::-webkit-scrollbar {
     width: 7px;
+    height: 5px;
 }
 
-.t-data::-webkit-scrollbar-track {
-    margin-left: 10rem;
+.t-scroll::-webkit-scrollbar-track {
+    /* margin-left: 10rem; */
     box-shadow: inset 0 0 5px #FFF; 
     /* border-radius: 15px; */
 }
 
-.t-data::-webkit-scrollbar-thumb {
+.t-scroll::-webkit-scrollbar-thumb {
     background: #FF2828; 
     border-radius: 10px;
 }
-.t-data::-webkit-scrollbar-thumb:hover {
+.t-scroll::-webkit-scrollbar-thumb:hover {
     background: #ff2828; 
+    /* cursor: pointer; */
 }
 
 .appointment-schedule input{
@@ -661,3 +677,39 @@ th,td {
     transform: scale(1);
   }
 }
+
+
+
+.c-right th:nth-child(1),.c-right td:nth-child(1) {
+  width: 10%; /* Set the width of the first column */
+}
+
+.c-right th:nth-child(2),.c-right td:nth-child(2) {
+  width: 30%;
+}
+
+.c-right th:nth-child(3),.c-right td:nth-child(3) {
+  width: 20%;
+}
+
+.c-right th:nth-child(4),.c-right td:nth-child(4) {
+  width: 10%; 
+}
+.c-right th:nth-child(5),.c-right td:nth-child(5) {
+  width: 30%; 
+}
+
+.c-right th, 
+.c-right td {
+  border: none;
+  padding: 10px;
+  text-align: center;
+}
+.c-right tr:nth-child(even){
+  background-color: white;
+}
+.c-right table{
+  border:2px solid white;
+}
+
+

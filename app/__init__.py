@@ -17,6 +17,7 @@ server = smtplib.SMTP(smtp_server, smtp_port)
 app.config['PER_PAGE'] = 3
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, '../databases/bbms.db')
+print(os.path.join(app.root_path, '../databases/bbms.db'))
 
 db = SQLAlchemy(app)
 

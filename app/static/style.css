@@ -5,6 +5,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+body::-webkit-scrollbar{
+  width: 7px;
+}
+
+body::-webkit-scrollbar-track{
+  box-shadow: inset 0 0 5px #FFE0E0; 
+  /* border-radius: 15px; */
+}
+ 
+body::-webkit-scrollbar-thumb{
+  background: #FF2828; 
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #ff2828; 
+}
 :root {
   --text-sm: 1rem;
   --text-smd: 1.5rem;
