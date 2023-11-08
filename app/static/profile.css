@@ -626,10 +626,6 @@ th,td {
 	color:#ff2828;
 }
  
-.p-container{
-  /* flex-direction: column; */
- 
-}
 @media (max-width:1094px){
   .p-container{
     flex-direction: column;
@@ -644,9 +640,6 @@ th,td {
 }
 
 /* Admin DRequests */
-.dreq-body{
-  /* filter: blur(8px); */
-}
 .overlay{
   position: fixed;
   top: 0;
