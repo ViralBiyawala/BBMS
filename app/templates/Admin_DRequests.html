@@ -1,305 +1,269 @@
 <!DOCTYPE html>
 <html lang="en" class="box-border scroll-smooth focus:scroll-auto">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://kit.fontawesome.com/3b57b3cea0.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <!-- Link to external JavaScript files using url_for -->
-    <script src="{{ url_for('static', filename='positiveChart.js') }}"></script>
-    <script src="{{ url_for('static', filename='negativeChart.js') }}"></script>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='profile.css') }}"
-    />
-  </head>
 
-  <body class="dreq-body bg-[#ffe0e0]">
-    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
-      <div
-        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
-      >
-        <a href="index">Life Saver</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!-- Link to external JavaScript files using url_for -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+</head>
+
+<body class="dreq-body bg-[#ffe0e0]">
+  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    <div
+      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+      <a href="index">Life Saver</a>
+    </div>
+
+    <div class="flex w-[80%] justify-end items-center">
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Admin">Dashboard</a>
       </div>
 
-      <div class="flex w-[80%] justify-end items-center">
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="Admin">Dashboard</a>
-        </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="DRequests">Requests</a>
-        </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="Client">Client</a>
-        </div>
-        
-        <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
-      <a href="logout">Logout</a>
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="DRequests">Requests</a>
       </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Client">Client</a>
       </div>
-    </nav>
 
-    <div class="my-8 ml-4  text-3xl font-medium">Donation Requests</div>
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
 
-    <div class="mt-8 flex justify-center mb-[4rem]">
-      <!-- border border-red-700   -->
-        <div class="left w-[0%]   p-1 hidden">
+  <div class="my-8 ml-4  text-3xl font-medium">Donation Requests</div>
 
-            <!-- Flash message start -->
-            <div class="flash-messages">
-                <div class="msg">
-                  {% with messages = get_flashed_messages() %} {% if messages %}
-                  <div class="inner">{{ messages[-1] }}</div>
+  <div class="mt-8 flex justify-center mb-[4rem]">
+    <!-- border border-red-700   -->
+    <div class="left w-[0%]   p-1 hidden">
 
-                  {% endif %} {% endwith %}
-                </div>
-            </div>
-            <!--Flash message ends  -->
+      <!-- Flash message start -->
+      <div class="flash-messages">
+        <div class="msg">
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <div class="inner">{{ messages[-1] }}</div>
 
-            <div class="a-options  border-2 border-[#ff2828] flex flex-col text-2xl">
-                <div id="op-1" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center selected">Home</div>
-                <div id="op-2" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests</div>
-                <div id="op-3" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests</div>
-                <div id="op-4" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div>
-                <div id="op-5" class="ops cursor-pointer py-2  w-full text-center">Hospital</div>
-            </div>
-
-
+          {% endif %} {% endwith %}
         </div>
+      </div>
+      <!--Flash message ends  -->
 
-        <div
-            class="a-right w-[90%]   px-7 pt-1 "
-          >
-            <table>
-                <tr>
-                  <th class="bg-[#ff2828] text-white text-xl ">Appointment_Id</th>
-                  <th class="bg-[#ff2828] text-white text-xl ">Date</th>
-                  <th class="bg-[#ff2828] text-white text-xl ">Time</th>
-                  <th class="bg-[#ff2828] text-white text-xl ">Place</th>
-                  <th class="bg-[#ff2828] text-white text-xl ">Fill Form</th>
-                </tr>
-                <tr>
-                  <td class="font-bold">1</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm()">
-                      Fill
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="font-bold">2</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                
-              </table>
-              
-              <!-- <form action="Admin" method="POST"> -->
-              <div class="overlay flex items-center justify-center hidden">
-                <div class="a-dform shadow-2xl shadow-black-900/50 rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
-
-                  <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
-                      Donation Form
-                  </div>
-
-                    <div class="flex flex-col w-full items-center ">
-
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="date input"
-                            value=""
-                            required
-                          />
-                          <label for="">Donation Id</label>
-                          <span>Donation Id</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full focus">
-                          <input
-                            type="date"
-                            name="DOB"
-                            class="date "
-                            value=""
-                            required
-                          />
-                          <label for="">Collection Date</label>
-                          <span>Collection Date</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="input"
-                            value=""
-                            required
-                          />
-                          <label for="">Quantity Donated</label>
-                          <span>Quantity Donated</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="date input"
-                            value=""
-                            required
-                          />
-                          <label for="">Blood Bag Number</label>
-                          <span>Blood Bag Number</span>
-                        </div>
-
-
-                    </div>
-
-                    <input type="submit" value="Submit" class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
-                  
-                </div>
-              </div>  
-              <!-- </form> -->
-
-
-            <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
-
-             
-              
+      <div class="a-options  border-2 border-[#ff2828] flex flex-col text-2xl">
+        <div id="op-1" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center selected">Home
         </div>
+        <div id="op-2" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests
+        </div>
+        <div id="op-3" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests
+        </div>
+        <div id="op-4" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div>
+        <div id="op-5" class="ops cursor-pointer py-2  w-full text-center">Hospital</div>
+      </div>
+
 
     </div>
 
+    <div class="a-right w-[90%]   px-7 pt-1 ">
+      <table>
+        <tr>
+          <th class="bg-[#ff2828] text-white text-xl ">Appointment_Id</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Date</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Time</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Place</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Fill Form</th>
+        </tr>
+        {% for appo in ua%}
+        {% if appo.ddone == False %}
+        <tr>
+          <td class="font-bold">{{ appo.appointment_id}}</td>
+          <td>{{ appo.appointment_date }}</td>
+          <td>{{ appo.appointment_time }}</td>
+          <td>{{ appo.place }}</td>
+          <td>
+            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm()">
+              Fill
+            </button>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
 
-    <script>
-      // InputBox Animation JS
-      const ips = document.querySelectorAll(".input");
-      ips.forEach((ip) => {
-        ip.addEventListener("focus", (e) => {
-          e.target.parentNode.classList.add("focus");
-        });
-        if (ip.value != "") {
-          ip.parentNode.classList.add("focus");
-        }
+      <form method="POST" action="DAccepted">
+        <div class="overlay flex items-center justify-center hidden">
+          <div
+            class="a-dform shadow-2xl shadow-black-900/50 rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
 
-        ip.addEventListener("blur", (e) => {
-          if (e.target.value === "") {
-            e.target.parentNode.classList.remove("focus");
-          }
-        });
+            <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
+              Donation Form
+            </div>
 
-        ip.addEventListener("input", (e) => {
-          e.target.parentNode.classList.add("focus");
-        });
+            <div class="a-df2-submit">
+              Close
+            </div>
+
+            <div class="flex flex-col w-full items-center ">
+
+
+              <div class="input-container w-[90%] max-[615px]:w-full ">
+                <input type="text" name="AID" class="date input" value="" required />
+                <label for="">Appointment Id</label>
+                <span>Donation Id</span>
+              </div>
+
+              <div class="input-container w-[90%] max-[615px]:w-full focus">
+                <input type="date" name="seD" class="date " value="" required />
+                <label for="">Collection Date</label>
+                <span>Collection Date</span>
+              </div>
+
+              <div class="input-container w-[90%] max-[615px]:w-full ">
+                <input type="text" name="QD" class="input" value="" required />
+                <label for="">Quantity Donated</label>
+                <span>Quantity Donated</span>
+              </div>
+
+              <div class="input-container w-[90%] max-[615px]:w-full ">
+                <input type="text" name="BBN" class="date input" value="" required />
+                <label for="">Blood Bag Number</label>
+                <span>Blood Bag Number</span>
+              </div>
+
+
+            </div>
+
+            <input type="submit" value="Submit"
+              class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
+
+          </div>
+        </div>
+      </form>
+
+
+      <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
+
+
+
+    </div>
+
+  </div>
+
+
+  <script>
+    // InputBox Animation JS
+    const ips = document.querySelectorAll(".input");
+    ips.forEach((ip) => {
+      ip.addEventListener("focus", (e) => {
+        e.target.parentNode.classList.add("focus");
       });
-
-       
-
-      // Js for Updating Value in Input after Selecting
-      //function showCity(word) {
-      //  document.querySelector(".textBoxCity").value = word;
-      //}
-      //function showGender(word) {
-      //  document.querySelector(".textBoxGender").value = word;
-      //}
-      //function showBloodType(word) {
-      //  document.querySelector(".textBoxBlood").value = word;
-      //}
-
-       
-
- 
-      // Flash Message JS
-      const fmsg = document.querySelector(".flash-messages");
-
-      setTimeout(() => {
-        if (fmsg.classList.contains("active")) {
-          fmsg.classList.remove("active");
-        }
-      }, 3000);
-
-      const ims = document.querySelector(".inner");
-      if (ims !== null && ims.textContent != "") {
-        fmsg.classList.add("active");
+      if (ip.value != "") {
+        ip.parentNode.classList.add("focus");
       }
 
-      //City Search Box Js
-
-      //function fetchCities() {
-      //  fetch("/get_cities_json")
-      //    .then((response) => response.json())
-      //    .then((data) => {
-      //      var cities = data["cities"];
-      //      const resultBox = document.getElementById("OptionsCity");
-      //      const inputBox = document.getElementById("CitytextBox");
-      //      const rBHTML=resultBox.innerHTML;
-      //      inputBox.onkeyup = function () {
-//
-      //        let result = [];
-      //        let input = inputBox.value;
-      //        if (input.length) {
-      //          result = cities.filter((keyword) => {
-      //            return keyword.toLowerCase().startsWith(input.toLowerCase());
-      //          });
-      //        }
-//
-      //        display(result);
-//
-      //        if(!result.length){
-      //          resultBox.innerHTML = "";
-      //        }
-      //        if(!input.length){
-      //          resultBox.innerHTML = rBHTML;
-      //        }
-      //      };
-//
-      //      function display(result) {
-      //        resultBox.innerHTML = "";
-      //        const content = result.map((div)=>{
-      //          return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
-      //        });
-      //        resultBox.innerHTML = content.join('');
-      //      }
-      //    })
-      //    .catch((error) => console.error("Error:", error));
-      //}
-      //fetchCities();
-
-        let dform=document.querySelector('.a-dform');
-        let dfSubmit=document.querySelector('.a-df-submit');
-        let overlay = document.querySelector('.overlay');
-        function OpenForm(){
-          dform.classList.add('df-active');
-          overlay.classList.remove('hidden')
-          overlay.classList.add('block')
+      ip.addEventListener("blur", (e) => {
+        if (e.target.value === "") {
+          e.target.parentNode.classList.remove("focus");
         }
-        dfSubmit.addEventListener('click',(e)=>{
-          dform.classList.remove('df-active');
-          overlay.classList.remove('block')
-          overlay.classList.add('hidden')
-        });
+      });
 
-    </script>
-  </body>
+      ip.addEventListener("input", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+    });
+
+
+
+    // Js for Updating Value in Input after Selecting
+    //function showCity(word) {
+    //  document.querySelector(".textBoxCity").value = word;
+    //}
+    //function showGender(word) {
+    //  document.querySelector(".textBoxGender").value = word;
+    //}
+    //function showBloodType(word) {
+    //  document.querySelector(".textBoxBlood").value = word;
+    //}
+
+
+
+
+    // Flash Message JS
+    const fmsg = document.querySelector(".flash-messages");
+
+    setTimeout(() => {
+      if (fmsg.classList.contains("active")) {
+        fmsg.classList.remove("active");
+      }
+    }, 3000);
+
+    const ims = document.querySelector(".inner");
+    if (ims !== null && ims.textContent != "") {
+      fmsg.classList.add("active");
+    }
+
+    //City Search Box Js
+
+    //function fetchCities() {
+    //  fetch("/get_cities_json")
+    //    .then((response) => response.json())
+    //    .then((data) => {
+    //      var cities = data["cities"];
+    //      const resultBox = document.getElementById("OptionsCity");
+    //      const inputBox = document.getElementById("CitytextBox");
+    //      const rBHTML=resultBox.innerHTML;
+    //      inputBox.onkeyup = function () {
+    //
+    //        let result = [];
+    //        let input = inputBox.value;
+    //        if (input.length) {
+    //          result = cities.filter((keyword) => {
+    //            return keyword.toLowerCase().startsWith(input.toLowerCase());
+    //          });
+    //        }
+    //
+    //        display(result);
+    //
+    //        if(!result.length){
+    //          resultBox.innerHTML = "";
+    //        }
+    //        if(!input.length){
+    //          resultBox.innerHTML = rBHTML;
+    //        }
+    //      };
+    //
+    //      function display(result) {
+    //        resultBox.innerHTML = "";
+    //        const content = result.map((div)=>{
+    //          return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+    //        });
+    //        resultBox.innerHTML = content.join('');
+    //      }
+    //    })
+    //    .catch((error) => console.error("Error:", error));
+    //}
+    //fetchCities();
+
+    let dform = document.querySelector('.a-dform');
+    let dfSubmit = document.querySelector('.a-df2-submit');
+    let overlay = document.querySelector('.overlay');
+    function OpenForm() {
+      dform.classList.add('df-active');
+      overlay.classList.remove('hidden')
+      overlay.classList.add('block')
+    }
+    dfSubmit.addEventListener('click', (e) => {
+      dform.classList.remove('df-active');
+      overlay.classList.remove('block')
+      overlay.classList.add('hidden')
+    });
+
+  </script>
+</body>
+
 </html>

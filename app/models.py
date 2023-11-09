@@ -76,37 +76,40 @@ class DonationAppointment(UserMixin,db.Model):
     appointment_date = db.Column(db.Date, nullable=False)
     appointment_time = db.Column(db.Time, nullable=False)
     place = db.Column(db.String(20), nullable=False)
-
+    ddone = db.Column(db.Boolean, default=False)
+    
     donor = db.relationship('Donor', backref='appointments')
 
 class BloodDonationRecord(UserMixin,db.Model):
-    donation_id = db.Column(db.Integer, primary_key=True)
-    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'), nullable=False)
+    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'), primary_key=True)
     collection_date = db.Column(db.Date, nullable=False)
     donation_type = db.Column(db.String(20), nullable=False)
     quantity_donated = db.Column(db.Float, nullable=False)
-
+    blood_bag_number = db.Column(db.String(20), nullable=False)
+    storage_location = db.Column(db.String(100), nullable=False)
+    
     donation_appointment = db.relationship('DonationAppointment', backref='donation_records')
 
 class BloodInventory(UserMixin,db.Model):
-    blood_id = db.Column(db.Integer, primary_key=True)
+    blood_id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     blood_type = db.Column(db.String(5), nullable=False)
-    blood_component = db.Column(db.String(20), nullable=False)
     donor_id = db.Column(db.Integer, db.ForeignKey('donor.donor_id'))
     collection_date = db.Column(db.Date, nullable=False)
     expiry_date = db.Column(db.Date, nullable=False)
-    quantity = db.Column(db.Float, nullable=False)
+    quantity_donated = db.Column(db.Float, nullable=False)
     blood_bag_number = db.Column(db.String(20))
     storage_location = db.Column(db.String(100), nullable=False)
+    
+    donor = db.relationship('Donor', backref='inventory')
 
 class BloodTransfusionRecord(UserMixin,db.Model):
     transfusion_id = db.Column(db.Integer, primary_key=True)
     recipient_id = db.Column(db.Integer, db.ForeignKey('recipient.recipient_id'), nullable=False)
     transfusion_date = db.Column(db.Date, nullable=False)
     blood_type = db.Column(db.String(5), nullable=False)
-    blood_component = db.Column(db.String(20))
     quantity_transfused = db.Column(db.Float, nullable=False)
-
+    status = db.Column(db.Integer, default=0)
+    
     recipient = db.relationship('Recipient', backref='transfusion_records')
     
 class ContactUS(UserMixin,db.Model):
@@ -143,4 +146,3 @@ class Notification(db.Model):
         self.appointment_id = appointment_id
         self.message = message
         self.read = read
-

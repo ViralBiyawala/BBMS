@@ -463,39 +463,27 @@
                 <th>Date</th>
                 <th>Time</th>
                 <th>Place</th>
-                <th>Status</th>
                 <th>Download</th>
               </tr>
             </thead>
             <tbody>
+              {% for frs in fr%}
               <tr>
-                <td>10001</td>
-                <td>12/01/2023</td>
-                <td>9:00 AM</td>
-                <td>SURAT</td>
-                <td>Success</td>
-                <td>Certificate</td>
+                <td>{{ frs.appointment_id }}</td>
+                <td>{{ frs.appointment_date }}</td>
+                <td>{{ frs.appointment_time }}</td>
+                <td>{{ frs.place }}</td>
+                <td>
+                  <!-- Add a link or button for downloading -->
+                  <a href="\gc\{{ frs.appointment_id }}"> Certificate</a>
+                </td>
               </tr>
-              <tr>
-                <td>10002</td>
-                <td>17/05/2023</td>
-                <td>12:00 PM</td>
-                <td>SURAT</td>
-                <td>Failed</td>
-                <td>-</td>
-              </tr>
-              <tr>
-                <td>10003</td>
-                <td>17/07/2023</td>
-                <td>4:00 PM</td>
-                <td>RAJKOT</td>
-                <td>Success</td>
-                <td>Certificate</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
           </div>
         </div>
+
       </div>
     </div>
     <script>

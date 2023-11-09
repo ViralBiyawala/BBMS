@@ -204,7 +204,7 @@ def contact():
 #     return render_template('form.html',cities=cities)
 
 @app.route('/about')
-def About():
+def about():
     src = "../static/images/profile.png"
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user != None:
@@ -622,10 +622,14 @@ def verify_forget_otp():
 
 #Certificate
 #Route to Download Certificate Page
-@app.route('/gc/<name>')
-def generate_certificate(name):
+@app.route('/gc/<appointment_id>')
+def gc(appointment_id):
+    user = current_user
     # html_template = render_template('certificate.html', name=name)
-    html_template = render_template('certificate.html', name=(name,"10-1-2021", "Surat"))
+    results = DonationAppointment.query.filter_by(appointment_id=appointment_id).first()
+    data = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+    name = data.first_name + " " + data.middle_name + " " + data.last_name
+    html_template = render_template('certificate.html', name=(name,results.appointment_date, results.place))
 
     return html_template
 
@@ -731,6 +735,11 @@ def profile():
         results = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
         desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
     ).all()
+        
+        # Fetching all appointment_ids where donor_id matches
+        donor_appointment_ids = [result.appointment_id for result in results]
+        
+        fr = DonationAppointment.query.filter(DonationAppointment.appointment_id.in_(donor_appointment_ids),DonationAppointment.ddone == True).all()
         donor_id = data.donor_id
         allowed_extensions = ['jpg', 'jpeg', 'png']
 
@@ -745,7 +754,7 @@ def profile():
                 break
         else:
             src = "../static/images/profile.png"
-    return render_template('profile.html', email=current_user, data=data,  src = src, results = results, cities=cities)
+    return render_template('profile.html', email=current_user, data=data,  src = src, results = results, cities=cities,fr = fr)
 
 
 @app.route('/update_img', methods=['POST'])
@@ -816,6 +825,7 @@ def appointment():
     
 @app.route('/booking',methods=['POST','GET'])
 @login_required
+@user_required
 def booking():
     if request.method == 'POST':
         dat = request.form['date']
@@ -825,7 +835,7 @@ def booking():
         place = request.form['place']
         user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
-        appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place)
+        appoint = DonationAppointment(donor_id = donor.donor_id , appointment_date = dat,appointment_time= tim,place=place,ddone=False)
         if place.lower() not in [cit.lower() for cit in cities]:
             flash("No City Found")
             return redirect(url_for('appointment'))
@@ -943,12 +953,70 @@ def mark_notifications_as_read():
 
     return jsonify(True)
 
-
+@login_required
+@admin_required
 @app.route('/DRequests')
 def Drequests():
-    return render_template('Admin_DRequests.html')
+    current_day = datetime.now().date()
+    ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
+    return render_template('Admin_DRequests.html',ua = ua)
 
 
 @app.route('/Client')
 def Client():
     return render_template('Admin_Client.html')
+
+@login_required
+@admin_required
+@app.route('/DAccepted', methods=['POST'])
+def DAccepted():
+    # Fetching data from the form
+    appointment_id = request.form.get('AID')
+    collection_date_str = request.form.get('seD')
+    quantity_donated = request.form.get('QD')
+    blood_bag_number = request.form.get('BBN')
+
+    # Convert 'collection_date' to a datetime object
+    collection_date = datetime.strptime(collection_date_str, '%Y-%m-%d').date()
+
+    # Fetch donor details using the current user
+    donation_appointment = DonationAppointment.query.filter_by(appointment_id=appointment_id).first()
+    donation_appointment.ddone = True
+    donor = Donor.query.filter_by(donor_id=donation_appointment.donor_id).first()
+    donor_id = donor.donor_id
+    blood_type = donor.blood_type  # Fetch blood_type from the donor
+
+    # Fetch storage_location from DonationAppointment using appointment_id
+    storage_location = donation_appointment.place  
+
+    # Calculate expiry date as collection date + 90 days
+    expiry_date = collection_date + timedelta(days=90)
+
+    # Create a BloodDonationRecord
+    donation_record = BloodDonationRecord(
+        appointment_id=appointment_id,
+        collection_date=collection_date,
+        donation_type=blood_type,  # Replace with the actual donation type
+        quantity_donated=quantity_donated,
+        blood_bag_number=blood_bag_number,
+        storage_location=storage_location  # Fetch storage_location from DonationAppointment
+    )
+
+    # Create a BloodInventory
+    blood_inventory = BloodInventory(
+        blood_type=blood_type,  # Fetch blood_type from the donor
+        donor_id=donor_id,
+        collection_date=collection_date,
+        expiry_date=expiry_date,
+        quantity_donated=quantity_donated,
+        blood_bag_number=blood_bag_number,
+        storage_location=storage_location  # Fetch storage_location from DonationAppointment
+    )
+
+    # Add the records to the database
+    db.session.add(donation_record)
+    db.session.add(blood_inventory)
+    db.session.commit()
+
+    # Redirect to the 'about' page (replace 'about' with the actual route you want to redirect to)
+    return redirect(url_for('Admin'))
