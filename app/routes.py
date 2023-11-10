@@ -24,7 +24,7 @@ from app import app,myemail,server,app_login_key,mypass
 import re, random
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
-from sqlalchemy import desc,func
+from sqlalchemy import desc,func,asc
 import pandas as pd 
 pas = False
 from functools import wraps
@@ -56,11 +56,14 @@ login_manager.login_view = 'login'
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.is_authenticated and current_user.has_role('admin'):
-            return f(*args, **kwargs)
+        if current_user.is_authenticated :
+            if current_user.has_role('admin'):
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for('index'))
         else:
             flash('Admin only have permission for this Page.')
-            return redirect(url_for('index'))
+            return f(*args, **kwargs)
     return decorated_function
 
 def user_required(f):
@@ -92,6 +95,9 @@ def Admin():
 
     # Create a list to store the summarized data
     summarized_data = []
+    
+    # Create a list to store the summarized data from BloodInventory
+    summarized_data_inventory = []
 
     # Query the database to group by blood type and sum up quantities
     for blood_type in blood_types:
@@ -104,7 +110,18 @@ def Admin():
         )
         summarized_data.append(result.total_quantity if result[0] != None else 0.0)
         
-        # Create a list to store the summarized data
+    # Query the database to group by blood type and sum up quantities for BloodInventory
+    for blood_type in blood_types:
+        result = (
+            db.session.query(
+                func.sum(BloodInventory.quantity_donated).label('total_quantity')
+            )
+            .filter(BloodInventory.blood_type == blood_type)
+            .first()
+        )
+        summarized_data_inventory.append(result.total_quantity if result[0] is not None else 0.0)
+    
+    # Create a list to store the summarized data
     sd_city = {}
     
     # Query the database to find appointment IDs where city == selected_city
@@ -114,11 +131,18 @@ def Admin():
         .with_entities(DonationAppointment.appointment_id)
         .all()
     )
+    
+    blood_bag_nums = (
+        BloodDonationRecord.query
+        .filter(BloodDonationRecord.storage_location == selected_city)
+        .with_entities(BloodDonationRecord.blood_bag_number)
+        .all()
+    )
     if sb == 'ALL' :
         # Query the database to group by blood type and sum up quantities
         for blood_type in blood_types:
                 total_quantity = 0
-
+                sd_city[blood_type] = []
                 for appointment_id in appointment_ids:
                     result = (
                         db.session.query(
@@ -132,10 +156,28 @@ def Admin():
                     if result and result.total_quantity:
                         total_quantity += result.total_quantity
 
-                sd_city[blood_type] = total_quantity
-    
+                sd_city[blood_type].append(total_quantity)
+                
+        for blood_type in blood_types:
+                total_quantity = 0
+
+                for blood_bag_num in blood_bag_nums:
+                    result = (
+                        db.session.query(
+                            func.sum(BloodInventory.quantity_donated).label('total_quantity')
+                        )
+                        .filter(BloodInventory.blood_type == blood_type)
+                        .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                        .first()
+                    )
+
+                    if result and result.total_quantity:
+                        total_quantity += result.total_quantity
+
+                sd_city[blood_type].append(total_quantity)
     else :
         total_quantity = 0
+        sd_city[sb] = []
         for appointment_id in appointment_ids:
             result = (
                 db.session.query(
@@ -148,10 +190,25 @@ def Admin():
             
             if result and result.total_quantity:
                 total_quantity += result.total_quantity
-        sd_city[sb] = total_quantity
+        sd_city[sb].append(total_quantity)
+        
+        total_quantity = 0
+        for blood_bag_num in blood_bag_nums:
+            result = (
+                db.session.query(
+                    func.sum(BloodInventory.quantity_donated).label('total_quantity')
+                )
+                .filter(BloodInventory.blood_type == sb)
+                .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                .first()
+            )
+
+            if result and result.total_quantity:
+                total_quantity += result.total_quantity
+        sd_city[sb].append(total_quantity)
     
 
-    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,sd_city=sd_city,sc=selected_city,sb=sb)
+    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,sd_city=sd_city,sc=selected_city,sb=sb)
 
 #Helper functions
 #loading user
@@ -251,8 +308,8 @@ def base():
                         new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
                         db.session.add(new_notification)
                         db.session.commit()
-        
-        notifications = Notification.query.filter_by(donor_id=id_noti).all()
+    
+        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -303,7 +360,7 @@ def index():
                         db.session.add(new_notification)
                         db.session.commit()
         
-        notifications = Notification.query.filter_by(donor_id=id_noti).all()
+        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
         full_name = user.name
         name_parts = full_name.split()
         initials = "".join([name[0] for name in name_parts])
@@ -622,12 +679,14 @@ def verify_forget_otp():
 
 #Certificate
 #Route to Download Certificate Page
-@app.route('/gc/<appointment_id>')
+@app.route('/gc/<appointment_id>',methods=['GET'])
 def gc(appointment_id):
     user = current_user
     # html_template = render_template('certificate.html', name=name)
-    results = DonationAppointment.query.filter_by(appointment_id=appointment_id).first()
     data = Donor.query.filter_by(d_email_id=user.d_email_id).first()
+    results = DonationAppointment.query.filter_by(appointment_id=appointment_id,donor_id = data.donor_id).first()
+    if results is None:
+        return redirect(url_for('profile'))
     name = data.first_name + " " + data.middle_name + " " + data.last_name
     html_template = render_template('certificate.html', name=(name,results.appointment_date, results.place))
 
@@ -842,7 +901,7 @@ def booking():
         try:
             db.session.add(appoint)
             db.session.commit()
-            # print(data.gender)
+            flash("Appointment Done")
             return redirect(url_for('appointment'))
         except Exception as e:
             return redirect(url_for('contact'))
@@ -884,60 +943,54 @@ def feedback():
 
 @app.route('/plot_positive_data')
 def plot_positive_data():
-    # Get a list of all unique dates
-    unique_dates = set(record.collection_date.strftime('%Y-%m-%d') for record in BloodDonationRecord.query.all())
+    # Get a list of all unique months
+    unique_months = set(record.month for record in BloodDonationRecord.query.all())
 
-    # Create a dictionary to store the positive blood data
-    positive_data_dict = {'dates': list(unique_dates), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
+    # Sort the months chronologically
+    sorted_months = sorted(unique_months, key=lambda x: datetime.strptime(x, '%b-%y'))
+
+    # Create a dictionary to store the blood flow data
+    blood_flow_dict = {'months': list(sorted_months), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
     
     # Query the database and populate the dictionary
-    for date in unique_dates:
+    for month in sorted_months:
         for blood_type in ['A+', 'B+', 'AB+', 'O+']:
-            # Find the corresponding record or set quantity to 0
-            record = (
-                BloodDonationRecord.query
+            # Sum up the quantity for the given blood type and month
+            total_quantity = (
+                db.session.query(func.sum(BloodDonationRecord.quantity_donated))
                 .filter(BloodDonationRecord.donation_type == blood_type)
-                .filter(BloodDonationRecord.collection_date == date)
-                .first()
+                .filter(BloodDonationRecord.month == month)
+                .scalar() or 0
             )
-            quantity = record.quantity_donated if record else 0
-            positive_data_dict[blood_type.replace('+', 'p')].append(quantity)
+            blood_flow_dict[blood_type.replace('+', 'p')].append(total_quantity)
 
-    # Sort the data by 'dates'
-    sorted_data = {'dates': sorted(positive_data_dict['dates']), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
-    for blood_type in ['A+', 'B+', 'AB+', 'O+']:
-        sorted_data[blood_type.replace('+', 'p')] = [positive_data_dict[blood_type.replace('+', 'p')][positive_data_dict['dates'].index(date)] for date in sorted_data['dates']]
-
-    return jsonify(sorted_data)
-
+    return jsonify(blood_flow_dict)
 
 @app.route('/plot_negative_data')
 def plot_negative_data():
-    # Get a list of all unique dates
-    unique_dates = set(record.collection_date.strftime('%Y-%m-%d') for record in BloodDonationRecord.query.all())
+    # Get a list of all unique months
+    unique_months = set(record.month for record in BloodDonationRecord.query.all())
 
-    # Create a dictionary to store the negative blood data
-    negative_data_dict = {'dates': list(unique_dates), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
+    # Sort the months chronologically
+    sorted_months = sorted(unique_months, key=lambda x: datetime.strptime(x, '%b-%y'))
 
+    # Create a dictionary to store the negative blood flow data
+    negative_blood_flow_dict = {'months': list(sorted_months), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
+    
     # Query the database and populate the dictionary
-    for date in unique_dates:
+    for month in sorted_months:
         for blood_type in ['A-', 'B-', 'AB-', 'O-']:
-            # Find the corresponding record or set quantity to 0
-            record = (
-                BloodDonationRecord.query
+            # Sum up the quantity for the given negative blood type and month
+            total_quantity = (
+                db.session.query(func.sum(BloodDonationRecord.quantity_donated))
                 .filter(BloodDonationRecord.donation_type == blood_type)
-                .filter(BloodDonationRecord.collection_date == date)
-                .first()
+                .filter(BloodDonationRecord.month == month)
+                .scalar() or 0
             )
-            quantity = record.quantity_donated if record else 0
-            negative_data_dict[blood_type.replace('-', 'n')].append(quantity)
+            negative_blood_flow_dict[blood_type.replace('-', 'n')].append(total_quantity)
 
-    # Sort the data by 'dates'
-    sorted_data = {'dates': sorted(negative_data_dict['dates']), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
-    for blood_type in ['A-', 'B-', 'AB-', 'O-']:
-        sorted_data[blood_type.replace('-', 'n')] = [negative_data_dict[blood_type.replace('-', 'n')][negative_data_dict['dates'].index(date)] for date in sorted_data['dates']]
+    return jsonify(negative_blood_flow_dict)
 
-    return jsonify(sorted_data)
 
 
 @app.route('/mark_notification_as_read')
@@ -953,28 +1006,29 @@ def mark_notifications_as_read():
 
     return jsonify(True)
 
+@app.route('/DRequests')
 @login_required
 @admin_required
-@app.route('/DRequests')
 def Drequests():
     current_day = datetime.now().date()
     ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
     return render_template('Admin_DRequests.html',ua = ua)
 
-
-@app.route('/Client')
-def Client():
-    return render_template('Admin_Client.html')
-
+@app.route('/Client',methods=['POST','GET'])
 @login_required
 @admin_required
+def Client():
+    drs = Donor.query.all()
+    return render_template('Admin_Client.html',drs=drs)
+
 @app.route('/DAccepted', methods=['POST'])
+@login_required
+@admin_required
 def DAccepted():
     # Fetching data from the form
     appointment_id = request.form.get('AID')
     collection_date_str = request.form.get('seD')
     quantity_donated = request.form.get('QD')
-    blood_bag_number = request.form.get('BBN')
 
     # Convert 'collection_date' to a datetime object
     collection_date = datetime.strptime(collection_date_str, '%Y-%m-%d').date()
@@ -998,7 +1052,6 @@ def DAccepted():
         collection_date=collection_date,
         donation_type=blood_type,  # Replace with the actual donation type
         quantity_donated=quantity_donated,
-        blood_bag_number=blood_bag_number,
         storage_location=storage_location  # Fetch storage_location from DonationAppointment
     )
 
@@ -1009,13 +1062,21 @@ def DAccepted():
         collection_date=collection_date,
         expiry_date=expiry_date,
         quantity_donated=quantity_donated,
-        blood_bag_number=blood_bag_number,
         storage_location=storage_location  # Fetch storage_location from DonationAppointment
     )
+    
+        # Calculate the month based on the collection_date
+    donation_record.month = f"{donation_record.collection_date.strftime('%b')}-{donation_record.collection_date.strftime('%y')}"
+    blood_inventory.month = f"{blood_inventory.collection_date.strftime('%b')}-{blood_inventory.collection_date.strftime('%y')}"
 
     # Add the records to the database
     db.session.add(donation_record)
     db.session.add(blood_inventory)
+    db.session.commit()
+    
+    notification_message = f'You have successfully donated Blood on { collection_date } at {storage_location}'
+    new_notification = Notification(donor_id=donor_id, appointment_id=appointment_id, message=notification_message,read=False)
+    db.session.add(new_notification)
     db.session.commit()
 
     # Redirect to the 'about' page (replace 'about' with the actual route you want to redirect to)

@@ -93,22 +93,15 @@
                   <th class="bg-[#ff2828] text-white text-xl ">Blood Type</th>
                   <th class="bg-[#ff2828] text-white text-xl ">City</th>
                 </tr>
+                {% for dr in drs%}
                 <tr>
-                  <td class="font-bold">1</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                  </td>
+                  <td class="font-bold">{{ dr.donor_id }}</td>
+                  <td>{{ dr.first_name + " " + dr.middle_name + " " + dr.last_name }}</td>
+                  <td>{{ dr.date_of_birth }}</td>
+                  <td>{{ dr.blood_type }}</td>
+                  <td>{{ dr.city }}</td>
                 </tr>
-                <tr>
-                  <td class="font-bold">2</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                
+                {% endfor %}
               </table>
               
               <!-- <form action="Admin" method="POST"> -->

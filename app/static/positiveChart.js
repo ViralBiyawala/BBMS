@@ -3,23 +3,22 @@ fetch('/plot_positive_data')
     .then(response => response.json())
     .then(data => {
         // Create the Highcharts column chart for positive blood types with animation
+        console.log(data)
         var chart = Highcharts.chart('positiveChart', {
             chart: {
                 type: 'line',
                 zoomType: 'x', // Enable x-axis zoom
                 panning: true, // Enable panning
                 panKey: 'shift', // Hold Shift key to enable panning
-                // borderWidth: 2, // Add a border to the chart
-                // borderColor: 'Red' // Set border color
             },
             title: {
                 text: 'Positive Blood Types vs. Volume Inflow'
             },
             xAxis: {
-                categories: data.dates,
+                categories: data.months,
                 crosshair: true,
                 labels: {
-                    enabled:false // Enable labels
+                    enabled:true // Enable labels
                 }
             },
             yAxis: {

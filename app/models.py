@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import func
 
 class RDonor(UserMixin, db.Model):
     d_email_id = db.Column(db.String(100), primary_key=True)
@@ -81,25 +82,26 @@ class DonationAppointment(UserMixin,db.Model):
     donor = db.relationship('Donor', backref='appointments')
 
 class BloodDonationRecord(UserMixin,db.Model):
-    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'), primary_key=True)
+    blood_bag_number = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    appointment_id = db.Column(db.Integer, db.ForeignKey('donation_appointment.appointment_id'))
     collection_date = db.Column(db.Date, nullable=False)
     donation_type = db.Column(db.String(20), nullable=False)
     quantity_donated = db.Column(db.Float, nullable=False)
-    blood_bag_number = db.Column(db.String(20), nullable=False)
     storage_location = db.Column(db.String(100), nullable=False)
+    month = db.Column(db.String(10))  
     
     donation_appointment = db.relationship('DonationAppointment', backref='donation_records')
 
 class BloodInventory(UserMixin,db.Model):
-    blood_id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    blood_bag_number = db.Column(db.Integer, primary_key=True, autoincrement=True)
     blood_type = db.Column(db.String(5), nullable=False)
     donor_id = db.Column(db.Integer, db.ForeignKey('donor.donor_id'))
     collection_date = db.Column(db.Date, nullable=False)
     expiry_date = db.Column(db.Date, nullable=False)
     quantity_donated = db.Column(db.Float, nullable=False)
-    blood_bag_number = db.Column(db.String(20))
     storage_location = db.Column(db.String(100), nullable=False)
-    
+    month = db.Column(db.String(10))  # New column for storing month-year
+
     donor = db.relationship('Donor', backref='inventory')
 
 class BloodTransfusionRecord(UserMixin,db.Model):

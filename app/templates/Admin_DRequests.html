@@ -86,7 +86,7 @@
           <td>{{ appo.appointment_time }}</td>
           <td>{{ appo.place }}</td>
           <td>
-            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm()">
+            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
               Fill
             </button>
           </td>
@@ -100,25 +100,29 @@
           <div
             class="a-dform shadow-2xl shadow-black-900/50 rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
 
-            <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
-              Donation Form
-            </div>
+            <div class="box-head flex justify-between items-center bg-[#ff2828] rounded-t-3xl text-white text-2xl">
 
-            <div class="a-df2-submit">
-              Close
+              <div class="heading pl-4 py-3">
+                Donation Form
+              </div>
+              
+              <div class="a-df2-submit font-bold pr-4 text-4xl cursor-pointer">
+                &times;
+              </div>
+
             </div>
 
             <div class="flex flex-col w-full items-center ">
 
 
-              <div class="input-container w-[90%] max-[615px]:w-full ">
-                <input type="text" name="AID" class="date input" value="" required />
+              <div class="input-container w-[90%] max-[615px]:w-full focus">
+                <input type="text" name="AID" class="input apid" value="" required  readonly />
                 <label for="">Appointment Id</label>
-                <span>Donation Id</span>
+                <span>Appointment Id</span>
               </div>
 
               <div class="input-container w-[90%] max-[615px]:w-full focus">
-                <input type="date" name="seD" class="date " value="" required />
+                <input type="date" name="seD" class="date apdate" value="" required />
                 <label for="">Collection Date</label>
                 <span>Collection Date</span>
               </div>
@@ -128,13 +132,6 @@
                 <label for="">Quantity Donated</label>
                 <span>Quantity Donated</span>
               </div>
-
-              <div class="input-container w-[90%] max-[615px]:w-full ">
-                <input type="text" name="BBN" class="date input" value="" required />
-                <label for="">Blood Bag Number</label>
-                <span>Blood Bag Number</span>
-              </div>
-
 
             </div>
 
@@ -178,21 +175,6 @@
     });
 
 
-
-    // Js for Updating Value in Input after Selecting
-    //function showCity(word) {
-    //  document.querySelector(".textBoxCity").value = word;
-    //}
-    //function showGender(word) {
-    //  document.querySelector(".textBoxGender").value = word;
-    //}
-    //function showBloodType(word) {
-    //  document.querySelector(".textBoxBlood").value = word;
-    //}
-
-
-
-
     // Flash Message JS
     const fmsg = document.querySelector(".flash-messages");
 
@@ -207,53 +189,22 @@
       fmsg.classList.add("active");
     }
 
-    //City Search Box Js
-
-    //function fetchCities() {
-    //  fetch("/get_cities_json")
-    //    .then((response) => response.json())
-    //    .then((data) => {
-    //      var cities = data["cities"];
-    //      const resultBox = document.getElementById("OptionsCity");
-    //      const inputBox = document.getElementById("CitytextBox");
-    //      const rBHTML=resultBox.innerHTML;
-    //      inputBox.onkeyup = function () {
-    //
-    //        let result = [];
-    //        let input = inputBox.value;
-    //        if (input.length) {
-    //          result = cities.filter((keyword) => {
-    //            return keyword.toLowerCase().startsWith(input.toLowerCase());
-    //          });
-    //        }
-    //
-    //        display(result);
-    //
-    //        if(!result.length){
-    //          resultBox.innerHTML = "";
-    //        }
-    //        if(!input.length){
-    //          resultBox.innerHTML = rBHTML;
-    //        }
-    //      };
-    //
-    //      function display(result) {
-    //        resultBox.innerHTML = "";
-    //        const content = result.map((div)=>{
-    //          return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
-    //        });
-    //        resultBox.innerHTML = content.join('');
-    //      }
-    //    })
-    //    .catch((error) => console.error("Error:", error));
-    //}
-    //fetchCities();
-
     let dform = document.querySelector('.a-dform');
     let dfSubmit = document.querySelector('.a-df2-submit');
     let overlay = document.querySelector('.overlay');
-    function OpenForm() {
+    let AppID = document.querySelector(".apid");
+    let AppDate = document.querySelector(".apdate");
+
+    function OpenForm(dr_id,dr_date) {
       dform.classList.add('df-active');
+      if(dform.classList.contains('df-active')){
+        AppID.value = dr_id;
+        AppDate.value = dr_date;
+      }
+      else{
+        AppID.value = "";
+        AppDate.value = "";
+      }
       overlay.classList.remove('hidden')
       overlay.classList.add('block')
     }

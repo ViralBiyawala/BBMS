@@ -106,25 +106,25 @@
             class="a-right w-[90%]   px-7 pt-1 "
           >
             <div class="charts flex flex-wrap justify-between items-between p-2 h-[42rem]">
-              <div class="c1 w-[49%] h-[19rem] border border-black bg-white p-4">
+              <div class="c1 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Donation(+ve)</div>
                 <div id="positiveChart" class="chart  h-[90%]"></div>
               </div>
-              <div class="c2 w-[49%] h-[19rem] border border-black bg-white p-4">
+              <div class="c2 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Donation(-ve)</div>
                 <div id="negativeChart" class="chart  h-[90%]"></div>
               </div>
-              <div class="c3 w-[49%] h-[19rem] border border-black bg-white p-4">
+              <div class="c3 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Requests(+ve)</div>
                 <div class="chart border border-black h-[90%]"></div>
               </div>
-              <div class="c4 w-[49%] h-[19rem] border border-black bg-white p-4">
+              <div class="c4 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Requests(-ve)</div>
                 <div class="chart border border-black h-[90%]"></div>
               </div>
             </div>
 
-            <div class="bi   mb-8  text-2xl font-medium">Blood Inventory</div>
+            <div class="bi mb-8 mt-24 text-2xl font-medium">Blood Inventory</div>
 
             <table>
                 <tr>
@@ -137,49 +137,49 @@
                   <td class="font-bold">A +</td>
                   <td>{{ in_qu[0] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[0] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">A -</td>
                   <td>{{ in_qu[1] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[1] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">B +</td>
                   <td>{{ in_qu[2] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[2] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">B -</td>
                   <td>{{ in_qu[3] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[3] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">AB +</td>
                   <td>{{ in_qu[4] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[4] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">AB -</td>
                   <td>{{ in_qu[5] }}</td>
                     <td></td>
-                    <td></td>
+                    <td>{{ inv[5] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">O+</td>
                   <td>{{ in_qu[6] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[6] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">O -</td>
                   <td>{{ in_qu[7] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ inv[7] }}</td>
                 </tr>
               </table>
               
@@ -273,9 +273,9 @@
               {% for blood_type, total_quantity in sd_city.items() %}
                 <tr>
                   <td class="font-bold">{{ blood_type }}</td>
-                  <td>{{ total_quantity }}</td>
+                  <td>{{ total_quantity[0] }}</td>
                   <td></td>
-                  <td></td>
+                  <td>{{ total_quantity[1] }}</td>
                 </tr>
               {% endfor %}
               </table>

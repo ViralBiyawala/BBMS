@@ -14,10 +14,10 @@ fetch('/plot_negative_data')
                 text: 'Negative Blood Types vs. Volume Inflow'
             },
             xAxis: {
-                categories: data.dates,
+                categories: data.months,
                 crosshair: true,
                 labels: {
-                    enabled:false // Enable labels
+                    enabled:true, // Enable labels
                 }
             },
             yAxis: {
