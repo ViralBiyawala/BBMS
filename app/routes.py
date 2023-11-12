@@ -35,6 +35,13 @@ pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
 cities = city["City"]
 
+# Hospital Page BackEnd strts
+@app.route('/HRecipients')
+def HRecipients():
+    return render_template('Hospital_Recipent.html')
+# Hospital Page BackEnd ends
+
+
 # For sending list of cities to JS file
 @app.route('/get_cities_json')
 def get_cities_json():

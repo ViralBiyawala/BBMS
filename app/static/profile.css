@@ -706,3 +706,46 @@ th,td {
 }
 
 
+/* Hospital CSS */
+.h-recipient th:nth-child(1),.h-recipient td:nth-child(1) {
+  width: 16%; /* Set the width of the first column */
+}
+
+.h-recipient th:nth-child(2),.h-recipient td:nth-child(2) {
+  width: 20%;
+}
+
+.h-recipient th:nth-child(3),.h-recipient td:nth-child(3) {
+  width: 16%;
+}
+
+.h-recipient th:nth-child(4),.h-recipient td:nth-child(4) {
+  width: 16%; 
+}
+
+.h-recipient th:nth-child(5),.h-recipient td:nth-child(5) {
+  width: 16%; 
+}
+.h-recipient th:nth-child(5),.h-recipient td:nth-child(5) {
+  width: 16%; 
+}
+.h-recipient th, 
+.h-recipient td {
+  border: none;
+  padding: 10px;
+  text-align: center;
+}
+
+.h-recipient td {
+  font-weight: 500;
+}
+.h-recipient tr:nth-child(odd){
+  background-color: white;
+}
+.h-recipient table{
+  border:2px solid white;
+}
+.R-info .input-container{
+  margin:0rem 0;   
+  /* border: 2px solid salmon; */
+}

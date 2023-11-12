@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipients</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!-- Link to external JavaScript files using url_for -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+</head>
+
+<body class="dreq-body bg-[#ffe0e0]">
+
+  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    <div
+      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+      <a href="index">Life Saver</a>
+    </div>
+
+    <div class="flex w-[80%] justify-end items-center">
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Admin">About Us</a>
+      </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="DRequests">Contact Us</a>
+      </div>
+
+      <!-- <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Client">Client</a>
+      </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="logout">Logout</a>
+      </div> -->
+    </div>
+  </nav>
+
+  <div class="header   py-4 mt-4 flex justify-between items-center font-medium">
+    <div class="ml-8 text-3xl ">Recipient</div>
+    <button class="border border-black mr-8 py-2 border-none rounded-xl px-8 bg-[#ff2828] text-white text-2xl">
+       + Add New Recipient</button>
+    
+
+  </div>
+
+  <div class="mt-8 flex  items-center flex-col mb-[4rem] ">
+
+    <div class="h-recipient w-[90%] ">
+      <table>
+        <tr>
+          <th class="bg-[#ff2828] text-white text-xl ">Recipient ID</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Name</th>
+          <th class="bg-[#ff2828] text-white text-xl ">DOB</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Gender</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Blood Group</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Phone No.</th>
+        </tr>
+        <tr>
+          <td >1</td>
+          <td>Shivam</td>
+          <td>23/11/3333</td>
+          <td>Male</td>
+          <td>A+</td>
+          <td>9011123232</td>
+        </tr>
+        <tr>
+          <td >1</td>
+          <td>Shivam</td>
+          <td>23/11/3333</td>
+          <td>Male</td>
+          <td>A+</td>
+          <td>9011123232</td>
+        </tr>
+        <tr>
+          <td >1</td>
+          <td>Shivam</td>
+          <td>23/11/3333</td>
+          <td>Male</td>
+          <td>A+</td>
+          <td>9011123232</td>
+        </tr>
+        <!-- {% for appo in ua%}
+        {% if appo.ddone == False %}
+        <tr>
+          <td class="font-bold">{{ appo.appointment_id}}</td>
+          <td>{{ appo.appointment_date }}</td>
+          <td>{{ appo.appointment_time }}</td>
+          <td>{{ appo.place }}</td>
+          <td>
+            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
+              Fill
+            </button>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %} -->
+      </table>
+
+       
+
+
+      <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
+
+
+
+    </div>
+
+    
+    <div class="R-info mx-auto mt-10   w-[60%] py-4  px-4 bg-white rounded-xl space-y-4">
+      
+      <div class="text-2xl text-[#ff2828] font-medium  ">Recipient Information</div>
+      
+      <div class="1 flex justify-between">
+        <div class="input-container w-[40%] ">
+          <input type="text" name="seD" class="input" value="" required />
+          <label for="">First Name</label>
+          <span>First Name</span>
+        </div>
+        <div class="input-container w-[40%]">
+          <input type="text" name="seD" class="input " value="" required />
+          <label for="">Last Name</label>
+          <span>Last Name</span>
+        </div>
+      </div>
+
+      <div class="2 flex justify-between">
+        <div class="input-container w-[40%] focus">
+          <input type="date" name="seD" class="date" value="" required />
+          <label for="">Date of Birth</label>
+          <span>Date of Birth</span>
+        </div>
+        <div class="input-container w-[40%]">
+          <div class="dropdown input">
+            <input
+              type="text"
+              class="textBoxGender"
+              value="Male"
+              readonly
+              name="gender"
+              required
+            />
+            <div class="options">
+              <div onclick="showGender('Male')">Male</div>
+              <div onclick="showGender('Female')">Female</div>
+            </div>
+          </div>
+          <label for="">Gender</label>
+          <span>Gender</span>
+        </div>
+      </div>
+ 
+
+      <div class="3 flex justify-between">
+        <div class="input-container w-[40%] ">
+          <input type="text" name="seD" class="input" value="" required />
+          <label for="">Mobile</label>
+          <span>Mobile</span>
+        </div>
+        <div class="input-container w-[40%]">
+          <input type="text" name="seD" class="input " value="" required />
+          <label for="">Email</label>
+          <span>Email</span>
+        </div>
+      </div>
+
+      <div class="4 flex justify-between">
+        <div class="input-container textarea w-[100%]">
+          <textarea name="address" class="input" required></textarea>
+          <label for="">Address</label>
+          <span>Address</span>
+        </div>
+      </div>
+
+      <div class="5 flex justify-between">
+        <div class="input-container w-[40%] ">
+          <input type="text" name="seD" class="input" value="" required />
+          <label for="">Medical History</label>
+          <span>Medical History</span>
+        </div>
+        <div class="input-container w-[40%]">
+          <div class="dropdown input">
+            <input
+              type="text"
+              class="textBoxBlood"
+              value="A+"
+              readonly
+              name="Btype"
+              required
+            />
+            <div class="options">
+              <div onclick="showBloodType('A+')" class="blood-type">
+                A+
+              </div>
+              <div onclick="showBloodType('B+')" class="blood-type">
+                B+
+              </div>
+              <div onclick="showBloodType('AB+')" class="blood-type">
+                AB+
+              </div>
+              <div onclick="showBloodType('O+')" class="blood-type">
+                O+
+              </div>
+              <div onclick="showBloodType('A-')" class="blood-type">
+                A-
+              </div>
+              <div onclick="showBloodType('B-')" class="blood-type">
+                B-
+              </div>
+              <div onclick="showBloodType('AB-')" class="blood-type">
+                AB-
+              </div>
+              <div onclick="showBloodType('O-')" class="blood-type">
+                O-
+              </div>
+            </div>
+          </div>
+          <label for="">Blood Type</label>
+          <span>Blood Type</span>
+        </div>
+      </div>
+
+      <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
+        Add</button>
+    </div>
+  </div>
+
+
+  <script>
+    // InputBox Animation JS
+    const ips = document.querySelectorAll(".input");
+    ips.forEach((ip) => {
+      ip.addEventListener("focus", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+      if (ip.value != "") {
+        ip.parentNode.classList.add("focus");
+      }
+
+      ip.addEventListener("blur", (e) => {
+        if (e.target.value === "") {
+          e.target.parentNode.classList.remove("focus");
+        }
+      });
+
+      ip.addEventListener("input", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+    });
+
+
+    // Flash Message JS
+    const fmsg = document.querySelector(".flash-messages");
+
+    setTimeout(() => {
+      if (fmsg.classList.contains("active")) {
+        fmsg.classList.remove("active");
+      }
+    }, 3000);
+
+    const ims = document.querySelector(".inner");
+    if (ims !== null && ims.textContent != "") {
+      fmsg.classList.add("active");
+    }
+
+    // Js for Updating Value in Input after Selecting
+    function showCity(word) {
+      document.querySelector(".textBoxCity").value = word;
+    }
+    function showGender(word) {
+      document.querySelector(".textBoxGender").value = word;
+    }
+    function showBloodType(word) {
+      document.querySelector(".textBoxBlood").value = word;
+    }
+
+    // Loop through all .dropdown elements
+    let dd = document.querySelectorAll(".dropdown");
+    dd.forEach(function (dropdown) {
+      dropdown.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
+      });
+
+      dropdown.addEventListener("focus", function () {
+        dropdown.classList.add("active");
+      });
+
+      dropdown.addEventListener("blur", function () {
+        dropdown.classList.remove("active");
+      });
+      document.addEventListener("click", function (event) {
+        if (event.target !== dropdown && !dropdown.contains(event.target)) {
+          if (dropdown.classList.contains("active"))
+            dropdown.classList.remove("active");
+        }
+      });
+    });
+
+  </script>
+</body>
+
+</html>
