@@ -39,6 +39,11 @@ cities = city["City"]
 @app.route('/HRecipients')
 def HRecipients():
     return render_template('Hospital_Recipent.html')
+
+@app.route('/HProfile')
+def HProfile():
+    return render_template('Hospital_Profile.html',appointments=None,results=None)
+
 # Hospital Page BackEnd ends
 
 
@@ -1020,6 +1025,12 @@ def Drequests():
     current_day = datetime.now().date()
     ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
     return render_template('Admin_DRequests.html',ua = ua)
+
+@app.route('/HRequests')
+def Hrequests():
+    current_day = datetime.now().date()
+    ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
+    return render_template('Admin_HRequests.html',ua = ua)
 
 @app.route('/Client',methods=['POST','GET'])
 @login_required

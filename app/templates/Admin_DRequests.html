@@ -128,7 +128,7 @@
               </div>
 
               <div class="input-container w-[90%] max-[615px]:w-full ">
-                <input type="text" name="QD" class="input" value="" required />
+                <input type="text" name="QD" class="quantity input" value="" required />
                 <label for="">Quantity Donated</label>
                 <span>Quantity Donated</span>
               </div>
@@ -194,6 +194,7 @@
     let overlay = document.querySelector('.overlay');
     let AppID = document.querySelector(".apid");
     let AppDate = document.querySelector(".apdate");
+    let QuantityDonated = document.querySelector(".quantity");
 
     function OpenForm(dr_id,dr_date) {
       dform.classList.add('df-active');
@@ -211,6 +212,8 @@
     dfSubmit.addEventListener('click', (e) => {
       dform.classList.remove('df-active');
       overlay.classList.remove('block')
+      QuantityDonated.value="";
+      QuantityDonated.parentNode.classList.remove("focus");
       overlay.classList.add('hidden')
     });
 

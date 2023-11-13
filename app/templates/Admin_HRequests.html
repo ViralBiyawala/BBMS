@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="box-border scroll-smooth focus:scroll-auto">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!-- Link to external JavaScript files using url_for -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+</head>
+
+<body class="dreq-body bg-[#ffe0e0]">
+  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    <div
+      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+      <a href="index">Life Saver</a>
+    </div>
+
+    <div class="flex w-[80%] justify-end items-center">
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Admin">Dashboard</a>
+      </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="DRequests">Requests</a>
+      </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="Client">Client</a>
+      </div>
+
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="my-8 ml-4  text-3xl font-medium">Hospital Requests</div>
+
+  <div class="mt-8 flex justify-center mb-[4rem]">
+
+      <!-- Flash message start -->
+      <div class="flash-messages">
+        <div class="msg">
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <div class="inner">{{ messages[-1] }}</div>
+          {% endif %} {% endwith %}
+        </div>
+      </div>
+      <!--Flash message ends  -->
+
+    <div class="a-right w-[90%]   px-7 pt-1 ">
+      <table>
+        <tr>
+          <th class="bg-[#ff2828] text-white text-xl ">Request Id</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Date</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Time</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Place</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Fill Form</th>
+        </tr>
+        {% for appo in ua%}
+        {% if appo.ddone == False %}
+        <tr>
+          <td class="font-bold">{{ appo.appointment_id}}</td>
+          <td>{{ appo.appointment_date }}</td>
+          <td>{{ appo.appointment_time }}</td>
+          <td>{{ appo.place }}</td>
+          <td>
+            <button class="fill-form bg-blue-500 px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
+              Check
+            </button>
+            <button class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
+              Dispatched
+            </button>
+            <button class="fill-form bg-red-500 px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
+              Not Available
+            </button>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
+
+     
+
+      <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
+
+
+
+    </div>
+
+  </div>
+
+
+  <script>
+    // InputBox Animation JS
+    const ips = document.querySelectorAll(".input");
+    ips.forEach((ip) => {
+      ip.addEventListener("focus", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+      if (ip.value != "") {
+        ip.parentNode.classList.add("focus");
+      }
+
+      ip.addEventListener("blur", (e) => {
+        if (e.target.value === "") {
+          e.target.parentNode.classList.remove("focus");
+        }
+      });
+
+      ip.addEventListener("input", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+    });
+
+
+    // Flash Message JS
+    const fmsg = document.querySelector(".flash-messages");
+
+    setTimeout(() => {
+      if (fmsg.classList.contains("active")) {
+        fmsg.classList.remove("active");
+      }
+    }, 3000);
+
+    const ims = document.querySelector(".inner");
+    if (ims !== null && ims.textContent != "") {
+      fmsg.classList.add("active");
+    }
+
+     
+
+  </script>
+</body>
+
+</html>
