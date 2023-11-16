@@ -9,7 +9,7 @@ app = Flask(__name__)
 myemail = 'lifesaver102023@gmail.com'
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587
-app_login_key = 'iagqnjyfcvpdtoes'
+app_login_key = 'aouojaqtpwhlzoiy'
 mypass = "Admin"
 
 server = smtplib.SMTP(smtp_server, smtp_port)

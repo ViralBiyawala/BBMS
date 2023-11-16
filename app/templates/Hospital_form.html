@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/profile.css">
+    <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-[#FFE0E0]">
+    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
+        <div class="flex items-center
+            w-[20%]   
+        ml-[24px] text-[36px]  hover:tracking-[0.1em]
+        transition-all duration-700 cursor-pointer
+                    ">
+            <a href="index">Life Saver</a>
+        </div>
+        <div class=" flex w-[80%] justify-end items-center">
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
+                <a href="/index">Home</a>
+            </div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
+                <a>About Us</a>
+            </div>
+
+            <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
+                <a href="/contact">Contact Us</a>
+            </div>
+
+            {% if user is none %}
+            <div
+                class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                <a href="login">Login</a>
+            </div>
+            {% else %}
+            <!-- <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                    <a href="logout">Log Out</a>
+                </div> -->
+            <div class="nav-btn p-dropdown input ">
+
+                <div class="temp flex items-center">
+                    <button class="inline mx-[28px]" onclick="showItemS()">
+                        <img src="{{ src }}" id="profile-pic-main" alt=""
+                            class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
+                    </button>
+                </div>
+
+                <div class="options text-[19px]">
+                    <a href="profile">
+                        <div>
+                            Profile
+                        </div>
+                    </a>
+                    <a href="logout">
+                        <div>Log Out</div>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white"> -->
+            <!-- <a href="profile">
+                        <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer mx-[28px]">
+                    </a> -->
+            <!-- </div> -->
+            {% endif %}
+
+
+        </div>
+    </nav>
+
+    <div class=" mt-[1rem] h-[88.5vh] flex">
+
+        <div style="background-image: url('../static/images/calendar.png')"
+            class="f-left   w-1/3 bg-contain bg-no-repeat bg-center">
+            <!-- Flash message start -->
+            <div class="flash-messages">
+                <div class="msg">
+                    <!-- <div class="inner">Error </div> -->
+                    {% with messages = get_flashed_messages() %} {% if messages %}
+                    <div class="inner">{{ messages[-1] }}</div>
+                    {% endif %} {% endwith %}
+                </div>
+            </div>
+            <!--Flash ends  -->
+        </div>
+
+
+        <div
+            class="f-right right w-2/3 flex flex-col  justify-center p-[1rem] aspect-[18/13] overflow-y-scroll scroll-smooth pt-[15rem]">
+
+            <div class="personal-details bg-white rounded-2xl border border-[#FF2828] pb-[0.5rem]">
+                <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Hospital Details</h3>
+
+                <div class="1 flex space-x-[0.8rem] px-[1.7rem]">
+
+                    <div class="donor-id input-container w-[40%]  ">
+                        <input type="text" name="ID" class="input" value="" readonly>
+                        <label for="">Hospital ID</label>
+                        <span>Hospital ID</span>
+                    </div>
+
+                    <div class="form-name input-container w-[60%] ">
+                        <input type="text" name="Name" class="input" value="" readonly>
+                        <label for="">Name</label>
+                        <span>Name</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <form method="POST" action="booking">
+                <div class="appointment-schedule bg-white rounded-2xl border border-[#FF2828] 
+            pb-[0.5rem] my-[2rem]">
+                    <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Appointment Schedule</h3>
+
+                    <div class="flex flex-col mt-[1rem] px-[1.5rem]  space-y-[0.8rem]">
+                        <!-- <div class="dt  w-[60%] flex ">
+                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Date</div>
+                            <input type="date" required name="date" id=""
+                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div>
+
+                        <div class="time  w-[60%] flex ">
+                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Time</div>
+                            <input type="time" required name="time" id=""
+                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div> -->
+
+                        <div class="time  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Recipient ID</div>
+                            <input type="number" required name="time" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div>
+
+                        <div class="dt  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Date</div>
+                            <input type="date" required name="date" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div>
+
+                        <div class="dt  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Blood Type</div>
+                            <input type="text" required name="date" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div>
+
+                        <div class="time  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Quantity</div>
+                            <input type="number" required name="time" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        </div>
+
+
+                        <div class="time  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 1</div>
+                            <div class="input-container w-[60%] -mt-[0.03rem]">
+                                <div class="dropdown input">
+                                    <input type="text" class="textBoxCity t1" value="" name="place" id="CitytextBox1"
+                                        required />
+                                    <div class="options" id="OptionsCity1">
+                                        {% for city in cities %}
+                                        <div onclick='showCity(".t1","{{ city }}")'>{{ city }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="time  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 2</div>
+                            <div class="input-container w-[60%] -mt-[0.03rem]">
+                                <div class="dropdown input">
+                                    <input type="text" class="textBoxCity t2" value="" name="place" id="CitytextBox2"
+                                        required />
+                                    <div class="options" id="OptionsCity2">
+                                        {% for city in cities %}
+                                        <div onclick='showCity(".t2","{{ city }}")'>{{ city }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="time  w-[70%] flex ">
+                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 3</div>
+                            <div class="input-container w-[60%] -mt-[0.03rem]">
+                                <div class="dropdown input">
+                                    <input type="text" class="textBoxCity t3" value="" name="place" id="CitytextBox3"
+                                        required />
+                                    <div class="options" id="OptionsCity3">
+                                        {% for city in cities %}
+                                        <div onclick='showCity(".t3","{{ city }}")'>{{ city }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Book Appointment" class="btnbook bg-[#ff2828]">
+                    </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+    </div>
+
+    <script>
+        const ips = document.querySelectorAll('.input');
+
+        ips.forEach(ip => {
+            ip.addEventListener('focus', (e) => {
+                e.target.parentNode.classList.add('focus');
+            });
+            if (ip.value != "") {
+                ip.parentNode.classList.add('focus');
+            }
+
+            ip.addEventListener("blur", (e) => {
+                if (e.target.value === "" && !e.target.parentNode.classList.contains("strict")) {
+                    e.target.parentNode.classList.remove('focus');
+                }
+            });
+
+            ip.addEventListener("input", (e) => {
+                e.target.parentNode.classList.add('focus');
+            });
+        });
+
+        //NavBar Profile Click DropDown
+        let navbtn = document.querySelector(".nav-btn");
+        function showItemS() {
+            navbtn.classList.toggle('active');
+        }
+        document.addEventListener("click", function (event) {
+            if (event.target !== navbtn && !navbtn.contains(event.target)) {
+                if (navbtn.classList.contains('active'))
+                    navbtn.classList.remove('active');
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Tab is minimized or Tab is moved, remove the "active" class
+                navbtn.classList.remove('active');
+            }
+        });
+
+
+
+        function show(word) {
+            document.querySelector(".textBox").value = word;
+        }
+        function showCity(cls,word) {
+            document.querySelector(cls).value = word;
+        }
+
+        let dd = document.querySelectorAll(".dropdown");
+
+        // Loop through all .dropdown elements
+        dd.forEach(function (dropdown) {
+            dropdown.addEventListener("click", function () {
+                dropdown.classList.toggle("active");
+            });
+
+            dropdown.addEventListener("focus", function () {
+                dropdown.classList.add("active");
+            });
+
+            dropdown.addEventListener("blur", function () {
+                dropdown.classList.remove("active");
+            });
+            document.addEventListener("click", function (event) {
+                if (event.target !== dropdown && !dropdown.contains(event.target)) {
+                    if (dropdown.classList.contains("active"))
+                        dropdown.classList.remove("active");
+                }
+            });
+        });
+
+        // Flash Message JS
+        const fmsg = document.querySelector(".flash-messages");
+
+        setTimeout(() => {
+            if (fmsg.classList.contains("active")) {
+                fmsg.classList.remove("active");
+            }
+        }, 3000);
+
+        const ims = document.querySelector(".inner");
+        if (ims !== null && ims.textContent != "") {
+            fmsg.classList.add("active");
+        }
+
+
+        //City Search Box Js
+        function fetchCities() {
+            fetch("/get_cities_json")
+                .then((response) => response.json())
+                .then((data) => {
+                    var cities = data["cities"];
+
+                    const resultBox1 = document.getElementById("OptionsCity1");
+                    const inputBox1 = document.getElementById("CitytextBox1");
+                    const rBHTML1 = resultBox1.innerHTML;
+                    inputBox1.onkeyup = function () {
+
+                        let result = [];
+                        let input = inputBox1.value;
+                        if (input.length) {
+                            result = cities.filter((keyword) => {
+                                return keyword.toLowerCase().startsWith(input.toLowerCase());
+                            });
+                        }
+
+                        resultBox1.innerHTML = "";
+                        const content = result.map((div) => {
+                            return '<div onclick=showCity(".t1",this.innerHTML)>' + div + '</div>';
+                        });
+                        resultBox1.innerHTML = content.join('');
+
+                        if (!result.length) {
+                            resultBox1.innerHTML = "";
+                        }
+                        if (!input.length) {
+                            resultBox1.innerHTML = rBHTML1;
+                        }
+                    };
+
+
+                    const resultBox2 = document.getElementById("OptionsCity2");
+                    const inputBox2 = document.getElementById("CitytextBox2");
+                    const rBHTML2 = resultBox2.innerHTML;
+                    inputBox2.onkeyup = function () {
+
+                        let result = [];
+                        let input = inputBox2.value;
+                        if (input.length) {
+                            result = cities.filter((keyword) => {
+                                return keyword.toLowerCase().startsWith(input.toLowerCase());
+                            });
+                        }
+
+                        resultBox2.innerHTML = "";
+                        const content = result.map((div) => {
+                            return '<div onclick=showCity(".t2",this.innerHTML)>' + div + '</div>';
+                        });
+                        resultBox2.innerHTML = content.join('');
+
+                        if (!result.length) {
+                            resultBox2.innerHTML = "";
+                        }
+                        if (!input.length) {
+                            resultBox2.innerHTML = rBHTML2;
+                        }
+                    };
+
+
+                    const resultBox3 = document.getElementById("OptionsCity3");
+                    const inputBox3 = document.getElementById("CitytextBox3");
+                    const rBHTML3 = resultBox3.innerHTML;
+                    inputBox3.onkeyup = function () {
+
+                        let result = [];
+                        let input = inputBox3.value;
+                        if (input.length) {
+                            result = cities.filter((keyword) => {
+                                return keyword.toLowerCase().startsWith(input.toLowerCase());
+                            });
+                        }
+
+                        resultBox3.innerHTML = "";
+                        const content = result.map((div) => {
+                            return '<div onclick=showCity(".t3",this.innerHTML)>' + div + '</div>';
+                        });
+                        resultBox3.innerHTML = content.join('');
+
+                        if (!result.length) {
+                            resultBox3.innerHTML = "";
+                        }
+                        if (!input.length) {
+                            resultBox3.innerHTML = rBHTML3;
+                        }
+                    };
+
+
+                })
+                .catch((error) => console.error("Error:", error));
+        }
+        fetchCities();
+    </script>
+</body>
+
+</html>

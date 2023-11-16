@@ -35,18 +35,6 @@ pt = os.path.join(app.root_path, 'city.csv')
 city = pd.read_csv(pt)
 cities = city["City"]
 
-# Hospital Page BackEnd strts
-@app.route('/HRecipients')
-def HRecipients():
-    return render_template('Hospital_Recipent.html')
-
-@app.route('/HProfile')
-def HProfile():
-    return render_template('Hospital_Profile.html',appointments=None,results=None)
-
-# Hospital Page BackEnd ends
-
-
 # For sending list of cities to JS file
 @app.route('/get_cities_json')
 def get_cities_json():
@@ -74,8 +62,32 @@ def admin_required(f):
             else:
                 return redirect(url_for('index'))
         else:
-            flash('Admin only have permission for this Page.')
+            return redirect(url_for('index'))
+    return decorated_function
+
+def no_admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated :
+            if not current_user.has_role('admin'):
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for('Admin'))
+        else:
             return f(*args, **kwargs)
+    return decorated_function
+
+
+def hos_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated :
+            if current_user.has_role('hospital'):
+                return f(*args, **kwargs)
+            else:
+                return redirect(url_for('index'))
+        else:
+            return redirect(url_for('index'))
     return decorated_function
 
 def user_required(f):
@@ -250,12 +262,12 @@ def is_valid_email(email):
 
 #Page Routing
 #Route to Contact Page
-@user_required
 @app.route('/contact')
+@no_admin_required
 def contact():
     src = "../static/images/profile.png"
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin') else None
-    if user != None:
+    if user != None and user.has_role('donor'):
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
@@ -266,6 +278,15 @@ def contact():
                 filename = current_path + image_path
                 if os.path.isfile(filename) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
+    elif user != None and user.has_role('hospital'):
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Check if an image file exists for the user
+        current_path = os.getcwd() 
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('contact.html',src=src,user=user)
 
 # @app.route('/form')
@@ -273,10 +294,11 @@ def contact():
 #     return render_template('form.html',cities=cities)
 
 @app.route('/about')
+@no_admin_required
 def about():
     src = "../static/images/profile.png"
-    user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
-    if user != None:
+    user = current_user if current_user.is_authenticated and not current_user.has_role('admin') else None
+    if user != None and user.has_role('donor'):
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
@@ -287,18 +309,27 @@ def about():
                 filename = current_path + image_path
                 if os.path.isfile(filename) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
+    elif user != None and user.has_role('hospital'):
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Check if an image file exists for the user
+        current_path = os.getcwd() 
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('AboutUs.html',src=src,user=user)
 
 #By default Page
 @app.route('/')
-@user_required
+@no_admin_required
 def base():
     src = "../static/images/profile.png"
     notifications = None
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
-    else:
+    elif current_user.has_role('donor'):
         id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
         appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
         latest_record = None
@@ -322,9 +353,6 @@ def base():
                         db.session.commit()
     
         notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
-        full_name = user.name
-        name_parts = full_name.split()
-        initials = "".join([name[0] for name in name_parts])
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
@@ -338,18 +366,28 @@ def base():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
+    else :
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Check if an image file exists for the user
+        current_path = os.getcwd()
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
+
+    return render_template('index.html',user=user, src = src, notifications = notifications)
 
 #Home Page
 @app.route('/index')
-@user_required
+@no_admin_required
 def index():
     src = "../static/images/profile.png"
     notifications = None
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
     if user == None:
         initials = None
-    else:
+    elif current_user.has_role('donor'):
         id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
         appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
         latest_record = None
@@ -373,14 +411,12 @@ def index():
                         db.session.commit()
         
         notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
-        full_name = user.name
-        name_parts = full_name.split()
-        initials = "".join([name[0] for name in name_parts])
+        
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
-            current_path = os.getcwd() 
+            current_path = os.getcwd()
             for extension in allowed_extensions:
                 image_path = f"/app/static/images/{donor.donor_id}.{extension}"
                 filename = current_path + image_path
@@ -389,12 +425,22 @@ def index():
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
-    return render_template('index.html',user=user, name=initials, src = src, notifications = notifications)
+    else :
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Check if an image file exists for the user
+        current_path = os.getcwd()
+        for extension in allowed_extensions:
+            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            filename = current_path + image_path
+            if os.path.isfile(filename) == True:
+                src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
+
+    return render_template('index.html',user=user, src = src, notifications = notifications)
 
 # generating basic template for certficate
+@app.route('/certificate', methods=['GET'])
 @login_required
 @user_required
-@app.route('/certificate', methods=['GET'])
 def verify():
     return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
 
@@ -692,6 +738,8 @@ def verify_forget_otp():
 #Certificate
 #Route to Download Certificate Page
 @app.route('/gc/<appointment_id>',methods=['GET'])
+@login_required
+@user_required
 def gc(appointment_id):
     user = current_user
     # html_template = render_template('certificate.html', name=name)
@@ -771,7 +819,6 @@ def profile():
             data.contact_address = address
             data.city = city
             data.blood_type = Btype
-            print(data.gender)
         else:
             # Create a new Donor object if it doesn't exist
             data = Donor(
@@ -791,7 +838,6 @@ def profile():
         try:
             db.session.add(data)
             db.session.commit()
-            print(data.gender)
             return redirect(url_for('profile'))
         except Exception as e:
             print(e)
@@ -830,6 +876,7 @@ def profile():
 
 @app.route('/update_img', methods=['POST'])
 @login_required
+@no_admin_required
 def update_img():
     image = request.files['image']
     
@@ -838,41 +885,60 @@ def update_img():
         src = url_for('static', filename='images/profile.png')
         return redirect(url_for('contact'))
 
-    # Get the Donor object for the current user
-    data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
-    print(data)
-    if data:
-        # Delete previous images with the same name but different extensions
+    if current_user.has_role('donor'):
+        # Get the Donor object for the current user
+        data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
+        # print(data)
+        if data:
+            # Delete previous images with the same name but different extensions
+            allowed_extensions = ['png', 'jpg', 'jpeg']
+            for extension in allowed_extensions:
+                image_path = f"/app/static/images/{data.donor_id}.{extension}"
+                current_path = os.getcwd()
+                filename = current_path + image_path
+                if os.path.isfile(filename) == True:
+                    os.remove(filename)
+
+            # Generate a secure filename based on Donor_id and the file extension
+            filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
+            image_path = os.path.join("app/static/images", filename)
+
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+
+            # Save the uploaded image with the Donor_id as the filename
+            image.save(image_path)
+
+            return redirect(url_for('profile'))
+        else:
+            error_message = str("Plz fill the form first")
+            return jsonify({'error': error_message})
+    elif current_user.has_role('hospital'):
+        imagefile = current_user.h_email_id.split('@')[0]
         allowed_extensions = ['png', 'jpg', 'jpeg']
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{data.donor_id}.{extension}"
+            image_path = f"/app/static/images/{imagefile}.{extension}"
             current_path = os.getcwd()
             filename = current_path + image_path
             if os.path.isfile(filename) == True:
                 os.remove(filename)
-
+                
         # Generate a secure filename based on Donor_id and the file extension
-        filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
-        image_path = os.path.join("app/static/images", filename)
+            filename = f"{imagefile}{os.path.splitext(image.filename)[1]}"
+            image_path = os.path.join("app/static/images", filename)
 
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(image_path), exist_ok=True)
-        
-        # Save the uploaded image with the Donor_id as the filename
-        image.save(image_path)
-        
-        # Update the src variable to the new image path
-        src = image_path
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)
 
-        return redirect(url_for('profile'))
-    else:
-        error_message = str("Plz fill the form first")
-        # flash(error_message, 'error')
-        return jsonify({'error': error_message})
+            # Save the uploaded image with the Donor_id as the filename
+            image.save(image_path)
+            
+            return redirect(url_for('profile'))       
 
 #Home Page
 @app.route('/appointment')
 @login_required
+@user_required
 def appointment():
     src = "../static/images/profile.png"
     user = current_user if current_user.is_authenticated and not current_user.has_role('admin')  else None
@@ -926,6 +992,7 @@ def aperror():
     return redirect(url_for('login'))
 
 @app.route('/feedback',methods=['POST'])
+@no_admin_required
 def feedback():
     if request.method == 'POST':
         username = request.form['uname']
@@ -954,6 +1021,7 @@ def feedback():
 # from collections import defaultdict
 
 @app.route('/plot_positive_data')
+@admin_required
 def plot_positive_data():
     # Get a list of all unique months
     unique_months = set(record.month for record in BloodDonationRecord.query.all())
@@ -979,6 +1047,7 @@ def plot_positive_data():
     return jsonify(blood_flow_dict)
 
 @app.route('/plot_negative_data')
+@admin_required
 def plot_negative_data():
     # Get a list of all unique months
     unique_months = set(record.month for record in BloodDonationRecord.query.all())
@@ -1006,6 +1075,7 @@ def plot_negative_data():
 
 
 @app.route('/mark_notification_as_read')
+@user_required
 def mark_notifications_as_read():
     user = current_user
     id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
@@ -1027,6 +1097,8 @@ def Drequests():
     return render_template('Admin_DRequests.html',ua = ua)
 
 @app.route('/HRequests')
+@login_required
+@admin_required
 def Hrequests():
     current_day = datetime.now().date()
     ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
@@ -1099,3 +1171,55 @@ def DAccepted():
 
     # Redirect to the 'about' page (replace 'about' with the actual route you want to redirect to)
     return redirect(url_for('Admin'))
+
+
+# Hospital Page BackEnd starts
+
+@app.route('/HRecipients')
+@login_required
+@hos_required
+def HRecipients():
+    return render_template('Hospital_Recipent.html')
+
+@app.route('/HProfile',methods=['GET', 'POST'])
+@login_required
+@hos_required
+def HProfile():
+    user = current_user
+    src = "../static/images/profile.png"
+    
+    allowed_extensions = ['jpg', 'jpeg', 'png']
+    # Check if an image file exists for the user
+    current_path = os.getcwd()
+    for extension in allowed_extensions:
+        image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+        filename = current_path + image_path
+        if os.path.isfile(filename) == True:
+            src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            
+    results = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
+    tf_ids = [results.recipient_id for results in results]
+    
+    fr = BloodTransfusionRecord.query.filter(BloodTransfusionRecord.recipient_id.in_(tf_ids)).all()
+    
+    if request.method == 'POST':
+        address = request.form['address']
+        data  = RHospital.query.filter_by(h_email_id=user.h_email_id).first()
+        data.address = address
+        
+        try:
+            db.session.add(data)
+            db.session.commit()
+            return redirect(url_for('HProfile'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('contact'))
+    return render_template('Hospital_Profile.html',results=fr,user=user,cities=cities,src=src)
+
+@app.route('/HAppointment')
+@login_required
+@hos_required
+def HAppointment():
+    return render_template('Hospital_form.html',cities=cities)
+
+# Hospital Page BackEnd ends

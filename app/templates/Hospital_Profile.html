@@ -50,7 +50,7 @@
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
               <img
-                src=""
+                src=" {{ src }} "
                 id="profile-pic-main"
                 alt=""
                 class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
@@ -59,7 +59,7 @@
           </div>
 
           <div class="options text-[19px]">
-            <a href="appointment">
+            <a href="HAppointment">
               <div>Get Blood</div>
             </a>
             <a href="HRecipients">
@@ -142,7 +142,7 @@
           </div>
         </div>
         <!--Flash ends  -->
- 
+      {% set myVariable = "two" %}
 
         <div
           class="flex flex-col items-center text-3xl   max-[750px]:text-2xl "
@@ -150,7 +150,7 @@
           <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
           <div class="pp">
             <img
-              src=""
+              src="{{ src }}"
               id="profile-pic"
               alt=""
               class="w-[300px] h-[300px] rounded-full bg-[#d9d9d9] 
@@ -204,10 +204,10 @@
         >
           <h1 class="text-3xl max-[614px]:text-center max-[430px]:text-2xl  ">Hospital Information</h1>
 
-          <form action="\profile" method="post" class="">
+          <form action="\HProfile" method="post">
 
             <div class="top flex space-x-3 justify-between max-[614px]:flex-col max-[614px]:space-x-0 ">
-              <div class="donor-id input-container w-[40%] max-[615px]:w-full">
+              <!-- <div class="donor-id input-container w-[40%] max-[615px]:w-full">
                 <input
                   type="text"
                   name="ID"
@@ -218,14 +218,14 @@
                 />
                 <label for="">Hospital ID</label>
                 <span>Hospital ID</span>
-              </div>
+              </div> -->
 
               <div class="mail-id input-container w-[60%] max-[615px]:w-full">
                 <input
                   type="text"
                   name="email"
                   class="input"
-                  value=""
+                  value="{{ user.h_email_id}}"
                   readonly
                   required
                 />
@@ -240,8 +240,9 @@
                   type="text"
                   name="Fname"
                   class="input"
-                  value=""
+                  value="{{ user.name }}"
                   required
+                  readonly
                 />
                 <label for="">Name</label>
                 <span>Name</span>
@@ -254,7 +255,7 @@
           
 
             <div class="input-container textarea">
-              <textarea name="address" class="input" required></textarea>
+              <textarea name="address" class="input" required>{{ "" if user.address is none else user.address }}</textarea>
               <label for="">Address</label>
               <span>Address</span>
             </div>
@@ -265,15 +266,16 @@
                   <input
                     type="text"
                     class="textBoxCity"
-                    value=""
+                    value=" {{ user.city }}"
                     name="city"
                     id="CitytextBox"
                     required
+                    readonly
                   />
                   <div class="options" id="OptionsCity">
-                    <!-- {% for city in cities %}
+                    {% for city in cities %}
                       <div onclick='showCity("{{ city }}")'>{{ city }}</div>
-                    {% endfor %} -->
+                    {% endfor %}
                   </div>
                 </div>
                 <label for="">City</label>
@@ -285,8 +287,9 @@
                   type="text"
                   name="mob"
                   class="input"
-                  value=""
+                  value=" {{ user.contact_phone }}"
                   required
+                  readonly
                 />
                 <label for="">Mobile No.</label>
                 <span>Mobile No.</span>
@@ -321,7 +324,7 @@
                     </tr>
                   </thead>
                     <tbody>
-                      {% if appointments is not none %} {% for appointment in results %}
+                      {% for appointment in results %}
                       <tr>
                         <td class="border-t-[0px]">
                           {{appointment.appointment_id}}
@@ -334,7 +337,7 @@
                         </td>
                         <td class="border-t-[0px]">{{appointment.place}}</td>
                       </tr>
-                      {% endfor %} {% endif %}
+                      {% endfor %}
                     </tbody>
                   </table>
                 <!-- </div> -->
@@ -356,7 +359,6 @@
                 <th>Date</th>
                 <th>Time</th>
                 <th>Place</th>
-                <th>Download</th>
               </tr>
             </thead>
             <tbody>
@@ -366,11 +368,7 @@
                 <td>{{ frs.appointment_date }}</td>
                 <td>{{ frs.appointment_time }}</td>
                 <td>{{ frs.place }}</td>
-                <td>
-                  <!-- Add a link or button for downloading -->
-                  <a href="\gc\{{ frs.appointment_id }}"> Certificate</a>
-                </td>
-              </tr>
+                       </tr>
               {% endfor %}
             </tbody>
           </table>

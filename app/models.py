@@ -29,7 +29,9 @@ class RHospital(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=False)
     city = db.Column(db.String(50), nullable=False)
     contact_phone = db.Column(db.String(15), nullable=False)
+    address = db.Column(db.String(1024), nullable=True)
     password_hash = db.Column(db.String(128), nullable=False)
+    roles = ['hospital']
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -39,6 +41,9 @@ class RHospital(UserMixin, db.Model):
     
     def get_id(self):
         return self.h_email_id  # Return a unique identifier for the user
+    
+    def has_role(self, role):
+        return role in self.roles
 
 class Donor(UserMixin,db.Model):
     donor_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
