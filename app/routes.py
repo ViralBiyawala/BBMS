@@ -1175,11 +1175,51 @@ def DAccepted():
 
 # Hospital Page BackEnd starts
 
-@app.route('/HRecipients')
+@app.route('/HRecipients',methods=['GET', 'POST'])
 @login_required
 @hos_required
 def HRecipients():
-    return render_template('Hospital_Recipent.html')
+    src = "../static/images/profile.png"
+    
+    allowed_extensions = ['jpg', 'jpeg', 'png']
+    # Check if an image file exists for the user
+    current_path = os.getcwd()
+    for extension in allowed_extensions:
+        image_path = f"/app/static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
+        filename = current_path + image_path
+        if os.path.isfile(filename) == True:
+            src = f"../static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
+    res = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
+        
+    return render_template('Hospital_Recipent.html',ress =res,src=src)
+
+@app.route('/HRadd',methods=['POST'])
+@login_required
+@hos_required
+def Hradd():
+    if request.method == 'POST':
+        fname = request.form['fname']
+        lname = request.form['lname']
+        DOB = request.form['DOB']
+        DOB = datetime.strptime(DOB, '%Y-%m-%d').date()
+        gender = request.form['gender']
+        mob = request.form['mob']
+        emailid = request.form['emailid']
+        address = request.form['address']
+        mhis = request.form['mhis']
+        Btype = request.form['Btype']
+        
+        data = Recipient(h_email_id = current_user.h_email_id,first_name = fname,last_name = lname,date_of_birth = DOB,gender = gender,contact_phone = mob,contact_email = emailid,contact_address = address,blood_type = Btype,medical_history = mhis)
+        
+        try:
+            db.session.add(data)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            redirect(url_for('contact'))
+            
+    return redirect(url_for('HRecipients'))
+    
 
 @app.route('/HProfile',methods=['GET', 'POST'])
 @login_required
@@ -1220,6 +1260,59 @@ def HProfile():
 @login_required
 @hos_required
 def HAppointment():
-    return render_template('Hospital_form.html',cities=cities)
+    user = current_user
+    src = "../static/images/profile.png"
+    current_date = datetime.now().strftime('%d-%m-%Y')
+    allowed_extensions = ['jpg', 'jpeg', 'png']
+    # Check if an image file exists for the user
+    current_path = os.getcwd()
+    for extension in allowed_extensions:
+        image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+        filename = current_path + image_path
+        if os.path.isfile(filename) == True:
+            src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
+    print(current_date)
+    return render_template('Hospital_form.html',cities=cities,src=src,user=user,cd=current_date)
 
+# Assume the route to add data is '/add_transfusion_record'
+@app.route('/getblood', methods=['POST'])
+@login_required
+@hos_required
+def add_transfusion_record():
+     # Extract data from the form
+    recipient_id = request.form.get('recipient_id')
+    transfusion_date = request.form.get('transfusion_date')
+    transfusion_date = datetime.strptime(transfusion_date, '%d-%m-%Y').date()
+    blood_type = request.form.get('blood_type')
+    quantity_transfused = request.form.get('quantity_transfused')
+    city1 = request.form.get('city1')
+    city2 = request.form.get('city2')
+    city3 = request.form.get('city3')
+
+    print('transfusion_date')
+    # Check if the recipient_id exists for the given h_email_id
+    h_email_id = current_user.h_email_id  # Assuming you have a function to get the current user's h_email_id
+    recipient_exists = Recipient.query.filter_by(recipient_id=recipient_id, h_email_id=h_email_id).first()
+
+    if not recipient_exists:
+        flash('Recipient ID not found for the current hospital.')
+        return redirect(url_for('HAppointment'))
+
+    # Create a new BloodTransfusionRecord instance
+    new_transfusion_record = BloodTransfusionRecord(
+        recipient_id=recipient_id,
+        transfusion_date=transfusion_date,
+        blood_type=blood_type,
+        quantity_transfused=quantity_transfused,
+        city1=city1,
+        city2=city2,
+        city3=city3
+    )
+
+    # Add the new record to the database
+    db.session.add(new_transfusion_record)
+    db.session.commit()
+
+    # Redirect to the desired page (you can customize this)
+    return redirect(url_for('HAppointment'))
 # Hospital Page BackEnd ends

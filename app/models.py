@@ -61,7 +61,7 @@ class Donor(UserMixin,db.Model):
     r_donor = db.relationship("RDonor", backref="donors")
     
 class Recipient(UserMixin,db.Model):
-    recipient_id = db.Column(db.Integer, primary_key=True)
+    recipient_id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     h_email_id = db.Column(db.String(120), db.ForeignKey('r_hospital.h_email_id'))
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
@@ -71,8 +71,7 @@ class Recipient(UserMixin,db.Model):
     contact_email = db.Column(db.String(120))
     contact_address = db.Column(db.String(200))
     blood_type = db.Column(db.String(5), nullable=False)
-    medical_history = db.Column(db.Text)
-    doctor_prescription = db.Column(db.Text)
+    medical_history = db.Column(db.Text,nullable=True)
 
     r_hospital = db.relationship("RHospital", backref="hospitals")
 
@@ -110,11 +109,14 @@ class BloodInventory(UserMixin,db.Model):
     donor = db.relationship('Donor', backref='inventory')
 
 class BloodTransfusionRecord(UserMixin,db.Model):
-    transfusion_id = db.Column(db.Integer, primary_key=True)
+    transfusion_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     recipient_id = db.Column(db.Integer, db.ForeignKey('recipient.recipient_id'), nullable=False)
     transfusion_date = db.Column(db.Date, nullable=False)
     blood_type = db.Column(db.String(5), nullable=False)
     quantity_transfused = db.Column(db.Float, nullable=False)
+    city1 = db.Column(db.String(50), nullable=False)
+    city2 = db.Column(db.String(50), nullable=False)
+    city3 = db.Column(db.String(50), nullable=False)
     status = db.Column(db.Integer, default=0)
     
     recipient = db.relationship('Recipient', backref='transfusion_records')

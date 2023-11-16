@@ -99,14 +99,14 @@
 
                 <div class="1 flex space-x-[0.8rem] px-[1.7rem]">
 
-                    <div class="donor-id input-container w-[40%]  ">
-                        <input type="text" name="ID" class="input" value="" readonly>
-                        <label for="">Hospital ID</label>
-                        <span>Hospital ID</span>
+                    <div class="donor-id input-container w-[50%]  ">
+                        <input type="text" name="ID" class="input" value="{{ user.h_email_id }}" readonly>
+                        <label for="">Hospital Email</label>
+                        <span>Hospital Email</span>
                     </div>
 
-                    <div class="form-name input-container w-[60%] ">
-                        <input type="text" name="Name" class="input" value="" readonly>
+                    <div class="form-name input-container w-[50%] ">
+                        <input type="text" name="Name" class="input" value="{{ user.name }}" readonly>
                         <label for="">Name</label>
                         <span>Name</span>
                     </div>
@@ -114,54 +114,48 @@
             </div>
 
 
-            <form method="POST" action="booking">
-                <div class="appointment-schedule bg-white rounded-2xl border border-[#FF2828] 
-            pb-[0.5rem] my-[2rem]">
-                    <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Appointment Schedule</h3>
+            <form method="POST" action="getblood">
+                <div class="appointment-schedule bg-white rounded-2xl border border-[#FF2828] pb-[0.5rem] my-[2rem]">
+                    <h3 class="text-3xl pt-[1rem] px-[1.5rem]">Blood Details</h3>
 
-                    <div class="flex flex-col mt-[1rem] px-[1.5rem]  space-y-[0.8rem]">
-                        <!-- <div class="dt  w-[60%] flex ">
-                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Date</div>
-                            <input type="date" required name="date" id=""
-                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                    <div class="flex flex-col mt-[1rem] px-[1.5rem] space-y-[0.8rem]">
+
+                        <!-- Recipient ID -->
+                        <div class="time w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Recipient ID</div>
+                            <input type="number" required name="recipient_id" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent" min=1>
                         </div>
 
-                        <div class="time  w-[60%] flex ">
-                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Time</div>
-                            <input type="time" required name="time" id=""
-                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
-                        </div> -->
+                        <!-- Date -->
+                        <div class="dt w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Date</div>
+                            <input type="text" required name="transfusion_date" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent"
+                                value="{{ cd }}" readonly>
+                        </div>
+                        <!-- Add this somewhere in your HTML -->
 
-                        <div class="time  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Recipient ID</div>
-                            <input type="number" required name="time" id=""
-                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        <!-- Blood Type -->
+                        <div class="dt w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Blood Type</div>
+                            <input type="text" required name="blood_type" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent">
                         </div>
 
-                        <div class="dt  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Date</div>
-                            <input type="date" required name="date" id=""
-                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                        <!-- Quantity -->
+                        <div class="time w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Quantity</div>
+                            <input type="number" required name="quantity_transfused" id=""
+                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent">
                         </div>
 
-                        <div class="dt  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Blood Type</div>
-                            <input type="text" required name="date" id=""
-                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
-                        </div>
-
-                        <div class="time  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Quantity</div>
-                            <input type="number" required name="time" id=""
-                                class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
-                        </div>
-
-
-                        <div class="time  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 1</div>
+                        <!-- City 1 -->
+                        <div class="time w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 1</div>
                             <div class="input-container w-[60%] -mt-[0.03rem]">
                                 <div class="dropdown input">
-                                    <input type="text" class="textBoxCity t1" value="" name="place" id="CitytextBox1"
+                                    <input type="text" class="textBoxCity t1" value="" name="city1" id="CitytextBox1"
                                         required />
                                     <div class="options" id="OptionsCity1">
                                         {% for city in cities %}
@@ -172,11 +166,12 @@
                             </div>
                         </div>
 
-                        <div class="time  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 2</div>
+                        <!-- City 2 -->
+                        <div class="time w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 2</div>
                             <div class="input-container w-[60%] -mt-[0.03rem]">
                                 <div class="dropdown input">
-                                    <input type="text" class="textBoxCity t2" value="" name="place" id="CitytextBox2"
+                                    <input type="text" class="textBoxCity t2" value="" name="city2" id="CitytextBox2"
                                         required />
                                     <div class="options" id="OptionsCity2">
                                         {% for city in cities %}
@@ -187,11 +182,12 @@
                             </div>
                         </div>
 
-                        <div class="time  w-[70%] flex ">
-                            <div class="label w-[40%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">City 3</div>
+                        <!-- City 3 -->
+                        <div class="time w-[70%] flex">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 3</div>
                             <div class="input-container w-[60%] -mt-[0.03rem]">
                                 <div class="dropdown input">
-                                    <input type="text" class="textBoxCity t3" value="" name="place" id="CitytextBox3"
+                                    <input type="text" class="textBoxCity t3" value="" name="city3" id="CitytextBox3"
                                         required />
                                     <div class="options" id="OptionsCity3">
                                         {% for city in cities %}
@@ -204,7 +200,9 @@
 
                         <input type="submit" value="Book Appointment" class="btnbook bg-[#ff2828]">
                     </div>
+                </div>
             </form>
+
 
         </div>
 
@@ -258,7 +256,7 @@
         function show(word) {
             document.querySelector(".textBox").value = word;
         }
-        function showCity(cls,word) {
+        function showCity(cls, word) {
             document.querySelector(cls).value = word;
         }
 

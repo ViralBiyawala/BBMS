@@ -14,28 +14,111 @@
 
 <body class="dreq-body bg-[#ffe0e0]">
 
-  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
     <div
-      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
+    >
       <a href="index">Life Saver</a>
     </div>
 
     <div class="flex w-[80%] justify-end items-center">
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="Admin">About Us</a>
+      <div
+        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+      >
+        <a href="/index">Home</a>
       </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="DRequests">Contact Us</a>
+      <div
+        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+      >
+        <a href="about">About Us</a>
       </div>
 
-      <!-- <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="Client">Client</a>
+      <div
+        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
+      >
+        <a href="/contact">Contact Us</a>
       </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="logout">Logout</a>
-      </div> -->
+       
+      <div class="nav-btn p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemS()">
+            <img
+              src=" {{ src }} "
+              id="profile-pic-main"
+              alt=""
+              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+            />
+          </button>
+        </div>
+
+        <div class="options text-[19px]">
+          <a href="HAppointment">
+            <div>Get Blood</div>
+          </a>
+          <a href="HRecipients">
+            <div>Add Recipient</div>
+          </a>
+          <a href="logout">
+            <div>Log Out</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- <div
+              class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
+          </div> -->
+    </div>
+  </nav>
+
+  <!-- Hamburger for smaller screens  -->
+  <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
+     
+    <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+      <a href="index">Life Saver</a>
+    </div>
+
+    <button class="hamburger mx-[28px]">
+      <div class="bar"></div>
+    </button>
+
+    <div class="mobile-nav flex flex-col items-center ">
+      {% if user is none %}
+      <!-- No user has logged in -->
+      <a href="login" class="ni">Log In</a>
+      {% else %}
+      
+      <div class="h-head  ni flex mt-[30px] items-center 
+      pl-[0.3rem]">
+        <a href="profile">
+          <img
+          src=""
+          id="profile-pic-main"
+          alt=""
+          class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] "
+          />
+        </a>
+      </div>
+
+      <div class="ni h-head-2 w-full justify-evenly flex  ">
+        <a href="appointment">
+        <div class="hh2-1  flex flex-col items-center cursor-pointer">
+          <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
+            Get Appointment
+          </div>
+        </a>
+        <a href="logout">
+          <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
+            <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
+            Log Out
+          </div>
+        </a>
+      </div>
+      {% endif %} 
+      <a href="index" class="ni">Home</a>
+      <a href="about" class="ni">About Us</a>
+      <a href="contact" class="ni">Contact Us</a>
     </div>
   </nav>
 
@@ -59,69 +142,32 @@
           <th class="bg-[#ff2828] text-white text-xl ">Blood Group</th>
           <th class="bg-[#ff2828] text-white text-xl ">Phone No.</th>
         </tr>
+        {% for res in ress %}
         <tr>
-          <td >1</td>
-          <td>Shivam</td>
-          <td>23/11/3333</td>
-          <td>Male</td>
-          <td>A+</td>
-          <td>9011123232</td>
+          <td >{{ res.recipient_id }}</td>
+          <td>{{ res.first_name + " " + res.last_name }}</td>
+          <td>{{ res.date_of_birth }}</td>
+          <td>{{ res.gender }}</td>
+          <td>{{ res.blood_type }}</td>
+          <td>{{ res.contact_phone }}</td>
         </tr>
-        <tr>
-          <td >1</td>
-          <td>Shivam</td>
-          <td>23/11/3333</td>
-          <td>Male</td>
-          <td>A+</td>
-          <td>9011123232</td>
-        </tr>
-        <tr>
-          <td >1</td>
-          <td>Shivam</td>
-          <td>23/11/3333</td>
-          <td>Male</td>
-          <td>A+</td>
-          <td>9011123232</td>
-        </tr>
-        <!-- {% for appo in ua%}
-        {% if appo.ddone == False %}
-        <tr>
-          <td class="font-bold">{{ appo.appointment_id}}</td>
-          <td>{{ appo.appointment_date }}</td>
-          <td>{{ appo.appointment_time }}</td>
-          <td>{{ appo.place }}</td>
-          <td>
-            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
-              Fill
-            </button>
-          </td>
-        </tr>
-        {% endif %}
-        {% endfor %} -->
+        {% endfor %}
       </table>
-
-       
-
-
-      <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
-
-
-
     </div>
 
-    
     <div class="R-info mx-auto mt-10   w-[60%] py-4  px-4 bg-white rounded-xl space-y-4">
+      <form method="POST" action="HRadd">
       
       <div class="text-2xl text-[#ff2828] font-medium  ">Recipient Information</div>
       
       <div class="1 flex justify-between">
         <div class="input-container w-[40%] ">
-          <input type="text" name="seD" class="input" value="" required />
+          <input type="text" name="fname" class="input" value="" required />
           <label for="">First Name</label>
           <span>First Name</span>
         </div>
         <div class="input-container w-[40%]">
-          <input type="text" name="seD" class="input " value="" required />
+          <input type="text" name="lname" class="input " value="" required />
           <label for="">Last Name</label>
           <span>Last Name</span>
         </div>
@@ -129,7 +175,7 @@
 
       <div class="2 flex justify-between">
         <div class="input-container w-[40%] focus">
-          <input type="date" name="seD" class="date" value="" required />
+          <input type="date" name="DOB" class="date" value="" required />
           <label for="">Date of Birth</label>
           <span>Date of Birth</span>
         </div>
@@ -156,12 +202,12 @@
 
       <div class="3 flex justify-between">
         <div class="input-container w-[40%] ">
-          <input type="text" name="seD" class="input" value="" required />
+          <input type="text" name="mob" class="input" value="" required />
           <label for="">Mobile</label>
           <span>Mobile</span>
         </div>
         <div class="input-container w-[40%]">
-          <input type="text" name="seD" class="input " value="" required />
+          <input type="text" name="emailid" class="input " value="" required />
           <label for="">Email</label>
           <span>Email</span>
         </div>
@@ -177,7 +223,7 @@
 
       <div class="5 flex justify-between">
         <div class="input-container w-[40%] ">
-          <input type="text" name="seD" class="input" value="" required />
+          <input type="text" name="mhis" class="input" value="" required />
           <label for="">Medical History</label>
           <span>Medical History</span>
         </div>
@@ -225,6 +271,7 @@
 
       <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
         Add</button>
+      </form>
     </div>
   </div>
 
