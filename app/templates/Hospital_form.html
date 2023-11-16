@@ -51,11 +51,15 @@
                 </div>
 
                 <div class="options text-[19px]">
-                    <a href="profile">
-                        <div>
-                            Profile
-                        </div>
+                    {% if user.has_role('hospital') %}
+                    <a href="HProfile">
+                        <div onclick="show('Profile')">Profile</div>
                     </a>
+                    {% else %}
+                    <a href="profile">
+                        <div onclick="show('Profile')">Profile</div>
+                    </a>
+                    {% endif %}
                     <a href="logout">
                         <div>Log Out</div>
                     </a>

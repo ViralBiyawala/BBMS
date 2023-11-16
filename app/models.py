@@ -114,9 +114,9 @@ class BloodTransfusionRecord(UserMixin,db.Model):
     transfusion_date = db.Column(db.Date, nullable=False)
     blood_type = db.Column(db.String(5), nullable=False)
     quantity_transfused = db.Column(db.Float, nullable=False)
-    city1 = db.Column(db.String(50), nullable=False)
-    city2 = db.Column(db.String(50), nullable=False)
-    city3 = db.Column(db.String(50), nullable=False)
+    city1 = db.Column(db.String(100), nullable=False)
+    city2 = db.Column(db.String(100), nullable=False)
+    city3 = db.Column(db.String(100), nullable=False)
     status = db.Column(db.Integer, default=0)
     
     recipient = db.relationship('Recipient', backref='transfusion_records')
@@ -153,5 +153,18 @@ class Notification(db.Model):
     def __init__(self, donor_id, appointment_id, message,read):
         self.donor_id = donor_id
         self.appointment_id = appointment_id
+        self.message = message
+        self.read = read
+        
+class HospitalNotification(db.Model):
+    transfusion_id = db.Column(db.Integer, db.ForeignKey('blood_transfusion_record.transfusion_id'), primary_key=True)
+    message = db.Column(db.String(1024), nullable=False, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    read = db.Column(db.Boolean, default=False)
+
+    blood_info = db.relationship('BloodTransfusionRecord', backref='hospitialnotifications')
+
+    def __init__(self, transfusion_id, message,read):
+        self.transfusion_id = transfusion_id
         self.message = message
         self.read = read

@@ -104,7 +104,7 @@ def user_required(f):
     return decorated_function
 
 
-@app.route('/Admin',methods=['POST','GET'])
+@app.route('/Admin',methods=['GET','POST'])
 @login_required
 @admin_required
 def Admin():
@@ -113,7 +113,7 @@ def Admin():
     if request.method == 'POST':
         selected_city  = request.form['city']
         sb = request.form['Btype']
-        
+    
     # Define the order of blood types
     blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 
@@ -233,6 +233,7 @@ def Admin():
     
 
     return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,sd_city=sd_city,sc=selected_city,sb=sb)
+
 
 #Helper functions
 #loading user
@@ -426,6 +427,8 @@ def index():
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
     else :
+        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
+        
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
         current_path = os.getcwd()
@@ -1099,10 +1102,148 @@ def Drequests():
 @app.route('/HRequests')
 @login_required
 @admin_required
-def Hrequests():
-    current_day = datetime.now().date()
-    ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
-    return render_template('Admin_HRequests.html',ua = ua)
+def HRequests():
+    ua = BloodTransfusionRecord.query.filter().all()
+    return render_template('Admin_HRequests.html',ua = ua,found=False,id=-1)
+
+@app.route('/check/<int:transfusion_id>', methods=['GET'])
+def check(transfusion_id):
+    # Step 1: Retrieve details from BloodTransfusionRecord
+    transfusion_record = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first()
+    ua = BloodTransfusionRecord.query.filter().all()
+    
+    if transfusion_record:
+        # Extract parameters from the transfusion record
+        blood_type = transfusion_record.blood_type
+        quantity_transfused = transfusion_record.quantity_transfused
+        city1 = transfusion_record.city1
+        city2 = transfusion_record.city2
+        city3 = transfusion_record.city3
+
+        # print(blood_type, quantity_transfused, city1, city2,city3)
+        # Step 2: Search for an exact match
+        exact_match = BloodInventory.query.filter_by(
+            blood_type=blood_type,
+            quantity_donated=quantity_transfused,
+            storage_location=city1
+        ).first()
+        if exact_match:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+
+        # Step 3: Search for quantity >= quantity_transfused
+        quantity_match = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated >= quantity_transfused,
+            BloodInventory.storage_location == city1
+        ).first()
+
+        if quantity_match:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+
+        # Step 4: Expand the search to include city2
+        city2_match = BloodInventory.query.filter_by(
+            blood_type = blood_type,
+            quantity_donated = quantity_transfused,
+            storage_location = city2
+        ).first()
+
+        if city2_match:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+        
+        quantity_match_2 = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated >= quantity_transfused,
+            BloodInventory.storage_location == city2
+        ).first()
+
+        if quantity_match_2:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+
+        # Step 5: Expand the search to include city3
+        city3_match = BloodInventory.query.filter_by(
+            blood_type = blood_type,
+            quantity_donated = quantity_transfused,
+            storage_location = city3
+        ).first()
+
+        if city3_match:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+        
+        quantity_match_3 = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated >= quantity_transfused,
+            BloodInventory.storage_location == city2
+        ).first()
+
+        if quantity_match_3:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+
+        
+        # Step 6: Search for quantity <= quantity_transfused in city1
+        quantity_less_match_city1 = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated <= quantity_transfused,
+            BloodInventory.storage_location == city1
+        ).first()
+
+        if quantity_less_match_city1:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+        # Step 7: Search for quantity <= quantity_transfused in city2
+        quantity_less_match_city2 = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated <= quantity_transfused,
+            BloodInventory.storage_location == city2
+        ).first()
+
+        # print(quantity_less_match_city2)
+        if quantity_less_match_city2:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+
+        # Step 8: Search for quantity <= quantity_transfused in city3
+        quantity_less_match_city3 = BloodInventory.query.filter(
+            BloodInventory.blood_type == blood_type,
+            BloodInventory.quantity_donated <= quantity_transfused,
+            BloodInventory.storage_location == city3
+        ).first()
+
+        if quantity_less_match_city3:
+            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+
+        
+        # Step 5: Return false if no match is found
+        return render_template('Admin_HRequests.html',ua = ua,found=False,id=transfusion_id)
+
+
+    return render_template('Admin_HRequests.html',ua = ua,found=False,id=-1)
+
+
+@app.route('/update_status/<int:transfusion_id>', methods=['GET'])
+def delete_request(transfusion_id):
+    # Step 1: Retrieve the transfusion record
+    transfusion_record = BloodTransfusionRecord.query.filter_by(transfusion_id = transfusion_id).first()
+
+    if transfusion_record:
+        # Step 2: Update the status column
+        transfusion_record.status = -1
+        db.session.commit()
+
+        # Step 3: Create a notification for the hospital
+        message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is not available. Please gather it from elsewhere."
+        hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False)
+        db.session.add(hospital_notification)
+        db.session.commit()
+
+        # Step 4: Redirect to the original page
+        return redirect(url_for('HRequests'))  # Replace 'original_page' with the actual route
+
+    return redirect(url_for('contact'))
+
 
 @app.route('/Client',methods=['POST','GET'])
 @login_required
@@ -1191,7 +1332,7 @@ def HRecipients():
             src = f"../static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
     res = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
         
-    return render_template('Hospital_Recipent.html',ress =res,src=src)
+    return render_template('Hospital_Recipent.html',ress =res,src=src,user=current_user)
 
 @app.route('/HRadd',methods=['POST'])
 @login_required

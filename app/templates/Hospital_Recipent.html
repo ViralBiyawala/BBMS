@@ -14,68 +14,77 @@
 
 <body class="dreq-body bg-[#ffe0e0]">
 
-  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
-    <div
-      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
-    >
+  <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
+    <div class="flex items-center
+        w-[20%]   
+    ml-[24px] text-[36px]  hover:tracking-[0.1em]
+    transition-all duration-700 cursor-pointer
+                ">
       <a href="index">Life Saver</a>
     </div>
-
-    <div class="flex w-[80%] justify-end items-center">
-      <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
+    <div class=" flex w-[80%] justify-end items-center">
+      <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
         <a href="/index">Home</a>
       </div>
 
-      <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
-        <a href="about">About Us</a>
+      <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
+        <a>About Us</a>
       </div>
 
-      <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
+      <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
         <a href="/contact">Contact Us</a>
       </div>
 
-       
-      <div class="nav-btn p-dropdown input">
+      {% if user is none %}
+      <div class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+        <a href="login">Login</a>
+      </div>
+      {% else %}
+      <!-- <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
+                <a href="logout">Log Out</a>
+            </div> -->
+      <div class="nav-btn p-dropdown input ">
+
         <div class="temp flex items-center">
           <button class="inline mx-[28px]" onclick="showItemS()">
-            <img
-              src=" {{ src }} "
-              id="profile-pic-main"
-              alt=""
-              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
-            />
+            <img src="{{ src }}" id="profile-pic-main" alt=""
+              class="rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer ">
           </button>
         </div>
 
         <div class="options text-[19px]">
-          <a href="HAppointment">
-            <div>Get Blood</div>
+          {% if user.has_role('hospital') %}
+          <a href="HProfile">
+            <div onclick="show('Profile')">Profile</div>
           </a>
-          <a href="HRecipients">
-            <div>Add Recipient</div>
+          {% else %}
+          <a href="profile">
+            <div onclick="show('Profile')">Profile</div>
           </a>
+          {% endif %}
           <a href="logout">
             <div>Log Out</div>
           </a>
         </div>
+
       </div>
 
-      <!-- <div
-              class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
-          </div> -->
+      <!-- <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] rounded-full  w-[48px] h-[48px] bg-white"> -->
+      <!-- <a href="profile">
+                    <img src="{{ src }}" id="profile-pic-main" alt="" class="  rounded-full bg-[#d9d9d9]  w-[48px] h-[48px] cursor-pointer mx-[28px]">
+                </a> -->
+      <!-- </div> -->
+      {% endif %}
+
+
     </div>
   </nav>
 
   <!-- Hamburger for smaller screens  -->
   <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
-     
-    <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+
+    <div
+      class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
       <a href="index">Life Saver</a>
     </div>
 
@@ -88,23 +97,18 @@
       <!-- No user has logged in -->
       <a href="login" class="ni">Log In</a>
       {% else %}
-      
+
       <div class="h-head  ni flex mt-[30px] items-center 
       pl-[0.3rem]">
         <a href="profile">
-          <img
-          src=""
-          id="profile-pic-main"
-          alt=""
-          class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] "
-          />
+          <img src="" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
         </a>
       </div>
 
       <div class="ni h-head-2 w-full justify-evenly flex  ">
         <a href="appointment">
-        <div class="hh2-1  flex flex-col items-center cursor-pointer">
-          <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
             Get Appointment
           </div>
         </a>
@@ -115,7 +119,7 @@
           </div>
         </a>
       </div>
-      {% endif %} 
+      {% endif %}
       <a href="index" class="ni">Home</a>
       <a href="about" class="ni">About Us</a>
       <a href="contact" class="ni">Contact Us</a>
@@ -125,8 +129,8 @@
   <div class="header   py-4 mt-4 flex justify-between items-center font-medium">
     <div class="ml-8 text-3xl ">Recipient</div>
     <button class="border border-black mr-8 py-2 border-none rounded-xl px-8 bg-[#ff2828] text-white text-2xl">
-       + Add New Recipient</button>
-    
+      + Add New Recipient</button>
+
 
   </div>
 
@@ -144,7 +148,7 @@
         </tr>
         {% for res in ress %}
         <tr>
-          <td >{{ res.recipient_id }}</td>
+          <td>{{ res.recipient_id }}</td>
           <td>{{ res.first_name + " " + res.last_name }}</td>
           <td>{{ res.date_of_birth }}</td>
           <td>{{ res.gender }}</td>
@@ -157,120 +161,106 @@
 
     <div class="R-info mx-auto mt-10   w-[60%] py-4  px-4 bg-white rounded-xl space-y-4">
       <form method="POST" action="HRadd">
-      
-      <div class="text-2xl text-[#ff2828] font-medium  ">Recipient Information</div>
-      
-      <div class="1 flex justify-between">
-        <div class="input-container w-[40%] ">
-          <input type="text" name="fname" class="input" value="" required />
-          <label for="">First Name</label>
-          <span>First Name</span>
-        </div>
-        <div class="input-container w-[40%]">
-          <input type="text" name="lname" class="input " value="" required />
-          <label for="">Last Name</label>
-          <span>Last Name</span>
-        </div>
-      </div>
 
-      <div class="2 flex justify-between">
-        <div class="input-container w-[40%] focus">
-          <input type="date" name="DOB" class="date" value="" required />
-          <label for="">Date of Birth</label>
-          <span>Date of Birth</span>
-        </div>
-        <div class="input-container w-[40%]">
-          <div class="dropdown input">
-            <input
-              type="text"
-              class="textBoxGender"
-              value="Male"
-              readonly
-              name="gender"
-              required
-            />
-            <div class="options">
-              <div onclick="showGender('Male')">Male</div>
-              <div onclick="showGender('Female')">Female</div>
-            </div>
+        <div class="text-2xl text-[#ff2828] font-medium  ">Recipient Information</div>
+
+        <div class="1 flex justify-between">
+          <div class="input-container w-[40%] ">
+            <input type="text" name="fname" class="input" value="" required />
+            <label for="">First Name</label>
+            <span>First Name</span>
           </div>
-          <label for="">Gender</label>
-          <span>Gender</span>
+          <div class="input-container w-[40%]">
+            <input type="text" name="lname" class="input " value="" required />
+            <label for="">Last Name</label>
+            <span>Last Name</span>
+          </div>
         </div>
-      </div>
- 
 
-      <div class="3 flex justify-between">
-        <div class="input-container w-[40%] ">
-          <input type="text" name="mob" class="input" value="" required />
-          <label for="">Mobile</label>
-          <span>Mobile</span>
-        </div>
-        <div class="input-container w-[40%]">
-          <input type="text" name="emailid" class="input " value="" required />
-          <label for="">Email</label>
-          <span>Email</span>
-        </div>
-      </div>
-
-      <div class="4 flex justify-between">
-        <div class="input-container textarea w-[100%]">
-          <textarea name="address" class="input" required></textarea>
-          <label for="">Address</label>
-          <span>Address</span>
-        </div>
-      </div>
-
-      <div class="5 flex justify-between">
-        <div class="input-container w-[40%] ">
-          <input type="text" name="mhis" class="input" value="" required />
-          <label for="">Medical History</label>
-          <span>Medical History</span>
-        </div>
-        <div class="input-container w-[40%]">
-          <div class="dropdown input">
-            <input
-              type="text"
-              class="textBoxBlood"
-              value="A+"
-              readonly
-              name="Btype"
-              required
-            />
-            <div class="options">
-              <div onclick="showBloodType('A+')" class="blood-type">
-                A+
-              </div>
-              <div onclick="showBloodType('B+')" class="blood-type">
-                B+
-              </div>
-              <div onclick="showBloodType('AB+')" class="blood-type">
-                AB+
-              </div>
-              <div onclick="showBloodType('O+')" class="blood-type">
-                O+
-              </div>
-              <div onclick="showBloodType('A-')" class="blood-type">
-                A-
-              </div>
-              <div onclick="showBloodType('B-')" class="blood-type">
-                B-
-              </div>
-              <div onclick="showBloodType('AB-')" class="blood-type">
-                AB-
-              </div>
-              <div onclick="showBloodType('O-')" class="blood-type">
-                O-
+        <div class="2 flex justify-between">
+          <div class="input-container w-[40%] focus">
+            <input type="date" name="DOB" class="date" value="" required />
+            <label for="">Date of Birth</label>
+            <span>Date of Birth</span>
+          </div>
+          <div class="input-container w-[40%]">
+            <div class="dropdown input">
+              <input type="text" class="textBoxGender" value="Male" readonly name="gender" required />
+              <div class="options">
+                <div onclick="showGender('Male')">Male</div>
+                <div onclick="showGender('Female')">Female</div>
               </div>
             </div>
+            <label for="">Gender</label>
+            <span>Gender</span>
           </div>
-          <label for="">Blood Type</label>
-          <span>Blood Type</span>
         </div>
-      </div>
 
-      <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
-        Add</button>
+
+        <div class="3 flex justify-between">
+          <div class="input-container w-[40%] ">
+            <input type="text" name="mob" class="input" value="" required />
+            <label for="">Mobile</label>
+            <span>Mobile</span>
+          </div>
+          <div class="input-container w-[40%]">
+            <input type="text" name="emailid" class="input " value="" required />
+            <label for="">Email</label>
+            <span>Email</span>
+          </div>
+        </div>
+
+        <div class="4 flex justify-between">
+          <div class="input-container textarea w-[100%]">
+            <textarea name="address" class="input" required></textarea>
+            <label for="">Address</label>
+            <span>Address</span>
+          </div>
+        </div>
+
+        <div class="5 flex justify-between">
+          <div class="input-container w-[40%] ">
+            <input type="text" name="mhis" class="input" value="" required />
+            <label for="">Medical History</label>
+            <span>Medical History</span>
+          </div>
+          <div class="input-container w-[40%]">
+            <div class="dropdown input">
+              <input type="text" class="textBoxBlood" value="A+" readonly name="Btype" required />
+              <div class="options">
+                <div onclick="showBloodType('A+')" class="blood-type">
+                  A+
+                </div>
+                <div onclick="showBloodType('B+')" class="blood-type">
+                  B+
+                </div>
+                <div onclick="showBloodType('AB+')" class="blood-type">
+                  AB+
+                </div>
+                <div onclick="showBloodType('O+')" class="blood-type">
+                  O+
+                </div>
+                <div onclick="showBloodType('A-')" class="blood-type">
+                  A-
+                </div>
+                <div onclick="showBloodType('B-')" class="blood-type">
+                  B-
+                </div>
+                <div onclick="showBloodType('AB-')" class="blood-type">
+                  AB-
+                </div>
+                <div onclick="showBloodType('O-')" class="blood-type">
+                  O-
+                </div>
+              </div>
+            </div>
+            <label for="">Blood Type</label>
+            <span>Blood Type</span>
+          </div>
+        </div>
+
+        <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
+          Add</button>
       </form>
     </div>
   </div>
@@ -297,7 +287,6 @@
         e.target.parentNode.classList.add("focus");
       });
     });
-
 
     // Flash Message JS
     const fmsg = document.querySelector(".flash-messages");
