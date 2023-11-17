@@ -118,6 +118,7 @@ class BloodTransfusionRecord(UserMixin,db.Model):
     city2 = db.Column(db.String(100), nullable=False)
     city3 = db.Column(db.String(100), nullable=False)
     status = db.Column(db.Integer, default=0)
+    month = db.Column(db.String(10))  # New column for storing month-year
     
     recipient = db.relationship('Recipient', backref='transfusion_records')
     

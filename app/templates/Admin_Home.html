@@ -13,6 +13,8 @@
     <!-- Link to external JavaScript files using url_for -->
     <script src="{{ url_for('static', filename='positiveChart.js') }}"></script>
     <script src="{{ url_for('static', filename='negativeChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='positiveChartOut.js') }}"></script>
+    <script src="{{ url_for('static', filename='negativeChartOut.js') }}"></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='profile.css') }}"
@@ -131,11 +133,11 @@
               </div>
               <div class="c3 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Requests(+ve)</div>
-                <div class="chart border border-black h-[90%]"></div>
+                <div class="chart h-[90%]" id="positiveChartOut"></div>
               </div>
               <div class="c4 w-[49%] h-[23rem] border border-black bg-white p-4">
                 <div class="chart-heaing font-bold text-2xl">Requests(-ve)</div>
-                <div class="chart border border-black h-[90%]"></div>
+                <div class="chart h-[90%]" id="negativeChartOut"></div>
               </div>
             </div>
 
@@ -151,49 +153,49 @@
                 <tr>
                   <td class="font-bold">A +</td>
                   <td>{{ in_qu[0] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[0] }}</td>
                   <td>{{ inv[0] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">A -</td>
                   <td>{{ in_qu[1] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[1] }}</td>
                   <td>{{ inv[1] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">B +</td>
                   <td>{{ in_qu[2] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[2] }}</td>
                   <td>{{ inv[2] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">B -</td>
                   <td>{{ in_qu[3] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[3] }}</td>
                   <td>{{ inv[3] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">AB +</td>
                   <td>{{ in_qu[4] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[4] }}</td>
                   <td>{{ inv[4] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">AB -</td>
                   <td>{{ in_qu[5] }}</td>
-                    <td></td>
+                    <td>{{ out_qu[5] }}</td>
                     <td>{{ inv[5] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">O+</td>
                   <td>{{ in_qu[6] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[6] }}</td>
                   <td>{{ inv[6] }}</td>
                 </tr>
                 <tr>
                   <td class="font-bold">O -</td>
                   <td>{{ in_qu[7] }}</td>
-                  <td></td>
+                  <td>{{ out_qu[7] }}</td>
                   <td>{{ inv[7] }}</td>
                 </tr>
               </table>
@@ -289,8 +291,8 @@
                 <tr>
                   <td class="font-bold">{{ blood_type }}</td>
                   <td>{{ total_quantity[0] }}</td>
-                  <td></td>
                   <td>{{ total_quantity[1] }}</td>
+                  <td>{{ total_quantity[2] }}</td>
                 </tr>
               {% endfor %}
               </table>

@@ -116,9 +116,15 @@ def Admin():
     
     # Define the order of blood types
     blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+    
+    
+    
 
     # Create a list to store the summarized data
     summarized_data = []
+    
+    # Create a list to store the summarized data of Transfusion record
+    summarized_data_tr = []
     
     # Create a list to store the summarized data from BloodInventory
     summarized_data_inventory = []
@@ -134,6 +140,18 @@ def Admin():
         )
         summarized_data.append(result.total_quantity if result[0] != None else 0.0)
         
+    # Query the Blood Transfusion DB to group by blood type and sum up quantities
+    for blood_type in blood_types:
+        result = (
+            db.session.query(
+                func.sum(BloodTransfusionRecord.quantity_transfused).label('total_quantity')
+            )
+            .filter(BloodTransfusionRecord.blood_type == blood_type)
+            .filter(BloodTransfusionRecord.status == 1)
+            .first()
+        )
+        summarized_data_tr.append(result.total_quantity if result[0] != None else 0.0)
+        
     # Query the database to group by blood type and sum up quantities for BloodInventory
     for blood_type in blood_types:
         result = (
@@ -144,6 +162,10 @@ def Admin():
             .first()
         )
         summarized_data_inventory.append(result.total_quantity if result[0] is not None else 0.0)
+    
+    
+    
+    
     
     # Create a list to store the summarized data
     sd_city = {}
@@ -162,6 +184,7 @@ def Admin():
         .with_entities(BloodDonationRecord.blood_bag_number)
         .all()
     )
+    
     if sb == 'ALL' :
         # Query the database to group by blood type and sum up quantities
         for blood_type in blood_types:
@@ -183,6 +206,23 @@ def Admin():
                 sd_city[blood_type].append(total_quantity)
                 
         for blood_type in blood_types:
+            total_quantity = 0
+            result = (
+                db.session.query(
+                    func.sum(BloodTransfusionRecord.quantity_transfused).label('total_quantity')
+                )
+                .filter(BloodTransfusionRecord.blood_type == blood_type)
+                .filter(BloodTransfusionRecord.status == 1)
+                .filter(BloodTransfusionRecord.city1 == selected_city)
+                .first()
+            )
+                
+            if result and result.total_quantity:
+                total_quantity += result.total_quantity
+                    
+            sd_city[blood_type].append(total_quantity)
+                
+        for blood_type in blood_types:
                 total_quantity = 0
 
                 for blood_bag_num in blood_bag_nums:
@@ -191,7 +231,8 @@ def Admin():
                             func.sum(BloodInventory.quantity_donated).label('total_quantity')
                         )
                         .filter(BloodInventory.blood_type == blood_type)
-                        .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                        # .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                        .filter(BloodInventory.storage_location == selected_city)
                         .first()
                     )
 
@@ -217,13 +258,30 @@ def Admin():
         sd_city[sb].append(total_quantity)
         
         total_quantity = 0
+        result = (
+            db.session.query(
+                func.sum(BloodTransfusionRecord.quantity_transfused).label('total_quantity')
+            )
+            .filter(BloodTransfusionRecord.blood_type == sb)
+            .filter(BloodTransfusionRecord.status == 1)
+            .filter(BloodTransfusionRecord.city1 == selected_city)
+            .first()
+        )
+                
+        if result and result.total_quantity:
+            total_quantity += result.total_quantity
+                
+        sd_city[sb].append(total_quantity)
+        
+        total_quantity = 0
         for blood_bag_num in blood_bag_nums:
             result = (
                 db.session.query(
                     func.sum(BloodInventory.quantity_donated).label('total_quantity')
                 )
                 .filter(BloodInventory.blood_type == sb)
-                .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                # .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+                .filter(BloodInventory.storage_location == selected_city)
                 .first()
             )
 
@@ -232,7 +290,7 @@ def Admin():
         sd_city[sb].append(total_quantity)
     
 
-    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,sd_city=sd_city,sc=selected_city,sb=sb)
+    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,out_qu=summarized_data_tr,sd_city=sd_city,sc=selected_city,sb=sb)
 
 
 #Helper functions
@@ -1052,6 +1110,33 @@ def plot_positive_data():
 
     return jsonify(blood_flow_dict)
 
+@app.route('/plot_positive_data_out')
+@admin_required
+def plot_positive_data_out():
+    # Get a list of all unique months
+    unique_months = set(record.month for record in BloodTransfusionRecord.query.filter_by(status=1).all())
+
+    # Sort the months chronologically
+    sorted_months = sorted(unique_months, key=lambda x: datetime.strptime(x, '%b-%y'))
+
+    # Create a dictionary to store the blood flow data
+    blood_flow_dict = {'months': list(sorted_months), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
+    
+    # Query the database and populate the dictionary
+    for month in sorted_months:
+        for blood_type in ['A+', 'B+', 'AB+', 'O+']:
+            # Sum up the quantity for the given blood type and month
+            total_quantity = (
+                db.session.query(func.sum(BloodTransfusionRecord.quantity_transfused))
+                .filter(BloodTransfusionRecord.blood_type == blood_type)
+                .filter(BloodTransfusionRecord.month == month)
+                .filter(BloodTransfusionRecord.status == 1)
+                .scalar() or 0
+            )
+            blood_flow_dict[blood_type.replace('+', 'p')].append(total_quantity)
+
+    return jsonify(blood_flow_dict)
+
 @app.route('/plot_negative_data')
 @admin_required
 def plot_negative_data():
@@ -1072,6 +1157,33 @@ def plot_negative_data():
                 db.session.query(func.sum(BloodDonationRecord.quantity_donated))
                 .filter(BloodDonationRecord.donation_type == blood_type)
                 .filter(BloodDonationRecord.month == month)
+                .scalar() or 0
+            )
+            negative_blood_flow_dict[blood_type.replace('-', 'n')].append(total_quantity)
+
+    return jsonify(negative_blood_flow_dict)
+
+@app.route('/plot_negative_data_out')
+@admin_required
+def plot_negative_data_out():
+    # Get a list of all unique months
+    unique_months = set(record.month for record in BloodTransfusionRecord.query.filter_by(status = 1).all())
+
+    # Sort the months chronologically
+    sorted_months = sorted(unique_months, key=lambda x: datetime.strptime(x, '%b-%y'))
+
+    # Create a dictionary to store the negative blood flow data
+    negative_blood_flow_dict = {'months': list(sorted_months), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
+    
+    # Query the database and populate the dictionary
+    for month in sorted_months:
+        for blood_type in ['A-', 'B-', 'AB-', 'O-']:
+            # Sum up the quantity for the given negative blood type and month
+            total_quantity = (
+                db.session.query(func.sum(BloodTransfusionRecord.quantity_transfused))
+                .filter(BloodTransfusionRecord.blood_type == blood_type)
+                .filter(BloodTransfusionRecord.month == month)
+                .filter(BloodTransfusionRecord.status == 1)
                 .scalar() or 0
             )
             negative_blood_flow_dict[blood_type.replace('-', 'n')].append(total_quantity)
@@ -1141,6 +1253,8 @@ def check(transfusion_id):
         
         if exact_match:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = exact_match.quantity_donated
+            transfusion_record.city1 = exact_match.storage_location
             try:
                 db.session.delete(exact_match)
                 db.session.commit()
@@ -1174,6 +1288,8 @@ def check(transfusion_id):
 
         if quantity_match:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_match.quantity_donated
+            transfusion_record.city1 = quantity_match.storage_location
             try:
                 db.session.delete(quantity_match)
                 db.session.commit()
@@ -1205,6 +1321,8 @@ def check(transfusion_id):
 
         if city2_match:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = city2_match.quantity_donated
+            transfusion_record.city1 = city2_match.storage_location
             try:
                 db.session.delete(city2_match)
                 db.session.commit()
@@ -1235,6 +1353,8 @@ def check(transfusion_id):
 
         if quantity_match_2:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_match_2.quantity_donated
+            transfusion_record.city1 = quantity_match_2.storage_location
             try:
                 db.session.delete(quantity_match_2)
                 db.session.commit()
@@ -1266,6 +1386,8 @@ def check(transfusion_id):
 
         if city3_match:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = city3_match.quantity_donated
+            transfusion_record.city1 = city3_match.storage_location
             try:
                 db.session.delete(city3_match)
                 db.session.commit()
@@ -1296,6 +1418,8 @@ def check(transfusion_id):
 
         if quantity_match_3:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_match_3.quantity_donated
+            transfusion_record.city1 = quantity_match_3.storage_location
             try:
                 db.session.delete(quantity_match_3)
                 db.session.commit()
@@ -1328,6 +1452,8 @@ def check(transfusion_id):
 
         if quantity_less_match_city1:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_less_match_city1.quantity_donated
+            transfusion_record.city1 = quantity_less_match_city1.storage_location
             try:
                 db.session.delete(quantity_less_match_city1)
                 db.session.commit()
@@ -1359,6 +1485,8 @@ def check(transfusion_id):
         # print(quantity_less_match_city2)
         if quantity_less_match_city2:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_less_match_city2.quantity_donated
+            transfusion_record.city1 = quantity_less_match_city2.storage_location
             try:
                 db.session.delete(quantity_less_match_city2)
                 db.session.commit()
@@ -1390,6 +1518,8 @@ def check(transfusion_id):
 
         if quantity_less_match_city3:
             transfusion_record.status = 1
+            transfusion_record.quantity_transfused = quantity_less_match_city3.quantity_donated
+            transfusion_record.city1 = quantity_less_match_city3.storage_location
             try:
                 db.session.delete(quantity_less_match_city3)
                 db.session.commit()
@@ -1648,6 +1778,9 @@ def add_transfusion_record():
         city2=city2,
         city3=city3
     )
+    
+    new_transfusion_record.month = f"{new_transfusion_record.transfusion_date.strftime('%b')}-{new_transfusion_record.transfusion_date.strftime('%y')}"
+    
 
     # Add the new record to the database
     db.session.add(new_transfusion_record)
