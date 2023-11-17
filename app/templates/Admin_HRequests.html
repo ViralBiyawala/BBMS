@@ -70,13 +70,8 @@
           <td>{{ appo.city1, appo.city2, appo.city3 }}</td>
           <td>
             {% if appo.transfusion_id !=  id%}
-            <a class="fill-form bg-blue-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('check', transfusion_id=appo.transfusion_id) }}">
-              Check
-            </a>
-            {% elif appo.transfusion_id ==  id and found == True%}
-            <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl"
-              onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
-              Dispatched
+            <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('check', transfusion_id=appo.transfusion_id) }}">
+              Dispatch
             </a>
             {% elif appo.transfusion_id ==  id and found == False%}
             <a class="fill-form bg-red-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('delete_request', transfusion_id=appo.transfusion_id) }}">

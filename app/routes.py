@@ -368,6 +368,8 @@ def base():
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
     else :
+        notifications = HospitalNotification.query.filter_by(h_email_id=current_user.h_email_id).order_by(HospitalNotification.timestamp.desc()).all()
+        
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
         current_path = os.getcwd()
@@ -427,7 +429,8 @@ def index():
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
     else :
-        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
+        
+        notifications = HospitalNotification.query.filter_by(h_email_id=current_user.h_email_id).order_by(HospitalNotification.timestamp.desc()).all()
         
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
@@ -1080,15 +1083,23 @@ def plot_negative_data():
 @app.route('/mark_notification_as_read')
 @user_required
 def mark_notifications_as_read():
-    user = current_user
-    id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
-    notifications = Notification.query.filter_by(donor_id=id_noti, read=False).all()
+    if current_user.has_role('donor'):
+        user = current_user
+        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+        notifications = Notification.query.filter_by(donor_id=id_noti, read=False).all()
 
-    for notification in notifications:
-        notification.read = True
+        for notification in notifications:
+            notification.read = True
 
-    db.session.commit()
+        db.session.commit()
+    elif current_user.has_role('hospital'):
+        notifications = HospitalNotification.query.filter_by(h_email_id=current_user.h_email_id, read=False).all()
 
+        for notification in notifications:
+            notification.read = True
+
+        db.session.commit()
+        
     return jsonify(True)
 
 @app.route('/DRequests')
@@ -1127,8 +1138,31 @@ def check(transfusion_id):
             quantity_donated=quantity_transfused,
             storage_location=city1
         ).first()
+        
         if exact_match:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(exact_match)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
+
+            
 
 
         # Step 3: Search for quantity >= quantity_transfused
@@ -1139,7 +1173,27 @@ def check(transfusion_id):
         ).first()
 
         if quantity_match:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_match)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
 
         # Step 4: Expand the search to include city2
@@ -1150,7 +1204,28 @@ def check(transfusion_id):
         ).first()
 
         if city2_match:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(city2_match)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
+            
         
         quantity_match_2 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
@@ -1159,7 +1234,27 @@ def check(transfusion_id):
         ).first()
 
         if quantity_match_2:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_match_2)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
 
         # Step 5: Expand the search to include city3
@@ -1170,7 +1265,28 @@ def check(transfusion_id):
         ).first()
 
         if city3_match:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(city3_match)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
+            
         
         quantity_match_3 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
@@ -1179,7 +1295,27 @@ def check(transfusion_id):
         ).first()
 
         if quantity_match_3:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_match_3)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
 
         
@@ -1191,7 +1327,27 @@ def check(transfusion_id):
         ).first()
 
         if quantity_less_match_city1:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_less_match_city1)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
         # Step 7: Search for quantity <= quantity_transfused in city2
         quantity_less_match_city2 = BloodInventory.query.filter(
@@ -1202,7 +1358,27 @@ def check(transfusion_id):
 
         # print(quantity_less_match_city2)
         if quantity_less_match_city2:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_less_match_city2)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
 
         # Step 8: Search for quantity <= quantity_transfused in city3
@@ -1213,7 +1389,27 @@ def check(transfusion_id):
         ).first()
 
         if quantity_less_match_city3:
-            return render_template('Admin_HRequests.html',ua = ua,found=True,id=transfusion_id)
+            transfusion_record.status = 1
+            try:
+                db.session.delete(quantity_less_match_city3)
+                db.session.commit()
+                
+                re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
+                h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
+                
+                # Step 3: Create a notification for the hospital
+                message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
+                hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
+                
+                try:
+                    db.session.add(hospital_notification)
+                    db.session.commit()
+
+                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                except Exception as e:
+                    return redirect(url_for('contact'))
+            except Exception as e:
+                return redirect(url_for('contect'))
 
         
         # Step 5: Return false if no match is found
@@ -1223,7 +1419,7 @@ def check(transfusion_id):
     return render_template('Admin_HRequests.html',ua = ua,found=False,id=-1)
 
 
-@app.route('/update_status/<int:transfusion_id>', methods=['GET'])
+@app.route('/delete_request/<int:transfusion_id>', methods=['GET'])
 def delete_request(transfusion_id):
     # Step 1: Retrieve the transfusion record
     transfusion_record = BloodTransfusionRecord.query.filter_by(transfusion_id = transfusion_id).first()
@@ -1232,10 +1428,13 @@ def delete_request(transfusion_id):
         # Step 2: Update the status column
         transfusion_record.status = -1
         db.session.commit()
+        
+        re_id = BloodTransfusionRecord.filter_by(transfusion_id = transfusion_id).first().recipient_id
+        h_email = Recipient.filter_by(recipient_id = re_id).first().h_email_id
 
         # Step 3: Create a notification for the hospital
         message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is not available. Please gather it from elsewhere."
-        hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False)
+        hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id = h_email)
         db.session.add(hospital_notification)
         db.session.commit()
 

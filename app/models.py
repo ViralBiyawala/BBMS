@@ -161,10 +161,12 @@ class HospitalNotification(db.Model):
     message = db.Column(db.String(1024), nullable=False, primary_key=True)
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
     read = db.Column(db.Boolean, default=False)
+    h_email_id = db.Column(db.String(120),nullable=False)
 
     blood_info = db.relationship('BloodTransfusionRecord', backref='hospitialnotifications')
 
-    def __init__(self, transfusion_id, message,read):
+    def __init__(self, transfusion_id, message,read,h_email_id):
         self.transfusion_id = transfusion_id
         self.message = message
         self.read = read
+        self.h_email_id = h_email_id
