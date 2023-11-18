@@ -22,39 +22,73 @@
   <body class="dreq-body bg-[#ffe0e0]">
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
       <div
-        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
-      >
+        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
         <a href="index">Life Saver</a>
       </div>
-
+  
       <div class="flex w-[80%] justify-end items-center">
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
+        <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
           <a href="Admin">Dashboard</a>
         </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="DRequests">Requests</a>
+  
+  
+  
+        <div class="nav-btn p-dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemS()">
+              <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
+              <!-- <img
+                src=""
+                id="profile-pic-main"
+                alt=""
+                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+              /> -->
+            </button>
+          </div>
+  
+          <div class="options text-[19px]">
+            <a href="DRequests">
+              <div>Donor Requests</div>
+            </a>
+            <a href="HRequests">
+              <div>Blood Requests</div>
+            </a>
+          </div>
         </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="Client">Client</a>
+  
+  
+  
+        <div class="nav-btn2 p-dropdown input">
+          <div class="temp flex items-center">
+            <button class="inline mx-[28px]" onclick="showItemSClient()">
+              <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client
+              </div>
+            </button>
+          </div>
+  
+          <div class="options text-[19px]">
+            <a href="{{ url_for('Client', id='donor') }}">
+              <div>Donor List</div>
+            </a>
+            <a href="{{ url_for('Client', id='hospital') }}">
+              <div>Hospital List</div>
+            </a>
+            <a href="{{ url_for('Client', id='recipient') }}">
+              <div>Recipient List</div>
+            </a>
+          </div>
         </div>
-        
-        <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
-      <a href="logout">Logout</a>
-      </div>
+  
+        <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+          <a href="logout">Logout</a>
+        </div>
+  
+  
       </div>
     </nav>
+  
 
-    <div class="my-8 ml-4  text-3xl font-medium">Donor</div>
+    <div class="my-8  text-3xl font-medium text-center">{{id.capitalize()}}</div>
 
     <div class="mt-8 flex justify-center mb-[4rem]">
       <!-- border border-red-700   -->
@@ -85,6 +119,7 @@
         <div
             class="c-right w-[90%]   px-7 pt-1 "
           >
+          {% if id == 'donor' %}
             <table>
                 <tr>
                   <th class="bg-[#ff2828] text-white text-xl ">Donor_Id</th>
@@ -102,80 +137,46 @@
                   <td>{{ dr.city }}</td>
                 </tr>
                 {% endfor %}
-              </table>
-              
-              <!-- <form action="Admin" method="POST"> -->
-              <div class="overlay flex items-center justify-center hidden">
-                <div class="a-dform shadow-2xl shadow-black-900/50 rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
-
-                  <div class="heading bg-[#ff2828] rounded-t-3xl text-white text-2xl pl-4 py-3">
-                      Donation Form
-                  </div>
-
-                    <div class="flex flex-col w-full items-center ">
-
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="date input"
-                            value=""
-                            required
-                          />
-                          <label for="">Donation Id</label>
-                          <span>Donation Id</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full focus">
-                          <input
-                            type="date"
-                            name="DOB"
-                            class="date "
-                            value=""
-                            required
-                          />
-                          <label for="">Collection Date</label>
-                          <span>Collection Date</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="input"
-                            value=""
-                            required
-                          />
-                          <label for="">Quantity Donated</label>
-                          <span>Quantity Donated</span>
-                        </div>
-
-                        <div class="input-container w-[90%] max-[615px]:w-full ">
-                          <input
-                            type="text"
-                            name="DOB"
-                            class="date input"
-                            value=""
-                            required
-                          />
-                          <label for="">Blood Bag Number</label>
-                          <span>Blood Bag Number</span>
-                        </div>
-
-
-                    </div>
-
-                    <input type="submit" value="Submit" class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
-                  
-                </div>
-              </div>  
-              <!-- </form> -->
-
-
-            <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
-
-             
+            </table>
+            {% endif %}
+            {% if id == 'hospital' %}
+            <table>
+              <tr>
+                <th class="bg-[#ff2828] text-white text-xl ">Name</th>
+                <th class="bg-[#ff2828] text-white text-xl ">Email ID</th>
+                <th class="bg-[#ff2828] text-white text-xl ">Contact</th>
+                <th class="bg-[#ff2828] text-white text-xl ">City</th>
+              </tr>
+              {% for dr in drs%}
+              <tr>
+                <td class="font-bold">{{ dr.name }}</td>
+                <td>{{ dr.h_email_id}}</td>
+                <td>{{ dr.contact_phone }}</td>
+                <td>{{ dr.city }}</td>
+              </tr>
+              {% endfor %}
+          </table>
+          {% endif %}
+          {% if id == 'recipient' %}
+          <table>
+            <tr>
+              <th class="bg-[#ff2828] text-white text-xl ">Recipient_Id</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Name</th>
+              <th class="bg-[#ff2828] text-white text-xl ">DOB</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Blood Type</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Hospital Email ID</th>
+            </tr>
+            {% for dr in drs%}
+            <tr>
+              <td class="font-bold">{{ dr.recipient_id }}</td>
+              <td>{{ dr.first_name + " " + dr.last_name }}</td>
+              <td>{{ dr.date_of_birth }}</td>
+              <td>{{ dr.blood_type }}</td>
+              <td><a href="mailto:{{ dr.h_email_id }}" class=" text-red-400 hover:text-red-800">{{ dr.h_email_id }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
               
         </div>
 
@@ -183,6 +184,67 @@
 
 
     <script>
+
+      
+    //NavBar Profile Click DropDown
+    let navbtn = document.querySelector(".nav-btn");
+    let navbtnclient = document.querySelector(".nav-btn2");
+
+    function showItemS() {
+      navbtn.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtn && !navbtn.contains(event.target)) {
+        if (navbtn.classList.contains("active"))
+          navbtn.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtn.classList.remove("active");
+      }
+    });
+
+    function showItemSClient() {
+      navbtnclient.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtnclient && !navbtnclient.contains(event.target)) {
+        if (navbtnclient.classList.contains("active"))
+          navbtnclient.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtnclient.classList.remove("active");
+      }
+    });
+    // Loop through all .dropdown elements
+    let dd = document.querySelectorAll(".dropdown");
+    dd.forEach(function (dropdown) {
+      dropdown.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
+      });
+
+      dropdown.addEventListener("focus", function () {
+        dropdown.classList.add("active");
+      });
+
+      dropdown.addEventListener("blur", function () {
+        dropdown.classList.remove("active");
+      });
+      document.addEventListener("click", function (event) {
+        if (event.target !== dropdown && !dropdown.contains(event.target)) {
+          if (dropdown.classList.contains("active"))
+            dropdown.classList.remove("active");
+        }
+      });
+    });
+
+
+
       // InputBox Animation JS
       const ips = document.querySelectorAll(".input");
       ips.forEach((ip) => {
@@ -204,21 +266,6 @@
         });
       });
 
-       
-
-      // Js for Updating Value in Input after Selecting
-      //function showCity(word) {
-      //  document.querySelector(".textBoxCity").value = word;
-      //}
-      //function showGender(word) {
-      //  document.querySelector(".textBoxGender").value = word;
-      //}
-      //function showBloodType(word) {
-      //  document.querySelector(".textBoxBlood").value = word;
-      //}
-
-       
-
  
       // Flash Message JS
       const fmsg = document.querySelector(".flash-messages");
@@ -233,62 +280,6 @@
       if (ims !== null && ims.textContent != "") {
         fmsg.classList.add("active");
       }
-
-      //City Search Box Js
-
-      //function fetchCities() {
-      //  fetch("/get_cities_json")
-      //    .then((response) => response.json())
-      //    .then((data) => {
-      //      var cities = data["cities"];
-      //      const resultBox = document.getElementById("OptionsCity");
-      //      const inputBox = document.getElementById("CitytextBox");
-      //      const rBHTML=resultBox.innerHTML;
-      //      inputBox.onkeyup = function () {
-//
-      //        let result = [];
-      //        let input = inputBox.value;
-      //        if (input.length) {
-      //          result = cities.filter((keyword) => {
-      //            return keyword.toLowerCase().startsWith(input.toLowerCase());
-      //          });
-      //        }
-//
-      //        display(result);
-//
-      //        if(!result.length){
-      //          resultBox.innerHTML = "";
-      //        }
-      //        if(!input.length){
-      //          resultBox.innerHTML = rBHTML;
-      //        }
-      //      };
-//
-      //      function display(result) {
-      //        resultBox.innerHTML = "";
-      //        const content = result.map((div)=>{
-      //          return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
-      //        });
-      //        resultBox.innerHTML = content.join('');
-      //      }
-      //    })
-      //    .catch((error) => console.error("Error:", error));
-      //}
-      //fetchCities();
-
-        let dform=document.querySelector('.a-dform');
-        let dfSubmit=document.querySelector('.a-df-submit');
-        let overlay = document.querySelector('.overlay');
-        function OpenForm(){
-          dform.classList.add('df-active');
-          overlay.classList.remove('hidden')
-          overlay.classList.add('block')
-        }
-        dfSubmit.addEventListener('click',(e)=>{
-          dform.classList.remove('df-active');
-          overlay.classList.remove('block')
-          overlay.classList.add('hidden')
-        });
 
     </script>
   </body>

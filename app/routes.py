@@ -16,14 +16,14 @@ from flask_login import (
     logout_user,
     login_required,
 )
-from flask_mail import Message
+# from flask_mail import Message
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
 from app import app,myemail,server,app_login_key,mypass
 import re, random
 from email.mime.text import MIMEText
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from sqlalchemy import desc,func,asc
 import pandas as pd 
 pas = False
@@ -1413,7 +1413,7 @@ def check(transfusion_id):
         quantity_match_3 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
             BloodInventory.quantity_donated >= quantity_transfused,
-            BloodInventory.storage_location == city2
+            BloodInventory.storage_location == city3
         ).first()
 
         if quantity_match_3:
@@ -1574,12 +1574,19 @@ def delete_request(transfusion_id):
     return redirect(url_for('contact'))
 
 
-@app.route('/Client',methods=['POST','GET'])
+@app.route('/Client/<id>',methods=['POST','GET'])
 @login_required
 @admin_required
-def Client():
-    drs = Donor.query.all()
-    return render_template('Admin_Client.html',drs=drs)
+def Client(id):
+    if id == 'donor':
+        drs = Donor.query.all()
+    elif id == 'hospital':
+        drs = RHospital.query.all()
+    elif id == 'recipient':
+        drs = Recipient.query.all()
+    else:
+        return redirect(url_for('Admin'))
+    return render_template('Admin_Client.html',drs=drs,id=id)
 
 @app.route('/DAccepted', methods=['POST'])
 @login_required
@@ -1788,4 +1795,6 @@ def add_transfusion_record():
 
     # Redirect to the desired page (you can customize this)
     return redirect(url_for('HAppointment'))
+
+
 # Hospital Page BackEnd ends

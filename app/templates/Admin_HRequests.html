@@ -21,22 +21,65 @@
 
     <div class="flex w-[80%] justify-end items-center">
       <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="{{ url_for('Admin') }}">Dashboard</a>
+        <a href="Admin">Dashboard</a>
+      </div>
+
+
+
+      <div class="nav-btn p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemS()">
+            <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
+            <!-- <img
+              src=""
+              id="profile-pic-main"
+              alt=""
+              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+            /> -->
+          </button>
+        </div>
+
+        <div class="options text-[19px]">
+          <a href="DRequests">
+            <div>Donor Requests</div>
+          </a>
+          <a href="HRequests">
+            <div>Blood Requests</div>
+          </a>
+        </div>
+      </div>
+
+
+
+      <div class="nav-btn2 p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemSClient()">
+            <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client
+            </div>
+          </button>
+        </div>
+
+        <div class="options text-[19px]">
+          <a href="Client">
+            <div>Donor List</div>
+          </a>
+          <a href="Client">
+            <div>Hospital List</div>
+          </a>
+          <a href="Client">
+            <div>Recipient List</div>
+          </a>
+        </div>
       </div>
 
       <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="{{ url_for('Drequests') }}">Requests</a>
+        <a href="logout">Logout</a>
       </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="{{ url_for('Client') }}">Client</a>
-      </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="{{ url_for('logout') }}">Logout</a>
-      </div>
     </div>
   </nav>
+
 
   <div class="my-8 ml-4  text-3xl font-medium">Hospital Requests</div>
 
@@ -67,7 +110,7 @@
           <td class="font-bold">{{ appo.blood_type}}</td>
           <td>{{ appo.transfusion_date }}</td>
           <td>{{ appo.quantity_transfused }}</td>
-          <td>{{ appo.city1, appo.city2, appo.city3 }}</td>
+          <td>{{ appo.city1 }},{{ appo.city2 }},{{ appo.city3 }}</td>
           <td>
             {% if appo.transfusion_id !=  id%}
             <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('check', transfusion_id=appo.transfusion_id) }}">
@@ -89,6 +132,65 @@
 
 
   <script>
+
+    //NavBar Profile Click DropDown
+    let navbtn = document.querySelector(".nav-btn");
+    let navbtnclient = document.querySelector(".nav-btn2");
+
+    function showItemS() {
+      navbtn.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtn && !navbtn.contains(event.target)) {
+        if (navbtn.classList.contains("active"))
+          navbtn.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtn.classList.remove("active");
+      }
+    });
+
+    function showItemSClient() {
+      navbtnclient.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtnclient && !navbtnclient.contains(event.target)) {
+        if (navbtnclient.classList.contains("active"))
+          navbtnclient.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtnclient.classList.remove("active");
+      }
+    });
+    // Loop through all .dropdown elements
+    let dd = document.querySelectorAll(".dropdown");
+    dd.forEach(function (dropdown) {
+      dropdown.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
+      });
+
+      dropdown.addEventListener("focus", function () {
+        dropdown.classList.add("active");
+      });
+
+      dropdown.addEventListener("blur", function () {
+        dropdown.classList.remove("active");
+      });
+      document.addEventListener("click", function (event) {
+        if (event.target !== dropdown && !dropdown.contains(event.target)) {
+          if (dropdown.classList.contains("active"))
+            dropdown.classList.remove("active");
+        }
+      });
+    });
+
+
     // InputBox Animation JS
     const ips = document.querySelectorAll(".input");
     ips.forEach((ip) => {

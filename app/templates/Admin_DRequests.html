@@ -24,17 +24,59 @@
         <a href="Admin">Dashboard</a>
       </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="DRequests">Requests</a>
+
+
+      <div class="nav-btn p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemS()">
+            <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
+            <!-- <img
+              src=""
+              id="profile-pic-main"
+              alt=""
+              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
+            /> -->
+          </button>
+        </div>
+
+        <div class="options text-[19px]">
+          <a href="DRequests">
+            <div>Donor Requests</div>
+          </a>
+          <a href="HRequests">
+            <div>Blood Requests</div>
+          </a>
+        </div>
       </div>
 
-      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="Client">Client</a>
+
+
+      <div class="nav-btn2 p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemSClient()">
+            <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client
+            </div>
+          </button>
+        </div>
+
+        <div class="options text-[19px]">
+          <a href="Client">
+            <div>Donor List</div>
+          </a>
+          <a href="Client">
+            <div>Hospital List</div>
+          </a>
+          <a href="Client">
+            <div>Recipient List</div>
+          </a>
+        </div>
       </div>
 
       <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
         <a href="logout">Logout</a>
       </div>
+
+
     </div>
   </nav>
 
@@ -86,7 +128,8 @@
           <td>{{ appo.appointment_time }}</td>
           <td>{{ appo.place }}</td>
           <td>
-            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl" onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
+            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl"
+              onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
               Fill
             </button>
           </td>
@@ -105,7 +148,7 @@
               <div class="heading pl-4 py-3">
                 Donation Form
               </div>
-              
+
               <div class="a-df2-submit font-bold pr-4 text-4xl cursor-pointer">
                 &times;
               </div>
@@ -116,7 +159,7 @@
 
 
               <div class="input-container w-[90%] max-[615px]:w-full focus">
-                <input type="text" name="AID" class="input apid" value="" required  readonly />
+                <input type="text" name="AID" class="input apid" value="" required readonly />
                 <label for="">Appointment Id</label>
                 <span>Appointment Id</span>
               </div>
@@ -153,6 +196,64 @@
 
 
   <script>
+
+    //NavBar Profile Click DropDown
+    let navbtn = document.querySelector(".nav-btn");
+    let navbtnclient = document.querySelector(".nav-btn2");
+
+    function showItemS() {
+      navbtn.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtn && !navbtn.contains(event.target)) {
+        if (navbtn.classList.contains("active"))
+          navbtn.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtn.classList.remove("active");
+      }
+    });
+
+    function showItemSClient() {
+      navbtnclient.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtnclient && !navbtnclient.contains(event.target)) {
+        if (navbtnclient.classList.contains("active"))
+          navbtnclient.classList.remove("active");
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtnclient.classList.remove("active");
+      }
+    });
+    // Loop through all .dropdown elements
+    let dd = document.querySelectorAll(".dropdown");
+    dd.forEach(function (dropdown) {
+      dropdown.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
+      });
+
+      dropdown.addEventListener("focus", function () {
+        dropdown.classList.add("active");
+      });
+
+      dropdown.addEventListener("blur", function () {
+        dropdown.classList.remove("active");
+      });
+      document.addEventListener("click", function (event) {
+        if (event.target !== dropdown && !dropdown.contains(event.target)) {
+          if (dropdown.classList.contains("active"))
+            dropdown.classList.remove("active");
+        }
+      });
+    });
+
     // InputBox Animation JS
     const ips = document.querySelectorAll(".input");
     ips.forEach((ip) => {
@@ -196,13 +297,13 @@
     let AppDate = document.querySelector(".apdate");
     let QuantityDonated = document.querySelector(".quantity");
 
-    function OpenForm(dr_id,dr_date) {
+    function OpenForm(dr_id, dr_date) {
       dform.classList.add('df-active');
-      if(dform.classList.contains('df-active')){
+      if (dform.classList.contains('df-active')) {
         AppID.value = dr_id;
         AppDate.value = dr_date;
       }
-      else{
+      else {
         AppID.value = "";
         AppDate.value = "";
       }
@@ -212,7 +313,7 @@
     dfSubmit.addEventListener('click', (e) => {
       dform.classList.remove('df-active');
       overlay.classList.remove('block')
-      QuantityDonated.value="";
+      QuantityDonated.value = "";
       QuantityDonated.parentNode.classList.remove("focus");
       overlay.classList.add('hidden')
     });

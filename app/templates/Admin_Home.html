@@ -71,13 +71,13 @@
           </div>
 
           <div class="options text-[19px]">
-            <a href="Client">
+            <a href="{{ url_for('Client', id='donor') }}">
               <div>Donor List</div>
             </a>
-            <a href="Client">
+            <a href="{{ url_for('Client', id='hospital') }}">
               <div>Hospital List</div>
             </a>
-            <a href="Client">
+            <a href="{{ url_for('Client', id='recipient') }}">
               <div>Recipient List</div>
             </a>
           </div>
