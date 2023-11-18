@@ -14,7 +14,7 @@ body {
     /* padding: 20px; */
     border: 150px solid transparent;
     /* border-image: url(images/border.png) 30% round; */
-    background-image: url('../static/images/border.png');
+    background-image: url('../static/images/border.png') !important;
     background-size: auto; /* Adjust as needed */
     background-repeat: no-repeat;
     background-position: center;

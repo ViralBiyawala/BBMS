@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../static/profile.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
     <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
 </head>
 
@@ -17,30 +17,27 @@
         ml-[24px] text-[36px]  hover:tracking-[0.1em]
         transition-all duration-700 cursor-pointer
                     ">
-            <a href="index">Life Saver</a>
+            <a href="{{url_for('index')}}">Life Saver</a>
         </div>
         <div class=" flex w-[80%] justify-end items-center">
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
-                <a href="/index">Home</a>
+                <a href="{{url_for('index')}}">Home</a>
             </div>
 
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
-                <a>About Us</a>
+                <a href="{{url_for('about')}}">About Us</a>
             </div>
 
             <div class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px] ">
-                <a href="/contact">Contact Us</a>
+                <a href="{{url_for('contact')}}">Contact Us</a>
             </div>
 
             {% if user is none %}
             <div
                 class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
-                <a href="login">Login</a>
+                <a href="{{url_for('login')}}">Login</a>
             </div>
             {% else %}
-            <!-- <div class="log--out loginout cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]">
-                    <a href="logout">Log Out</a>
-                </div> -->
             <div class="nav-btn p-dropdown input ">
 
                 <div class="temp flex items-center">
@@ -52,15 +49,15 @@
 
                 <div class="options text-[19px]">
                     {% if user.has_role('hospital') %}
-                    <a href="HProfile">
+                    <a href="{{url_for('HProfile')}}">
                         <div onclick="show('Profile')">Profile</div>
                     </a>
                     {% else %}
-                    <a href="profile">
+                    <a href="{{url_for('profile')}}">
                         <div onclick="show('Profile')">Profile</div>
                     </a>
                     {% endif %}
-                    <a href="logout">
+                    <a href="{{url_for('logout')}}">
                         <div>Log Out</div>
                     </a>
                 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Us</title>
-    <link rel="stylesheet" href="../static/contact.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script
       src="https://kit.fontawesome.com/3b57b3cea0.js"
@@ -18,7 +18,7 @@
       <div
         class="flex items-center w-[20%] max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
       >
-        <a href="index">Life Saver</a>
+        <a href="{{url_for('index')}}">Life Saver</a>
       </div>
 
       <div
@@ -27,19 +27,19 @@
         <div
           class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
         >
-          <a href="/index">Home</a>
+          <a href="{{url_for('index')}}">Home</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
         >
-          <a href="about">About Us</a>
+          <a href="{{url_for('about')}}">About Us</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
         >
-          <a href="/contact">Contact Us</a>
+          <a href="{{url_for('contact')}}">Contact Us</a>
         </div>
 
         {% if user is not none %}
@@ -56,10 +56,10 @@
           </div>
 
           <div class="options text-[19px]">
-            <a href="profile">
+            <a href="{{url_for('profile')}}">
               <div onclick="show('Profile')">Profile</div>
             </a>
-            <a href="logout">
+            <a href="{{url_for('logout')}}">
               <div onclick="show('Log Out')">Log Out</div>
             </a>
           </div>
@@ -68,7 +68,7 @@
         <div
           class="log--in cursor-pointer hover:border-b-[2px] hover:border-white transition-all duration-100 mx-[28px]"
         >
-          <a href="login">Login</a>
+          <a href="{{url_for('login')}}">Login</a>
         </div>
         {% endif %}
       </div>
@@ -81,7 +81,7 @@
       <div
         class="flex items-center max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white"
       >
-        <a href="index">Life Saver</a>
+        <a href="{{url_for('index')}}">Life Saver</a>
       </div>
 
       <button class="hamburger mx-[28px]">
@@ -91,11 +91,11 @@
       <div class="mobile-nav flex flex-col items-center">
         {% if user is none %}
         <!-- No user has logged in -->
-        <a href="login" class="ni">Log In</a>
+        <a href="{{url_for('login')}}" class="ni">Log In</a>
         {% else %}
 
         <div class="h-head ni flex mt-[30px] items-center pl-[0.3rem]">
-          <a href="profile">
+          <a href="{{url_for('profile')}}">
             <img
               src="{{ src }}"
               id="profile-pic-main"
@@ -106,13 +106,13 @@
         </div>
 
         <div class="ni h-head-2 w-full justify-evenly flex">
-          <a href="profile">
+          <a href="{{url_for('profile')}}">
             <div class="hh2-1 flex flex-col items-center cursor-pointer">
               <i class="fa-regular fa-user"></i>
               My Profile
             </div>
           </a>
-          <a href="logout">
+          <a href="{{url_for('logout')}}">
             <div class="hh2-2 flex flex-col items-center cursor-pointer">
               <i class="fa-solid fa-arrow-right-from-bracket"></i>
               Log Out
@@ -120,9 +120,9 @@
           </a>
         </div>
         {% endif %}
-        <a href="index" class="ni">Home</a>
-        <a href="about" class="ni">About Us</a>
-        <a href="contact" class="ni">Contact Us</a>
+        <a href="{{url_for('index')}}" class="ni">Home</a>
+        <a href="{{url_for('about')}}" class="ni">About Us</a>
+        <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
       </div>
     </nav>
 

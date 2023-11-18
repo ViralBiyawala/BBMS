@@ -16,12 +16,12 @@
   <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
     <div
       class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
-      <a href="index">Life Saver</a>
+      <a href="{{ url_for('index') }}">Life Saver</a>
     </div>
 
     <div class="flex w-[80%] justify-end items-center">
       <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="Admin">Dashboard</a>
+        <a href="{{ url_for('Admin') }}">Dashboard</a>
       </div>
 
 
@@ -30,20 +30,14 @@
         <div class="temp flex items-center">
           <button class="inline mx-[28px]" onclick="showItemS()">
             <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
-            <!-- <img
-              src=""
-              id="profile-pic-main"
-              alt=""
-              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
-            /> -->
           </button>
         </div>
 
         <div class="options text-[19px]">
-          <a href="DRequests">
+          <a href="{{ url_for('Drequests') }}">
             <div>Donor Requests</div>
           </a>
-          <a href="HRequests">
+          <a href="{{ url_for('HRequests')}}">
             <div>Blood Requests</div>
           </a>
         </div>
@@ -60,136 +54,72 @@
         </div>
 
         <div class="options text-[19px]">
-          <a href="Client">
+          <a href="{{ url_for('Client', id='donor') }}">
             <div>Donor List</div>
           </a>
-          <a href="Client">
+          <a href="{{ url_for('Client', id='hospital') }}">
             <div>Hospital List</div>
           </a>
-          <a href="Client">
+          <a href="{{ url_for('Client', id='recipient') }}">
             <div>Recipient List</div>
           </a>
         </div>
       </div>
 
       <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
-        <a href="logout">Logout</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
       </div>
 
 
     </div>
   </nav>
 
-  <div class="my-8 ml-4  text-3xl font-medium">Donation Requests</div>
+
+  <div class="my-8  text-3xl font-medium text-center">Hospital Requests</div>
 
   <div class="mt-8 flex justify-center mb-[4rem]">
-    <!-- border border-red-700   -->
-    <div class="left w-[0%]   p-1 hidden">
 
-      <!-- Flash message start -->
-      <div class="flash-messages">
-        <div class="msg">
-          {% with messages = get_flashed_messages() %} {% if messages %}
-          <div class="inner">{{ messages[-1] }}</div>
-
-          {% endif %} {% endwith %}
-        </div>
+    <!-- Flash message start -->
+    <div class="flash-messages">
+      <div class="msg">
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div class="inner">{{ messages[-1] }}</div>
+        {% endif %} {% endwith %}
       </div>
-      <!--Flash message ends  -->
-
-      <div class="a-options  border-2 border-[#ff2828] flex flex-col text-2xl">
-        <div id="op-1" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center selected">Home
-        </div>
-        <div id="op-2" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests
-        </div>
-        <div id="op-3" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests
-        </div>
-        <div id="op-4" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div>
-        <div id="op-5" class="ops cursor-pointer py-2  w-full text-center">Hospital</div>
-      </div>
-
-
     </div>
+    <!--Flash message ends  -->
 
     <div class="a-right w-[90%]   px-7 pt-1 ">
       <table>
         <tr>
           <th class="bg-[#ff2828] text-white text-xl ">Blood Type</th>
           <th class="bg-[#ff2828] text-white text-xl ">Date</th>
-          <th class="bg-[#ff2828] text-white text-xl ">Time</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Quantity Requried</th>
           <th class="bg-[#ff2828] text-white text-xl ">Place</th>
           <th class="bg-[#ff2828] text-white text-xl ">Fill Form</th>
         </tr>
         {% for appo in ua%}
-        {% if appo.ddone == False %}
+        {% if appo.status == 0 %}
         <tr>
-          <td class="font-bold">{{ appo.appointment_id}}</td>
-          <td>{{ appo.appointment_date }}</td>
-          <td>{{ appo.appointment_time }}</td>
-          <td>{{ appo.place }}</td>
+          <td class="font-bold">{{ appo.blood_type}}</td>
+          <td>{{ appo.transfusion_date }}</td>
+          <td>{{ appo.quantity_transfused }}</td>
+          <td>{{ appo.city1 }},{{ appo.city2 }},{{ appo.city3 }}</td>
           <td>
-            <button class="fill-form bg-[#ff2828] px-4 py-1 text-[#fff] rounded-2xl"
-              onclick="OpenForm( '{{ appo.appointment_id }}','{{ appo.appointment_date }}' )">
-              Fill
-            </button>
+            {% if appo.transfusion_id !=  id%}
+            <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('check', transfusion_id=appo.transfusion_id) }}">
+              Dispatch
+            </a>
+            {% elif appo.transfusion_id ==  id and found == False%}
+            <a class="fill-form bg-red-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('delete_request', transfusion_id=appo.transfusion_id) }}">
+              Not Available
+            </a>
+            {% endif %}
           </td>
         </tr>
         {% endif %}
         {% endfor %}
       </table>
-
-      <form method="POST" action="DAccepted">
-        <div class="overlay flex items-center justify-center hidden">
-          <div
-            class="a-dform shadow-2xl shadow-black-900/50 rounded-3xl my-12   flex flex-col pb-2 bg-white w-[40%] mx-auto">
-
-            <div class="box-head flex justify-between items-center bg-[#ff2828] rounded-t-3xl text-white text-2xl">
-
-              <div class="heading pl-4 py-3">
-                Donation Form
-              </div>
-
-              <div class="a-df2-submit font-bold pr-4 text-4xl cursor-pointer">
-                &times;
-              </div>
-
-            </div>
-
-            <div class="flex flex-col w-full items-center ">
-
-
-              <div class="input-container w-[90%] max-[615px]:w-full focus">
-                <input type="text" name="AID" class="input apid" value="" required readonly />
-                <label for="">Appointment Id</label>
-                <span>Appointment Id</span>
-              </div>
-
-              <div class="input-container w-[90%] max-[615px]:w-full focus">
-                <input type="date" name="seD" class="date apdate" value="" required />
-                <label for="">Collection Date</label>
-                <span>Collection Date</span>
-              </div>
-
-              <div class="input-container w-[90%] max-[615px]:w-full ">
-                <input type="text" name="QD" class="quantity input" value="" required />
-                <label for="">Quantity Donated</label>
-                <span>Quantity Donated</span>
-              </div>
-
-            </div>
-
-            <input type="submit" value="Submit"
-              class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
-
-          </div>
-        </div>
-      </form>
-
-
-      <!-- <div class="mb-8 mt-4 text-2xl font-medium">Blood Stock Availibility</div> -->
-
-
-
     </div>
 
   </div>
@@ -254,6 +184,7 @@
       });
     });
 
+
     // InputBox Animation JS
     const ips = document.querySelectorAll(".input");
     ips.forEach((ip) => {
@@ -290,33 +221,7 @@
       fmsg.classList.add("active");
     }
 
-    let dform = document.querySelector('.a-dform');
-    let dfSubmit = document.querySelector('.a-df2-submit');
-    let overlay = document.querySelector('.overlay');
-    let AppID = document.querySelector(".apid");
-    let AppDate = document.querySelector(".apdate");
-    let QuantityDonated = document.querySelector(".quantity");
 
-    function OpenForm(dr_id, dr_date) {
-      dform.classList.add('df-active');
-      if (dform.classList.contains('df-active')) {
-        AppID.value = dr_id;
-        AppDate.value = dr_date;
-      }
-      else {
-        AppID.value = "";
-        AppDate.value = "";
-      }
-      overlay.classList.remove('hidden')
-      overlay.classList.add('block')
-    }
-    dfSubmit.addEventListener('click', (e) => {
-      dform.classList.remove('df-active');
-      overlay.classList.remove('block')
-      QuantityDonated.value = "";
-      QuantityDonated.parentNode.classList.remove("focus");
-      overlay.classList.add('hidden')
-    });
 
   </script>
 </body>

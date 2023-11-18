@@ -37,7 +37,7 @@ fetch('/plot_positive_data')
                         }
                     },
                     marker: {
-                        enabled: false // Disable markers
+                        enabled: true // Disable markers
                     }
                 },
                 {
@@ -50,7 +50,7 @@ fetch('/plot_positive_data')
                         }
                     },
                     marker: {
-                        enabled: false // Disable markers
+                        enabled: true // Disable markers
                     }
                 },
                 {
@@ -63,7 +63,7 @@ fetch('/plot_positive_data')
                         }
                     },
                     marker: {
-                        enabled: false // Disable markers
+                        enabled: true // Disable markers
                     }
                 },
                 {
@@ -76,7 +76,7 @@ fetch('/plot_positive_data')
                         }
                     },
                     marker: {
-                        enabled: false // Disable markers
+                        enabled: true // Disable markers
                     }   
                 }
             ]

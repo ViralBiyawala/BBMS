@@ -13,6 +13,8 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='profile.css') }}"
     />
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
   </head>
 
   <body class="bg-[#FFE0E0]">
@@ -23,26 +25,26 @@
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
       >
-        <a href="index">Life Saver</a>
+        <a href="{{url_for('index')}}">Life Saver</a>
       </div>
 
       <div class="flex w-[80%] justify-end items-center">
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="/index">Home</a>
+          <a href="{{url_for('index')}}">Home</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="about">About Us</a>
+          <a href="{{url_for('about')}}">About Us</a>
         </div>
 
         <div
           class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
         >
-          <a href="/contact">Contact Us</a>
+          <a href="{{url_for('contact')}}">Contact Us</a>
         </div>
 
          
@@ -59,10 +61,10 @@
           </div>
 
           <div class="options text-[19px]">
-            <a href="appointment">
+            <a href="{{url_for('appointment')}}">
               <div>Get Appointment</div>
             </a>
-            <a href="logout">
+            <a href="{{url_for('logout')}}">
               <div>Log Out</div>
             </a>
           </div>
@@ -78,7 +80,7 @@
     <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
        
       <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
-        <a href="index">Life Saver</a>
+        <a href="{{url_for('index')}}">Life Saver</a>
       </div>
 
       <button class="hamburger mx-[28px]">
@@ -88,12 +90,12 @@
       <div class="mobile-nav flex flex-col items-center ">
         {% if user is none %}
         <!-- No user has logged in -->
-        <a href="login" class="ni">Log In</a>
+        <a href="{{url_for('login')}}" class="ni">Log In</a>
         {% else %}
         
         <div class="h-head  ni flex mt-[30px] items-center 
         pl-[0.3rem]">
-          <a href="profile">
+          <a href="{{url_for('profile')}}">
             <img
             src="{{ src }}"
             id="profile-pic-main"
@@ -104,13 +106,13 @@
         </div>
 
         <div class="ni h-head-2 w-full justify-evenly flex  ">
-          <a href="appointment">
+          <a href="{{url_for('appointment')}}">
           <div class="hh2-1  flex flex-col items-center cursor-pointer">
             <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
               Get Appointment
             </div>
           </a>
-          <a href="logout">
+          <a href="{{url_for('logout')}}">
             <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
               <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
               Log Out
@@ -118,9 +120,9 @@
           </a>
         </div>
         {% endif %} 
-        <a href="index" class="ni">Home</a>
-        <a href="about" class="ni">About Us</a>
-        <a href="contact" class="ni">Contact Us</a>
+        <a href="{{url_for('index')}}" class="ni">Home</a>
+        <a href="{{url_for('about')}}" class="ni">About Us</a>
+        <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
       </div>
     </nav>
 
@@ -315,9 +317,9 @@
                 <label for="">Mobile No.</label>
                 <span>Mobile No.</span>
               </div>
-
+              
               <div class="input-container w-1/2 max-[615px]:w-full">
-                <div class="dropdown input">
+                <div class="{% if data is none %}dropdown{% endif %} input">
                   <input
                     type="text"
                     class="textBoxBlood"
@@ -325,7 +327,9 @@
                     readonly
                     name="Btype"
                     required
-                  />
+                    readonly
+                    />
+                  {% if data is  none %}
                   <div class="options">
                     <div onclick="showBloodType('A+')" class="blood-type">
                       A+
@@ -352,6 +356,7 @@
                       O-
                     </div>
                   </div>
+                  {% endif %}
                 </div>
                 <label for="">Blood Type</label>
                 <span>Blood Type</span>
@@ -428,7 +433,7 @@
                     </tr>
                   </thead>
                     <tbody>
-                      {% if appointments is not none %} {% for appointment in results %}
+                      {% if fr is not none %} {% for appointment in results %}
                       <tr>
                         <td class="border-t-[0px]">
                           {{appointment.appointment_id}}
@@ -467,6 +472,7 @@
               </tr>
             </thead>
             <tbody>
+              {% if fr is not none %}
               {% for frs in fr%}
               <tr>
                 <td>{{ frs.appointment_id }}</td>
@@ -475,10 +481,11 @@
                 <td>{{ frs.place }}</td>
                 <td>
                   <!-- Add a link or button for downloading -->
-                  <a href="\gc\{{ frs.appointment_id }}"> Certificate</a>
+                  <a href="\gc\{{ frs.appointment_id }}" target="_blank"> Certificate</a>
                 </td>
               </tr>
               {% endfor %}
+              {% endif %}
             </tbody>
           </table>
           </div>
@@ -486,7 +493,9 @@
 
       </div>
     </div>
+
     <script>
+
        //->Back To Top Button JS<-
       // Get the button element
       var btn = document.getElementById("button");

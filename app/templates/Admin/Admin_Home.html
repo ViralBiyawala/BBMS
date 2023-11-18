@@ -24,52 +24,44 @@
   <body class="bg-[#ffe0e0]">
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
       <div
-        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
-      >
-        <a href="index">Life Saver</a>
+        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+        <a href="{{ url_for('index') }}">Life Saver</a>
       </div>
-
+  
       <div class="flex w-[80%] justify-end items-center">
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="Admin">Dashboard</a>
+        <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+          <a href="{{ url_for('Admin') }}">Dashboard</a>
         </div>
-
-         
-
+  
+  
+  
         <div class="nav-btn p-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
-              <div   class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
-              <!-- <img
-                src=""
-                id="profile-pic-main"
-                alt=""
-                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
-              /> -->
+              <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
             </button>
           </div>
-
+  
           <div class="options text-[19px]">
-            <a href="DRequests">
+            <a href="{{ url_for('Drequests') }}">
               <div>Donor Requests</div>
             </a>
-            <a href="HRequests">
+            <a href="{{ url_for('HRequests')}}">
               <div>Blood Requests</div>
             </a>
           </div>
         </div>
-
- 
-
+  
+  
+  
         <div class="nav-btn2 p-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemSClient()">
-              <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client</div>
+              <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client
+              </div>
             </button>
           </div>
-
+  
           <div class="options text-[19px]">
             <a href="{{ url_for('Client', id='donor') }}">
               <div>Donor List</div>
@@ -82,14 +74,12 @@
             </a>
           </div>
         </div>
-        
-        <div
-        class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-      >
-      <a href="logout">Logout</a>
-      </div>
-        
-
+  
+        <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+  
+  
       </div>
     </nav>
 

@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{name[0]}}</title>
-    <!-- <link rel="stylesheet" href="../static/print.css" media="print"> -->
-    <link rel="stylesheet" href="../static/certificate.css">
+    <title>{{name[0].split(' ')[0]}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='certificate.css') }}">
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 </head>
 
 <body>
     <!-- <img src="../static/images/border.png" > -->
-    <button id="print_btn" class="in-3">Print Certificate</button>
+    <button id="saveAsPdfButton" class="in-3">Download Certificate</button>
     <div class="certificate">
         <div class="header">
             <img src="../static/images/logo.png" alt="Blood Bank Logo">
@@ -25,13 +25,17 @@
         </div>
     </div>
     <script>
-        document.getElementById("print_btn").addEventListener("click", function () {
-            const printOptions = {
-                printBackground: false
-            };
 
-            // Open the printing console with options
-            window.print(printOptions);
+        document.getElementById('saveAsPdfButton').addEventListener('click', function () {
+            // Use html2pdf to save the page as a PDF
+            var element = document.querySelector('.certificate');
+            html2pdf(element, {
+                margin: 0,
+                filename: '{{name[0].split(" ")[0]}}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            });
         });
     </script>
 </body>

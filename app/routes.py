@@ -94,10 +94,9 @@ def user_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
-            if not current_user.has_role('admin'):
+            if current_user.has_role('donor'):
                 return f(*args, **kwargs)
             else:
-                flash('Donor only permission for this Page.')
                 return redirect(url_for('Admin'))
         else:
             return f(*args, **kwargs)
@@ -225,19 +224,17 @@ def Admin():
         for blood_type in blood_types:
                 total_quantity = 0
 
-                for blood_bag_num in blood_bag_nums:
-                    result = (
-                        db.session.query(
-                            func.sum(BloodInventory.quantity_donated).label('total_quantity')
-                        )
-                        .filter(BloodInventory.blood_type == blood_type)
-                        # .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
-                        .filter(BloodInventory.storage_location == selected_city)
-                        .first()
+                result = (
+                    db.session.query(
+                        func.sum(BloodInventory.quantity_donated).label('total_quantity')
                     )
-
-                    if result and result.total_quantity:
-                        total_quantity += result.total_quantity
+                    .filter(BloodInventory.blood_type == blood_type)
+                    .filter(BloodInventory.storage_location == selected_city)
+                    .first()
+                )
+                
+                if result and result.total_quantity:
+                    total_quantity += result.total_quantity
 
                 sd_city[blood_type].append(total_quantity)
     else :
@@ -274,23 +271,22 @@ def Admin():
         sd_city[sb].append(total_quantity)
         
         total_quantity = 0
-        for blood_bag_num in blood_bag_nums:
-            result = (
-                db.session.query(
-                    func.sum(BloodInventory.quantity_donated).label('total_quantity')
-                )
-                .filter(BloodInventory.blood_type == sb)
-                # .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
-                .filter(BloodInventory.storage_location == selected_city)
-                .first()
+        result = (
+            db.session.query(
+                func.sum(BloodInventory.quantity_donated).label('total_quantity')
             )
-
-            if result and result.total_quantity:
-                total_quantity += result.total_quantity
+            .filter(BloodInventory.blood_type == sb)
+            # .filter(BloodInventory.blood_bag_number == blood_bag_num[0])
+            .filter(BloodInventory.storage_location == selected_city)
+            .first()
+        )
+        
+        if result and result.total_quantity:
+            total_quantity += result.total_quantity
         sd_city[sb].append(total_quantity)
     
 
-    return render_template('Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,out_qu=summarized_data_tr,sd_city=sd_city,sc=selected_city,sb=sb)
+    return render_template('Admin/Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,out_qu=summarized_data_tr,sd_city=sd_city,sc=selected_city,sb=sb)
 
 
 #Helper functions
@@ -348,9 +344,6 @@ def contact():
                 src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('contact.html',src=src,user=user)
 
-# @app.route('/form')
-# def donor_form():
-#     return render_template('form.html',cities=cities)
 
 @app.route('/about')
 @no_admin_required
@@ -389,31 +382,31 @@ def base():
     if user == None:
         initials = None
     elif current_user.has_role('donor'):
-        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
-        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
-        latest_record = None
-        if appointment_ids:
-            # Step 2: Retrieve the latest BloodDonationRecord
-            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
-
-            if latest_record:
-                # Step 3: Calculate the difference in days
-                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
-
-                if difference_in_days >= 5:
-                    # Add a record to the Notification table
-                    notification_message = "Now you can donate Blood Again."
-                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
-
-                    if not existing_notification:
-                        # If the notification does not exist, create and commit a new one
-                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
-                        db.session.add(new_notification)
-                        db.session.commit()
-    
-        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
+            id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+            appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+            latest_record = None
+            if appointment_ids:
+                # Step 2: Retrieve the latest BloodDonationRecord
+                latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+                if latest_record:
+                    # Step 3: Calculate the difference in days
+                    difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                    if difference_in_days >= 5:
+                        # Add a record to the Notification table
+                        notification_message = "Now you can donate Blood Again."
+                        existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                        if not existing_notification:
+                            # If the notification does not exist, create and commit a new one
+                            new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                            db.session.add(new_notification)
+                            db.session.commit()
+
+            notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
             current_path = os.getcwd() 
@@ -449,32 +442,32 @@ def index():
     if user == None:
         initials = None
     elif current_user.has_role('donor'):
-        id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
-        appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
-        latest_record = None
-        if appointment_ids:
-            # Step 2: Retrieve the latest BloodDonationRecord
-            latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
-
-            if latest_record:
-                # Step 3: Calculate the difference in days
-                difference_in_days = (datetime.now().date() - latest_record.collection_date).days
-
-                if difference_in_days >= 5:
-                    # Add a record to the Notification table
-                    notification_message = "Now you can donate Blood Again."
-                    existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
-
-                    if not existing_notification:
-                        # If the notification does not exist, create and commit a new one
-                        new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
-                        db.session.add(new_notification)
-                        db.session.commit()
-        
-        notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
-        
         donor = Donor.query.filter_by(d_email_id=user.d_email_id).first()
         if donor:
+            id_noti = Donor.query.filter_by(d_email_id=user.d_email_id).first().donor_id
+            appointment_ids = [appointment.appointment_id for appointment in DonationAppointment.query.filter_by(donor_id=id_noti).all()]
+            latest_record = None
+            if appointment_ids:
+                # Step 2: Retrieve the latest BloodDonationRecord
+                latest_record = BloodDonationRecord.query.filter(BloodDonationRecord.appointment_id.in_(appointment_ids)).order_by(BloodDonationRecord.collection_date.desc()).first()
+
+                if latest_record:
+                    # Step 3: Calculate the difference in days
+                    difference_in_days = (datetime.now().date() - latest_record.collection_date).days
+
+                    if difference_in_days >= 5:
+                        # Add a record to the Notification table
+                        notification_message = "Now you can donate Blood Again."
+                        existing_notification = Notification.query.filter_by(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message).first()
+
+                        if not existing_notification:
+                            # If the notification does not exist, create and commit a new one
+                            new_notification = Notification(donor_id=id_noti, appointment_id=latest_record.appointment_id, message=notification_message,read=False)
+                            db.session.add(new_notification)
+                            db.session.commit()
+
+            notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
+
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
             current_path = os.getcwd()
@@ -506,7 +499,7 @@ def index():
 @login_required
 @user_required
 def verify():
-    return render_template('certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
+    return render_template('Donor/certificate.html',name=('Life Saver Blood Donor',"DD-MM-YYYY","City"))
 
 # route to confirm otp page
 @app.route('/forget')
@@ -806,13 +799,12 @@ def verify_forget_otp():
 @user_required
 def gc(appointment_id):
     user = current_user
-    # html_template = render_template('certificate.html', name=name)
     data = Donor.query.filter_by(d_email_id=user.d_email_id).first()
     results = DonationAppointment.query.filter_by(appointment_id=appointment_id,donor_id = data.donor_id).first()
     if results is None:
         return redirect(url_for('profile'))
     name = data.first_name + " " + data.middle_name + " " + data.last_name
-    html_template = render_template('certificate.html', name=(name,results.appointment_date, results.place))
+    html_template = render_template('Donor/certificate.html', name=(name,results.appointment_date, results.place))
 
     return html_template
 
@@ -840,12 +832,16 @@ def login():
                 flash('Invalid username or password.')
                 return redirect(url_for('login'))  # Change 'home' to the desired page
         
-        if user is not None and user.check_password(password):  # Check the password using check_password method
-            login_user(user)
-            return redirect(url_for('index'))  # Change 'index' to the desired page
+        if user is not None:  # Check the password using check_password method
+            if  user.check_password(password):
+                login_user(user)
+                return redirect(url_for('index'))  # Change 'index' to the desired page
+            else:
+                flash('Invalid username or password.')
+                return redirect(url_for('login'))
         else:
-            flash('Invalid username or password.')
-            return redirect(url_for('login'))  # Change 'home' to the desired page
+            flash('Please first register')
+            return redirect(url_for('register'))  # Change 'home' to the desired page
     
     return render_template('login.html')
 
@@ -912,6 +908,8 @@ def profile():
     # print(data.gender)
     if data is None:
         src = "../static/images/profile.png"
+        fr=None
+        results=None
     else:
         results = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
         desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
@@ -935,7 +933,7 @@ def profile():
                 break
         else:
             src = "../static/images/profile.png"
-    return render_template('profile.html', email=current_user, data=data,  src = src, results = results, cities=cities,fr = fr)
+    return render_template('Donor/profile.html', email=current_user, data=data,  src = src, results = results, cities=cities,fr = fr)
 
 
 @app.route('/update_img', methods=['POST'])
@@ -1019,7 +1017,7 @@ def appointment():
             filename = current_path + image_path
             if os.path.isfile(filename) == True:
                 src = f"../static/images/{donor.donor_id}.{extension}"
-        return render_template('form.html',data=donor, src = src,cities=cities)
+        return render_template('Donor/form.html',data=donor, src = src,cities=cities)
     else:
         flash("Fill the Donor Information")
         return redirect(url_for('profile'))
@@ -1220,14 +1218,14 @@ def mark_notifications_as_read():
 def Drequests():
     current_day = datetime.now().date()
     ua = DonationAppointment.query.filter(DonationAppointment.appointment_date <= current_day).all()
-    return render_template('Admin_DRequests.html',ua = ua)
+    return render_template('Admin/Admin_DRequests.html',ua = ua)
 
 @app.route('/HRequests')
 @login_required
 @admin_required
 def HRequests():
     ua = BloodTransfusionRecord.query.filter().all()
-    return render_template('Admin_HRequests.html',ua = ua,found=False,id=-1)
+    return render_template('Admin/Admin_HRequests.html',ua = ua,found=False,id=-1)
 
 @app.route('/check/<int:transfusion_id>', methods=['GET'])
 def check(transfusion_id):
@@ -1270,7 +1268,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1305,7 +1303,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1338,7 +1336,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1370,7 +1368,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1403,7 +1401,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1435,7 +1433,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1469,7 +1467,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1502,7 +1500,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1535,7 +1533,7 @@ def check(transfusion_id):
                     db.session.add(hospital_notification)
                     db.session.commit()
 
-                    return render_template('Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
+                    return render_template('Admin/Admin_HRequests.html', ua=ua, found=True, id=transfusion_id)
                 except Exception as e:
                     return redirect(url_for('contact'))
             except Exception as e:
@@ -1543,10 +1541,10 @@ def check(transfusion_id):
 
         
         # Step 5: Return false if no match is found
-        return render_template('Admin_HRequests.html',ua = ua,found=False,id=transfusion_id)
+        return render_template('Admin/Admin_HRequests.html',ua = ua,found=False,id=transfusion_id)
 
 
-    return render_template('Admin_HRequests.html',ua = ua,found=False,id=-1)
+    return render_template('Admin/Admin_HRequests.html',ua = ua,found=False,id=-1)
 
 
 @app.route('/delete_request/<int:transfusion_id>', methods=['GET'])
@@ -1586,7 +1584,7 @@ def Client(id):
         drs = Recipient.query.all()
     else:
         return redirect(url_for('Admin'))
-    return render_template('Admin_Client.html',drs=drs,id=id)
+    return render_template('Admin/Admin_Client.html',drs=drs,id=id)
 
 @app.route('/DAccepted', methods=['POST'])
 @login_required
@@ -1668,7 +1666,7 @@ def HRecipients():
             src = f"../static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
     res = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
         
-    return render_template('Hospital_Recipent.html',ress =res,src=src,user=current_user)
+    return render_template('Hospital/Hospital_Recipent.html',ress =res,src=src,user=current_user)
 
 @app.route('/HRadd',methods=['POST'])
 @login_required
@@ -1731,7 +1729,7 @@ def HProfile():
         except Exception as e:
             print(e)
             return redirect(url_for('contact'))
-    return render_template('Hospital_Profile.html',results=fr,user=user,cities=cities,src=src)
+    return render_template('Hospital/Hospital_Profile.html',results=fr,user=user,cities=cities,src=src)
 
 @app.route('/HAppointment')
 @login_required
@@ -1748,8 +1746,7 @@ def HAppointment():
         filename = current_path + image_path
         if os.path.isfile(filename) == True:
             src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
-    print(current_date)
-    return render_template('Hospital_form.html',cities=cities,src=src,user=user,cd=current_date)
+    return render_template('Hospital/Hospital_form.html',cities=cities,src=src,user=user,cd=current_date)
 
 # Assume the route to add data is '/add_transfusion_record'
 @app.route('/getblood', methods=['POST'])
