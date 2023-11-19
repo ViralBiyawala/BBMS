@@ -565,3 +565,141 @@ button:hover{
     10%, 90% { opacity: 1; }
 }
 /* Viral Css Over */
+
+
+#OptionsCity::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  #OptionsCity::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #FFE0E0; 
+    /* border-radius: 15px; */
+  }
+   
+  #OptionsCity::-webkit-scrollbar-thumb {
+    background: #FF2828; 
+    border-radius: 10px;
+  }
+  #OptionsCity::-webkit-scrollbar-thumb:hover {
+    background: #ff2828; 
+  }
+
+
+  #OptionsCity{
+    max-height: 250px;
+    overflow-y: scroll;
+}
+.selected{
+    background-color: #FFE0E0;
+}
+
+.dropdown{
+    /* border:2px solid red; */
+    position: relative;
+    /* margin-top: 100px; */
+    width: 300px;
+    height: 40px;
+}
+.dropdown::before{
+    content: "";
+    position: absolute;
+    
+    width:8px;
+    height: 8px;
+    right:20px;
+    top:15px;
+    z-index: 10;
+    
+    border: 2px solid #333;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+
+    transform: rotate(-45deg);
+    transition: 0.5s;
+    pointer-events: none;
+
+}
+.dropdown.active::before{
+    top:22px;
+    transform: rotate(-225deg);
+}
+.dropdown input{
+    position: absolute;
+    outline: none;
+    border: none;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 12px 20px;
+    border-radius: 10px;
+}
+.dropdown .options{
+    position: absolute;
+    top:40px;
+    left:-2px;
+    width:101%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+}
+.a-dropdown .options{
+    position: absolute;
+    top:43px;
+    left:-2px;
+    width:101%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+}
+
+.p-dropdown .options{
+    z-index: -1;
+    position: absolute;
+    top:50px;
+    /* left:-11px; */
+    right: 24%;
+    width:250px;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    display: none;
+    z-index: 100000;
+    border: 2px solid #ff2828;
+    color: black;
+}
+
+#OptionsCity{
+    max-height: 250px;
+    overflow-y: scroll;
+}
+.selected{
+    background-color: #FFE0E0;
+}
+.dropdown.active .options,
+.p-dropdown.active .options{
+    display: block;
+}
+
+.dropdown .options div,
+.p-dropdown .options div{
+    padding: 7px 20px; 
+    cursor: pointer;
+}
+.dropdown .options div:hover,
+.p-dropdown .options div:hover{
+    background: rgb(255, 127, 127);
+    color:#fff; 
+}

@@ -22,7 +22,7 @@
   </head>
 
   <body class="bg-[#ffe0e0]">
-    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px]">
+    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] ">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
         <a href="{{ url_for('index') }}">Life Saver</a>
@@ -35,7 +35,7 @@
   
   
   
-        <div class="nav-btn p-dropdown input">
+        <div class="nav-btn p-dropdown ap-req-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemS()">
               <div class="hover:border-b-2 hover:border-white transition-all duration-100">Requests</div>
@@ -54,7 +54,7 @@
   
   
   
-        <div class="nav-btn2 p-dropdown input">
+        <div class="nav-btn2 p-dropdown ap-client-dropdown input">
           <div class="temp flex items-center">
             <button class="inline mx-[28px]" onclick="showItemSClient()">
               <div id="profile-pic-main" class="hover:border-b-2 hover:border-white transition-all duration-100">Client
@@ -98,36 +98,28 @@
             </div>
             <!--Flash message ends  -->
 
-            <div class="a-options  border-2 border-[#ff2828] flex flex-col text-2xl">
-                <div id="op-1" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center selected">Home</div>
-                <div id="op-2" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor Requests</div>
-                <div id="op-3" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Blood Requests</div>
-                <div id="op-4" class="ops cursor-pointer border-b-2 border-[#ff2828] py-2  w-full text-center">Donor</div>
-                <div id="op-5" class="ops cursor-pointer py-2  w-full text-center">Hospital</div>
-            </div>
-
 
         </div>
 
         <div
-            class="a-right w-[90%]   px-7 pt-1 "
+            class="a-right w-[90%]   px-7 pt-1"
           >
-            <div class="charts flex flex-wrap justify-between items-between p-2 h-[42rem]">
-              <div class="c1 w-[49%] h-[23rem] border border-black bg-white p-4">
-                <div class="chart-heaing font-bold text-2xl">Donation(+ve)</div>
-                <div id="positiveChart" class="chart  h-[90%]"></div>
+            <div class="charts  flex flex-wrap gap-[2%] max-[732px]:flex-col">
+              <div class="c1 w-[49%] max-[732px]:w-full border border-black bg-white p-2">
+                <div class="chart-heaing font-bold text-2xl max-[825px]:text-center max-[732px]:text-left">Donation(+ve)</div>
+                <div id="positiveChart" class="chart"></div>
               </div>
-              <div class="c2 w-[49%] h-[23rem] border border-black bg-white p-4">
-                <div class="chart-heaing font-bold text-2xl">Donation(-ve)</div>
-                <div id="negativeChart" class="chart  h-[90%]"></div>
+              <div class="c2 w-[49%] max-[732px]:w-full max-[732px]:mt-[2%] border border-black bg-white   p-2">
+                <div class="chart-heaing font-bold text-2xl max-[825px]:text-center max-[732px]:text-left">Donation(-ve)</div>
+                <div id="negativeChart" class="chart"></div>
               </div>
-              <div class="c3 w-[49%] h-[23rem] border border-black bg-white p-4">
-                <div class="chart-heaing font-bold text-2xl">Requests(+ve)</div>
-                <div class="chart h-[90%]" id="positiveChartOut"></div>
+              <div class="c3 w-[49%] max-[732px]:w-full border border-black bg-white p-4 mt-[2%] p-2">
+                <div class="chart-heaing font-bold text-2xl max-[825px]:text-center max-[732px]:text-left">Requests(+ve)</div>
+                <div class="chart " id="positiveChartOut"></div>
               </div>
-              <div class="c4 w-[49%] h-[23rem] border border-black bg-white p-4">
-                <div class="chart-heaing font-bold text-2xl">Requests(-ve)</div>
-                <div class="chart h-[90%]" id="negativeChartOut"></div>
+              <div class="c4 w-[49%] max-[732px]:w-full border border-black bg-white p-4 mt-[2%] p-2">
+                <div class="chart-heaing font-bold text-2xl max-[825px]:text-center max-[732px]:text-left">Requests(-ve)</div>
+                <div class="chart " id="negativeChartOut"></div>
               </div>
             </div>
 

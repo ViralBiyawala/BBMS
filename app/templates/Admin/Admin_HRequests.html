@@ -89,14 +89,14 @@
     </div>
     <!--Flash message ends  -->
 
-    <div class="a-right w-[90%]   px-7 pt-1 ">
+    <div class="h-req w-[90%]   px-7 pt-1 ">
       <table>
         <tr>
           <th class="bg-[#ff2828] text-white text-xl ">Blood Type</th>
           <th class="bg-[#ff2828] text-white text-xl ">Date</th>
-          <th class="bg-[#ff2828] text-white text-xl ">Quantity Requried</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Quantity Required</th>
           <th class="bg-[#ff2828] text-white text-xl ">Place</th>
-          <th class="bg-[#ff2828] text-white text-xl ">Fill Form</th>
+          <th class="bg-[#ff2828] text-white text-xl ">Status</th>
         </tr>
         {% for appo in ua%}
         {% if appo.status == 0 %}
@@ -127,7 +127,7 @@
 
   <script>
 
-    //NavBar Profile Click DropDown
+    //NavBar JS
     let navbtn = document.querySelector(".nav-btn");
     let navbtnclient = document.querySelector(".nav-btn2");
 
@@ -162,27 +162,7 @@
         navbtnclient.classList.remove("active");
       }
     });
-    // Loop through all .dropdown elements
-    let dd = document.querySelectorAll(".dropdown");
-    dd.forEach(function (dropdown) {
-      dropdown.addEventListener("click", function () {
-        dropdown.classList.toggle("active");
-      });
-
-      dropdown.addEventListener("focus", function () {
-        dropdown.classList.add("active");
-      });
-
-      dropdown.addEventListener("blur", function () {
-        dropdown.classList.remove("active");
-      });
-      document.addEventListener("click", function (event) {
-        if (event.target !== dropdown && !dropdown.contains(event.target)) {
-          if (dropdown.classList.contains("active"))
-            dropdown.classList.remove("active");
-        }
-      });
-    });
+   
 
 
     // InputBox Animation JS

@@ -59,7 +59,20 @@
                                     <label for="email">E-mail ID</label>
                                 </div>
                                 <div class="ip username">
-                                    <input type="text" name="city" id="city" required>
+                                    <!-- <div class="dropdown input">
+                                        <input
+                                          type="text"
+                                          class="textBoxCity"
+                                          value=""
+                                          name="city"
+                                          id="CitytextBox"
+                                          required 
+                                        />
+                                        <div class="options" id="OptionsCity">
+                                            <div onclick='showCity("Rajkot")'>Rajkot</div>
+                                        </div>
+                                      </div> -->
+                                      <input type="text" name="city" id="city" required>
                                     <label for="city">City</label>
                                 </div>
                                 <div class="ip username">
@@ -116,9 +129,54 @@
             },3000)
             
             const ims=document.querySelector('.inner');
-            if(ims.textContent != ""){
+            if(ims && ims.textContent != ""){
                 fmsg.classList.add('active');
             }
+
+
+            //City Search Box Js
+
+      function fetchCities() {
+        fetch("/get_cities_json")
+          .then((response) => response.json())
+          .then((data) => {
+            var cities = data["cities"];
+            const resultBox = document.getElementById("OptionsCity");
+            const inputBox = document.getElementById("CitytextBox");
+            console.log(resultBox);
+            console.log(inputBox);
+            const rBHTML=resultBox.innerHTML;
+            inputBox.onkeyup = function () {
+
+              let result = [];
+              let input = inputBox.value;
+              if (input.length) {
+                result = cities.filter((keyword) => {
+                  return keyword.toLowerCase().startsWith(input.toLowerCase());
+                });
+              }
+
+              display(result);
+
+              if(!result.length){
+                resultBox.innerHTML = "";
+              }
+              if(!input.length){
+                resultBox.innerHTML = rBHTML;
+              }
+            };
+
+            function display(result) {
+              resultBox.innerHTML = "";
+              const content = result.map((div)=>{
+                return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+              });
+              resultBox.innerHTML = content.join('');
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+      fetchCities();
 
         </script>
         

@@ -1791,6 +1791,13 @@ def add_transfusion_record():
     db.session.commit()
 
     # Redirect to the desired page (you can customize this)
+    
+    
+    # Change Pending
+    flash("Appointement booked")
+    # Change Pending
+    
+    
     return redirect(url_for('HAppointment'))
 
 

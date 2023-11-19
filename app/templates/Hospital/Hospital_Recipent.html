@@ -126,7 +126,7 @@
 
   <div class="header   py-4 mt-4 flex justify-between items-center font-medium">
     <div class="ml-8 text-3xl ">Recipient</div>
-    <button class="border border-black mr-8 py-2 border-none rounded-xl px-8 bg-[#ff2828] text-white text-2xl">
+    <button onclick="OpenForm()" class="border border-black mr-8 py-2 border-none rounded-xl px-8 bg-[#ff2828] text-white text-2xl">
       + Add New Recipient</button>
 
 
@@ -157,12 +157,25 @@
       </table>
     </div>
 
-    <div class="R-info mx-auto mt-10   w-[60%] py-4  px-4 bg-white rounded-xl ">
-      <form method="POST" action="HRadd" class="space-y-4">
+    <div class="overlay flex items-center justify-center hidden">
+      <div class="R-info mx-auto mt-10   w-[60%]  bg-white rounded-3xl  ">  
+      <form method="POST" action="HRadd" class="">
 
-        <div class="text-2xl text-[#ff2828] font-medium  ">Recipient Information</div>
+        <div class="box-head flex justify-between items-center bg-[#ff2828] rounded-t-3xl text-white text-2xl">
 
-        <div class="1 flex justify-between">
+          <div class="heading pl-4 py-3">
+            Recipient Information
+          </div>
+
+          <div class="a-df2-submit font-bold pr-4 text-4xl cursor-pointer">
+            &times;
+          </div>
+
+        </div>
+
+        <div class="box-content p-4 space-y-4">
+
+          <div class="1 flex justify-between">
           <div class="input-container w-[40%] ">
             <input type="text" name="fname" class="input" value="" required />
             <label for="">First Name</label>
@@ -173,9 +186,9 @@
             <label for="">Last Name</label>
             <span>Last Name</span>
           </div>
-        </div>
+          </div>
 
-        <div class="2 flex justify-between">
+          <div class="2 flex justify-between">
           <div class="input-container w-[40%] focus">
             <input type="date" name="DOB" class="date" value="" required />
             <label for="">Date of Birth</label>
@@ -192,10 +205,10 @@
             <label for="">Gender</label>
             <span>Gender</span>
           </div>
-        </div>
+          </div>
 
 
-        <div class="3 flex justify-between">
+          <div class="3 flex justify-between">
           <div class="input-container w-[40%] ">
             <input type="text" name="mob" class="input" value="" required />
             <label for="">Mobile</label>
@@ -206,17 +219,17 @@
             <label for="">Email</label>
             <span>Email</span>
           </div>
-        </div>
+          </div>
 
-        <div class="4 flex justify-between">
+          <div class="4 flex justify-between">
           <div class="input-container textarea w-[100%]">
             <textarea name="address" class="input" required></textarea>
             <label for="">Address</label>
             <span>Address</span>
           </div>
-        </div>
+          </div>
 
-        <div class="5 flex justify-between">
+          <div class="5 flex justify-between">
           <div class="input-container w-[40%] ">
             <input type="text" name="mhis" class="input" value="" required />
             <label for="">Medical History</label>
@@ -255,11 +268,17 @@
             <label for="">Blood Type</label>
             <span>Blood Type</span>
           </div>
+          </div>
+
+          <!-- <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
+          Add</button> -->
+
+          <input type="submit" value="Add"
+              class="a-df-submit btnsrch bg-[#ff2828] self-start ml-[1.5rem] rounded-3xl mb-2">
         </div>
 
-        <button class="border border-black  py-1 border-none rounded-2xl px-8 bg-[#ff2828] text-white text-xl">
-          Add</button>
       </form>
+      </div>
     </div>
   </div>
 
@@ -360,6 +379,22 @@
             dropdown.classList.remove("active");
         }
       });
+    });
+
+    let Rform = document.querySelector('.R-info');
+    let RfSubmit = document.querySelector('.a-df2-submit');
+    let overlay = document.querySelector('.overlay');
+
+
+    function OpenForm() {
+      Rform.classList.add('df-active');
+      overlay.classList.remove('hidden')
+      overlay.classList.add('block')
+    }
+    RfSubmit.addEventListener('click', (e) => {
+      Rform.classList.remove('df-active');
+      overlay.classList.remove('block')
+      overlay.classList.add('hidden')
     });
 
 

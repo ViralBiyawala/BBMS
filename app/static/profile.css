@@ -507,6 +507,7 @@ td{
 .a-right th, 
 .a-right td {
   border: none;
+  /* border: 1px solid black; */
   padding: 10px;
   text-align: center;
 }
@@ -638,6 +639,22 @@ th,td {
     aspect-ratio: 1;
   }
 }
+/* Admin Home  */
+
+.ap-req-dropdown .options{
+  right: -25%;
+}
+.ap-client-dropdown .options{
+  right: -50%;
+}
+
+.g-gap{
+  row-gap: 2%;
+}
+
+
+/* Admin Home Over */
+
 
 /* Admin DRequests */
 .overlay{
@@ -706,7 +723,46 @@ th,td {
 }
 
 
-/* Hospital CSS */
+/* Admin HRequests */
+.h-req th, 
+.h-req td {
+  border: none;
+  /* border: 1px solid black; */
+  padding: 10px;
+  text-align: center;
+}
+.h-req tr:nth-child(even){
+  background-color: white;
+}
+.h-req table{
+  border:2px solid white;
+}
+
+.h-req th:nth-child(1),.h-req td:nth-child(1) {
+    width: 15%; /* Set the width of the first column */
+}
+
+.h-req th:nth-child(2),.h-req td:nth-child(2) {
+    width: 20%;
+}
+
+.h-req th:nth-child(3),.h-req td:nth-child(3) {
+    width: 25%;
+}
+
+.h-req th:nth-child(4),.h-req td:nth-child(4) {
+    width: 25%; 
+}
+
+.h-req th:nth-child(5),.h-req td:nth-child(5) {
+    width: 15%; 
+}
+
+/* Admin HRequests Over*/
+
+
+
+/* Hospital CSS Starts */
 .h-recipient th:nth-child(1),.h-recipient td:nth-child(1) {
   width: 16%; /* Set the width of the first column */
 }
@@ -749,3 +805,10 @@ th,td {
   margin:0rem 0;   
   /* border: 2px solid salmon; */
 }
+.R-info.df-active{
+  animation:  anim-dform 0.5s ease-in-out 1;
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+
