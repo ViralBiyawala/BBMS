@@ -107,12 +107,14 @@
           <td>{{ appo.quantity_transfused }}</td>
           <td>{{ appo.city1 }},{{ appo.city2 }},{{ appo.city3 }}</td>
           <td>
-            {% if appo.transfusion_id !=  id%}
-            <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('check', transfusion_id=appo.transfusion_id) }}">
+            {% if appo.transfusion_id != id%}
+            <a class="fill-form bg-green-500 px-4 py-1 text-[#fff] rounded-2xl" href="javascript:void(0);"
+              onclick="confirmDispatch('{{ appo.transfusion_id }}')">
               Dispatch
             </a>
-            {% elif appo.transfusion_id ==  id and found == False%}
-            <a class="fill-form bg-red-500 px-4 py-1 text-[#fff] rounded-2xl" href="{{ url_for('delete_request', transfusion_id=appo.transfusion_id) }}">
+            {% elif appo.transfusion_id == id and found == False%}
+            <a class="fill-form bg-red-500 px-4 py-1 text-[#fff] rounded-2xl"
+              href="{{ url_for('delete_request', transfusion_id=appo.transfusion_id) }}">
               Not Available
             </a>
             {% endif %}
@@ -163,7 +165,7 @@
         navbtnclient.classList.remove("active");
       }
     });
-   
+
 
 
     // InputBox Animation JS
@@ -203,7 +205,20 @@
     }
 
 
+    function confirmDispatch(transfusion_id) {
+      // Show a confirmation dialog
+      var confirmDispatch = confirm("Do you want to dispatch blood for Transfusion ID: " + transfusion_id + "?");
 
+      // If the user confirms, navigate to the Flask route
+      if (confirmDispatch) {
+        window.location.href = "/check/" + transfusion_id;
+      }
+    }
+
+    if (window.location.href.includes("/check/")) {
+              var transfusion_id = window.location.href.split("/").pop();
+              window.location.href = "/checks/" + transfusion_id
+        }
   </script>
 </body>
 

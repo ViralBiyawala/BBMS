@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="box-border  ">
+<<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,402 +16,303 @@
     />
     <link rel="icon" href="../static/images/favicon.png">
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+=======
+>>>>>>> 352c8bc46b1b7b5830f3d903b967d18f26c29142
 
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 
-  <body class="bg-[#FFE0E0]">
-    <!-- Back To Top Button -->
-    <a id="button"></a>
-    
-    <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
-      <div
-        class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer"
-      >
-        <a href="{{url_for('index')}}">Life Saver</a>
+</head>
+
+<body class="bg-[#FFE0E0]">
+  <!-- Back To Top Button -->
+  <a id="button"></a>
+
+  <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden">
+    <div
+      class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
+      <a href="{{url_for('index')}}">Life Saver</a>
+    </div>
+
+    <div class="flex w-[80%] justify-end items-center">
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="{{url_for('index')}}">Home</a>
       </div>
 
-      <div class="flex w-[80%] justify-end items-center">
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="{{url_for('index')}}">Home</a>
-        </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="{{url_for('about')}}">About Us</a>
-        </div>
-
-        <div
-          class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7"
-        >
-          <a href="{{url_for('contact')}}">Contact Us</a>
-        </div>
-
-         
-        <div class="nav-btn p-dropdown input">
-          <div class="temp flex items-center">
-            <button class="inline mx-[28px]" onclick="showItemS()">
-              <img
-                src="{{ src }}"
-                id="profile-pic-main"
-                alt=""
-                class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer"
-              />
-            </button>
-          </div>
-
-          <div class="options text-[19px]">
-            <a href="{{url_for('appointment')}}">
-              <div>Get Appointment</div>
-            </a>
-            <a href="{{url_for('logout')}}">
-              <div>Log Out</div>
-            </a>
-          </div>
-        </div>
-
-        <!-- <div
-                class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
-            </div> -->
-      </div>
-    </nav>
-
-    <!-- Hamburger for smaller screens  -->
-    <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
-       
-      <div class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
-        <a href="{{url_for('index')}}">Life Saver</a>
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="{{url_for('about')}}">About Us</a>
       </div>
 
-      <button class="hamburger mx-[28px]">
-				<div class="bar"></div>
-			</button>
+      <div class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7">
+        <a href="{{url_for('contact')}}">Contact Us</a>
+      </div>
 
-      <div class="mobile-nav flex flex-col items-center ">
-        {% if user is none %}
-        <!-- No user has logged in -->
-        <a href="{{url_for('login')}}" class="ni">Log In</a>
-        {% else %}
-        
-        <div class="h-head  ni flex mt-[30px] items-center 
-        pl-[0.3rem]">
-          <a href="{{url_for('profile')}}">
-            <img
-            src="{{ src }}"
-            id="profile-pic-main"
-            alt=""
-            class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] "
-            />
-          </a>
+
+      <div class="nav-btn p-dropdown input">
+        <div class="temp flex items-center">
+          <button class="inline mx-[28px]" onclick="showItemS()">
+            <img src="{{ src }}" id="profile-pic-main" alt=""
+              class="rounded-full bg-[#d9d9d9] w-[48px] h-[48px] cursor-pointer" />
+          </button>
         </div>
 
-        <div class="ni h-head-2 w-full justify-evenly flex  ">
+        <div class="options text-[19px]">
           <a href="{{url_for('appointment')}}">
-          <div class="hh2-1  flex flex-col items-center cursor-pointer">
-            <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
-              Get Appointment
-            </div>
+            <div>Get Appointment</div>
           </a>
           <a href="{{url_for('logout')}}">
-            <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
-              <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
-              Log Out
-            </div>
+            <div>Log Out</div>
           </a>
         </div>
-        {% endif %} 
-        <a href="{{url_for('index')}}" class="ni">Home</a>
-        <a href="{{url_for('about')}}" class="ni">About Us</a>
-        <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
-      </div>
-    </nav>
-
-
-    <div class="p-container mt-5 flex    mb-[0rem]">
-      <!-- border border-red-700   -->
-      <div class="left w-[40%] p-10">
-        <!-- Flash message start -->
-        <div class="flash-messages">
-          <div class="msg">
-            <!-- <div class="inner">hello This is error </div> -->
-            {% with messages = get_flashed_messages() %} {% if messages %}
-            <div class="inner">{{ messages[-1] }}</div>
-
-            {% endif %} {% endwith %}
-          </div>
-        </div>
-        <!--Flash ends  -->
-
-        {% if data is none %} {% set myVariable = "one" %} {% else %} {% set
-        myVariable = "two" %} {% endif %}
-
-        <div
-          class="flex flex-col items-center text-3xl   max-[750px]:text-2xl "
-        >
-          <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
-          <div class="pp">
-            <img
-              src="{{ src }}"
-              id="profile-pic"
-              alt=""
-              class="w-[300px] h-[300px] rounded-full bg-[#d9d9d9] 
-              cursor-pointer max-[430px]:w-[250px] max-[430px]:h-[250px]"
-            />
-
-            <label
-              for="input-file"
-              class="pp-label cursor-pointer text-2xl rounded-full"
-            >
-              <i class="fa-solid fa-pencil fa-xl" style="color: #000"></i>
-            </label>
-
-            <input
-              type="file"
-              name="image"
-              accept="image/jpeg, image/png, image/jpg"
-              id="input-file"
-              class="hidden"
-            />
-          </div>
-
-          <!-- </form> -->
-
-          <div
-            class="mt-7 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%] rounded-3xl bg-[#ff2828] text-white text-center"
-          >
-            <a href="#donor-info" class="block">Profile</a>
-          </div>
-
-          <div
-            class="t mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center"
-          >
-            <a href="#appointment" class="block">Appointments</a>
-          </div>
-
-          <div
-            class="mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center "
-          >
-            <a href="#history" class="block">History</a>
-          </div>
-        </div>
       </div>
 
-      <div
-        class="right w-[60%] min-[1095px]:aspect-[18/13]  min-[1095px]:overflow-y-scroll min-[1095px]:snap-y min-[1095px]:snap-mandatory  p-7 scroll-smooth "
-      >
+      <!-- <div
+                class="cursor-pointer hover:border-b-2 hover:border-white transition-all duration-100 mx-7 rounded-full  w-12 h-12 bg-white">
+            </div> -->
+    </div>
+  </nav>
+
+  <!-- Hamburger for smaller screens  -->
+  <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
+
+    <div
+      class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+      <a href="{{url_for('index')}}">Life Saver</a>
+    </div>
+
+    <button class="hamburger mx-[28px]">
+      <div class="bar"></div>
+    </button>
+
+    <div class="mobile-nav flex flex-col items-center ">
+      {% if user is none %}
+      <!-- No user has logged in -->
+      <a href="{{url_for('login')}}" class="ni">Log In</a>
+      {% else %}
+
+      <div class="h-head  ni flex mt-[30px] items-center 
+        pl-[0.3rem]">
+        <a href="{{url_for('profile')}}">
+          <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
+        </a>
+      </div>
+
+      <div class="ni h-head-2 w-full justify-evenly flex  ">
+        <a href="{{url_for('appointment')}}">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
+            Get Appointment
+          </div>
+        </a>
+        <a href="{{url_for('logout')}}">
+          <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
+            <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
+            Log Out
+          </div>
+        </a>
+      </div>
+      {% endif %}
+      <a href="{{url_for('index')}}" class="ni">Home</a>
+      <a href="{{url_for('about')}}" class="ni">About Us</a>
+      <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
+    </div>
+  </nav>
+
+
+  <div class="p-container mt-5 flex    mb-[0rem]">
+    <!-- border border-red-700   -->
+    <div class="left w-[40%] p-10">
+      <!-- Flash message start -->
+      <div class="flash-messages">
+        <div class="msg">
+          <!-- <div class="inner">hello This is error </div> -->
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <div class="inner">{{ messages[-1] }}</div>
+
+          {% endif %} {% endwith %}
+        </div>
+      </div>
+      <!--Flash ends  -->
+
+      {% if data is none %} {% set myVariable = "one" %} {% else %} {% set
+      myVariable = "two" %} {% endif %}
+
+      <div class="flex flex-col items-center text-3xl   max-[750px]:text-2xl ">
+        <!-- <form method="post" action="update_img" enctype="multipart/form-data"> -->
+        <div class="pp">
+          <img src="{{ src }}" id="profile-pic" alt="" class="w-[300px] h-[300px] rounded-full bg-[#d9d9d9] 
+              cursor-pointer max-[430px]:w-[250px] max-[430px]:h-[250px]" />
+
+          <label for="input-file" class="pp-label cursor-pointer text-2xl rounded-full">
+            <i class="fa-solid fa-pencil fa-xl" style="color: #000"></i>
+          </label>
+
+          <input type="file" name="image" accept="image/jpeg, image/png, image/jpg" id="input-file" class="hidden" />
+        </div>
+
+        <!-- </form> -->
+
         <div
-          id="donor-info"
-          class="mx-auto w-[100%] text-[#ff2828] bg-white rounded-2xl p-6"
-        >
-          <h1 class="text-3xl max-[614px]:text-center max-[430px]:text-2xl  ">Donor Information</h1>
-
-          <form action="\profile" method="post" class="">
-            <div class="top flex space-x-3 justify-between max-[614px]:flex-col max-[614px]:space-x-0 ">
-              <div class="donor-id input-container w-[40%] max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="ID"
-                  class="input select-none"
-                  readonly
-                  value="{{ data.donor_id }}"
-                  required
-                />
-                <label for="">Donor ID</label>
-                <span>Donor ID</span>
-              </div>
-
-              <div class="mail-id input-container w-[60%] max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="email"
-                  class="input"
-                  value="{{ email.d_email_id }}"
-                  readonly
-                  required
-                />
-                <label for="">E-Mail ID</label>
-                <span>E-Mail ID</span>
-              </div>
-            </div>
-
-            <div class="name flex space-x-3 max-[614px]:flex-col max-[614px]:space-x-0">
-              <div class="input-container w-1/3 max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="Fname"
-                  class="input"
-                  value="{{ data.first_name }}"
-                  required
-                />
-                <label for="">First Name</label>
-                <span>First Name</span>
-              </div>
-
-              <div class="input-container w-1/3 max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="Mname"
-                  class="input"
-                  value="{{ data.middle_name }}"
-                  required
-                />
-                <label for="">Middle Name</label>
-                <span>Middle Name</span>
-              </div>
-
-              <div class="input-container w-1/3 max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="Lname"
-                  class="input"
-                  value="{{ data.last_name }}"
-                  required
-                />
-                <label for="">Last Name</label>
-                <span>Last Name</span>
-              </div>
-            </div>
-
-            <div class="dob flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
-              <div class="input-container w-1/2 max-[615px]:w-full focus">
-                <input
-                  type="date"
-                  name="DOB"
-                  class="date"
-                  value="{{ data.date_of_birth }}"
-                  required
-                />
-                <label for="">Date of Birth</label>
-                <span>Date of Birth</span>
-              </div>
-
-              <div class="input-container w-1/2 max-[615px]:w-full focus">
-                <div class="dropdown input">
-                  <input
-                    type="text"
-                    class="textBoxGender"
-                    value="{{ data.gender }}"
-                    readonly
-                    name="gender"
-                    required
-                  />
-                  <div class="options">
-                    <div onclick="showGender('Male')">Male</div>
-                    <div onclick="showGender('Female')">Female</div>
-                  </div>
-                </div>
-                <label for="">Gender</label>
-                <span>Gender</span>
-              </div>
-            </div>
-
-            <div class="name flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
-              <div class="input-container w-1/2 max-[615px]:w-full">
-                <input
-                  type="text"
-                  name="mob"
-                  class="input"
-                  value="{{ data.contact_phone }}"
-                  required
-                />
-                <label for="">Mobile No.</label>
-                <span>Mobile No.</span>
-              </div>
-              
-              <div class="input-container w-1/2 max-[615px]:w-full">
-                <div class="{% if data is none %}dropdown{% endif %} input">
-                  <input
-                    type="text"
-                    class="textBoxBlood"
-                    value="{{ data.blood_type }}"
-                    readonly
-                    name="Btype"
-                    required
-                    readonly
-                    />
-                  {% if data is  none %}
-                  <div class="options">
-                    <div onclick="showBloodType('A+')" class="blood-type">
-                      A+
-                    </div>
-                    <div onclick="showBloodType('B+')" class="blood-type">
-                      B+
-                    </div>
-                    <div onclick="showBloodType('AB+')" class="blood-type">
-                      AB+
-                    </div>
-                    <div onclick="showBloodType('O+')" class="blood-type">
-                      O+
-                    </div>
-                    <div onclick="showBloodType('A-')" class="blood-type">
-                      A-
-                    </div>
-                    <div onclick="showBloodType('B-')" class="blood-type">
-                      B-
-                    </div>
-                    <div onclick="showBloodType('AB-')" class="blood-type">
-                      AB-
-                    </div>
-                    <div onclick="showBloodType('O-')" class="blood-type">
-                      O-
-                    </div>
-                  </div>
-                  {% endif %}
-                </div>
-                <label for="">Blood Type</label>
-                <span>Blood Type</span>
-              </div>
-            </div>
-
-            <div class="input-container textarea">
-              <textarea name="address" class="input" required>
-{{ data.contact_address }}</textarea
-              >
-              <label for="">Address</label>
-              <span>Address</span>
-            </div>
-
-            <div class="city-name flex -mt-[1rem] ">
-              <div class="input-container w-1/2 max-[615px]:w-full">
-                <div class="dropdown input">
-                  <input
-                    type="text"
-                    class="textBoxCity"
-                    value="{{ data.city }}"
-                    name="city"
-                    id="CitytextBox"
-                    required
-                  />
-                  <div class="options" id="OptionsCity">
-                    {% for city in cities %}
-                      <div onclick='showCity("{{ city }}")'>{{ city }}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <label for="">City</label>
-                <span>City</span>
-              </div>
-            </div>
-
-            <input
-              type="submit"
-              value="Update"
-              class="btnupdate bg-[#ff2828]"
-            />
-          </form>
+          class="mt-7 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%] rounded-3xl bg-[#ff2828] text-white text-center">
+          <a href="#donor-info" class="block">Profile</a>
         </div>
 
         <div
-          id="appointment"
-          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
-        >
-          <div class="heading text-2xl font-bold ">Appointments</div>
-          
-          <div class="tmp-outer">
-            <div class="appointment-table mt-[1rem] ">
-              <!-- <table class="table-h">
+          class="t mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center">
+          <a href="#appointment" class="block">Appointments</a>
+        </div>
+
+        <div
+          class="mt-2 py-2 w-3/4 max-[1095px]:w-[40%] max-[580px]:w-[60%] max-[420px]:w-[80%] max-[355px]:w-[90%]  rounded-3xl bg-[#ff2828] text-white text-center ">
+          <a href="#history" class="block">History</a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="right w-[60%] min-[1095px]:aspect-[18/13]  min-[1095px]:overflow-y-scroll min-[1095px]:snap-y min-[1095px]:snap-mandatory  p-7 scroll-smooth ">
+      <div id="donor-info" class="mx-auto w-[100%] text-[#ff2828] bg-white rounded-2xl p-6">
+        <h1 class="text-3xl max-[614px]:text-center max-[430px]:text-2xl  ">Donor Information</h1>
+
+        <form action="\profile" method="post" class="">
+          <div class="top flex space-x-3 justify-between max-[614px]:flex-col max-[614px]:space-x-0 ">
+            <div class="donor-id input-container w-[40%] max-[615px]:w-full">
+              <input type="text" name="ID" class="input select-none" readonly value="{{ data.donor_id }}" required />
+              <label for="">Donor ID</label>
+              <span>Donor ID</span>
+            </div>
+
+            <div class="mail-id input-container w-[60%] max-[615px]:w-full">
+              <input type="text" name="email" class="input" value="{{ email.d_email_id }}" readonly required />
+              <label for="">E-Mail ID</label>
+              <span>E-Mail ID</span>
+            </div>
+          </div>
+
+          <div class="name flex space-x-3 max-[614px]:flex-col max-[614px]:space-x-0">
+            <div class="input-container w-1/3 max-[615px]:w-full">
+              <input type="text" name="Fname" class="input" value="{{ data.first_name }}" required />
+              <label for="">First Name</label>
+              <span>First Name</span>
+            </div>
+
+            <div class="input-container w-1/3 max-[615px]:w-full">
+              <input type="text" name="Mname" class="input" value="{{ data.middle_name }}" required />
+              <label for="">Middle Name</label>
+              <span>Middle Name</span>
+            </div>
+
+            <div class="input-container w-1/3 max-[615px]:w-full">
+              <input type="text" name="Lname" class="input" value="{{ data.last_name }}" required />
+              <label for="">Last Name</label>
+              <span>Last Name</span>
+            </div>
+          </div>
+
+          <div class="dob flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
+            <div class="input-container w-1/2 max-[615px]:w-full focus">
+              <input type="date" name="DOB" class="date" value="{{ data.date_of_birth }}" required />
+              <label for="">Date of Birth</label>
+              <span>Date of Birth</span>
+            </div>
+
+            <div class="input-container w-1/2 max-[615px]:w-full focus">
+              <div class="dropdown input">
+                <input type="text" class="textBoxGender" value="{{ data.gender }}" readonly name="gender" required />
+                <div class="options">
+                  <div onclick="showGender('Male')">Male</div>
+                  <div onclick="showGender('Female')">Female</div>
+                </div>
+              </div>
+              <label for="">Gender</label>
+              <span>Gender</span>
+            </div>
+          </div>
+
+          <div class="name flex space-x-12 max-[614px]:flex-col max-[614px]:space-x-0">
+            <div class="input-container w-1/2 max-[615px]:w-full">
+              <input type="text" name="mob" class="input" value="{{ data.contact_phone }}" required />
+              <label for="">Mobile No.</label>
+              <span>Mobile No.</span>
+            </div>
+
+            <div class="input-container w-1/2 max-[615px]:w-full">
+              <div class="{% if data is none %}dropdown{% endif %} input">
+                <input type="text" class="textBoxBlood" value="{{ data.blood_type }}" readonly name="Btype" required
+                  readonly />
+                {% if data is none %}
+                <div class="options">
+                  <div onclick="showBloodType('A+')" class="blood-type">
+                    A+
+                  </div>
+                  <div onclick="showBloodType('B+')" class="blood-type">
+                    B+
+                  </div>
+                  <div onclick="showBloodType('AB+')" class="blood-type">
+                    AB+
+                  </div>
+                  <div onclick="showBloodType('O+')" class="blood-type">
+                    O+
+                  </div>
+                  <div onclick="showBloodType('A-')" class="blood-type">
+                    A-
+                  </div>
+                  <div onclick="showBloodType('B-')" class="blood-type">
+                    B-
+                  </div>
+                  <div onclick="showBloodType('AB-')" class="blood-type">
+                    AB-
+                  </div>
+                  <div onclick="showBloodType('O-')" class="blood-type">
+                    O-
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              <label for="">Blood Type</label>
+              <span>Blood Type</span>
+            </div>
+          </div>
+
+          <div class="input-container textarea">
+            <textarea name="address" class="input" required>
+{{ data.contact_address }}</textarea>
+            <label for="">Address</label>
+            <span>Address</span>
+          </div>
+
+          <div class="city-name flex -mt-[1rem] ">
+            <div class="input-container w-1/2 max-[615px]:w-full">
+              <div class="dropdown input">
+                <input type="text" class="textBoxCity" value="{{ data.city }}" name="city" id="CitytextBox" required />
+                <div class="options" id="OptionsCity">
+                  {% for city in cities %}
+                  <div onclick='showCity("{{ city }}")'>{{ city }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+              <label for="">City</label>
+              <span>City</span>
+            </div>
+          </div>
+
+          <input type="submit" value="Update" class="btnupdate bg-[#ff2828]" {% if data is none %}onclick="return confirmUpdate()"{% endif %} />
+        </form>
+      </div>
+
+      <div id="appointment"
+        class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] ">
+        <div class="heading text-2xl font-bold ">Appointments</div>
+
+        <div class="tmp-outer">
+          <div class="appointment-table mt-[1rem] ">
+            <!-- <table class="table-h">
                 <thead class="">
                   <tr>
                     <th class="">Appointment ID</th>
@@ -421,47 +323,45 @@
                 </thead>
               </table> -->
 
-              <div class="t-data t-scroll">
-                <!-- <div class="tmpoo overflow-x-scroll"> -->
-                  
-                  <table class="overflow-x-scroll">
-                  <thead class="">
-                    <tr>
-                      <th class="">Appointment ID</th>
-                      <th class="">Date</th>
-                      <th class="">Time</th>
-                      <th class=" ">Place</th>
-                    </tr>
-                  </thead>
-                    <tbody>
-                      {% if fr is not none %} {% for appointment in results %}
-                      <tr>
-                        <td class="border-t-[0px]">
-                          {{appointment.appointment_id}}
-                        </td>
-                        <td class="border-t-[0px]">
-                          {{appointment.appointment_date}}
-                        </td>
-                        <td class="border-t-[0px]">
-                          {{appointment.appointment_time}}
-                        </td>
-                        <td class="border-t-[0px]">{{appointment.place}}</td>
-                      </tr>
-                      {% endfor %} {% endif %}
-                    </tbody>
-                  </table>
-                <!-- </div> -->
-              </div>
+            <div class="t-data t-scroll">
+              <!-- <div class="tmpoo overflow-x-scroll"> -->
+
+              <table class="overflow-x-scroll">
+                <thead class="">
+                  <tr>
+                    <th class="">Appointment ID</th>
+                    <th class="">Date</th>
+                    <th class="">Time</th>
+                    <th class=" ">Place</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if fr is not none %} {% for appointment in results %}
+                  <tr>
+                    <td class="border-t-[0px]">
+                      {{appointment.appointment_id}}
+                    </td>
+                    <td class="border-t-[0px]">
+                      {{appointment.appointment_date}}
+                    </td>
+                    <td class="border-t-[0px]">
+                      {{appointment.appointment_time}}
+                    </td>
+                    <td class="border-t-[0px]">{{appointment.place}}</td>
+                  </tr>
+                  {% endfor %} {% endif %}
+                </tbody>
+              </table>
+              <!-- </div> -->
             </div>
           </div>
         </div>
+      </div>
 
-        <div
-          id="history"
-          class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] "
-        >
-          <div class="heading text-2xl font-bold mb-[1rem]">History</div>
-          <div class="ht overflow-x-scroll t-scroll">
+      <div id="history"
+        class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] ">
+        <div class="heading text-2xl font-bold mb-[1rem]">History</div>
+        <div class="ht overflow-x-scroll t-scroll">
           <table>
             <thead>
               <tr>
@@ -489,242 +389,254 @@
               {% endif %}
             </tbody>
           </table>
-          </div>
         </div>
-
       </div>
+
     </div>
+  </div>
 
-    <script>
+  <script>
 
-       //->Back To Top Button JS<-
-      // Get the button element
-      var btn = document.getElementById("button");
+    function confirmUpdate() {
+      var confirmUpdate = confirm("Are you sure you want to update your profile?");
 
-      // Add a scroll event listener to the window
-      window.addEventListener("scroll", function () {
-        if (window.scrollY > 300) {
-          // Add the "show" class when scrolled down
-          btn.classList.add("show");
-        } else {
-          // Remove the "show" class when at the top
-          btn.classList.remove("show");
+      // If confirmed, submit the form
+      if (confirmUpdate) {
+        document.getElementById("updateForm").submit();
+      }
+
+      // Prevent the default form submission
+      return false;
+    }
+    //->Back To Top Button JS<-
+    // Get the button element
+    var btn = document.getElementById("button");
+
+    // Add a scroll event listener to the window
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 300) {
+        // Add the "show" class when scrolled down
+        btn.classList.add("show");
+      } else {
+        // Remove the "show" class when at the top
+        btn.classList.remove("show");
+      }
+    });
+
+    // Add a click event listener to the button
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      // Smoothly scroll to the top
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+
+
+    // InputBox Animation JS
+    const ips = document.querySelectorAll(".input");
+    ips.forEach((ip) => {
+      ip.addEventListener("focus", (e) => {
+        e.target.parentNode.classList.add("focus");
+      });
+      if (ip.value != "") {
+        ip.parentNode.classList.add("focus");
+      }
+
+      ip.addEventListener("blur", (e) => {
+        if (e.target.value === "") {
+          e.target.parentNode.classList.remove("focus");
         }
       });
 
-      // Add a click event listener to the button
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        // Smoothly scroll to the top
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
+      ip.addEventListener("input", (e) => {
+        e.target.parentNode.classList.add("focus");
       });
+    });
 
+    let pp = document.getElementById("profile-pic");
+    let ppMain = document.getElementById("profile-pic-main");
+    let pplabel = document.querySelector(".pp-label");
+    let inputFile = document.getElementById("input-file");
 
+    inputFile.onchange = function () {
+      // Add AJAX here to send the image path to the server
+      if ("{{ myVariable }}" === "two") {
+        // alert('Please enter');
+        pp.src = URL.createObjectURL(inputFile.files[0]);
+        ppMain.src = URL.createObjectURL(inputFile.files[0]);
+        const formData = new FormData();
+        formData.append("image", inputFile.files[0]);
 
-      // InputBox Animation JS
-      const ips = document.querySelectorAll(".input");
-      ips.forEach((ip) => {
-        ip.addEventListener("focus", (e) => {
-          e.target.parentNode.classList.add("focus");
-        });
-        if (ip.value != "") {
-          ip.parentNode.classList.add("focus");
-        }
+        fetch("/update_img", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the server if needed
+          });
+      } else {
+        window.location.href = "/index";
+      }
+    };
 
-        ip.addEventListener("blur", (e) => {
-          if (e.target.value === "") {
-            e.target.parentNode.classList.remove("focus");
+    // Change Profile Photo Pencil JS
+    document.addEventListener("DOMContentLoaded", function () {
+      const pp = document.querySelector(".pp");
+      const pplabel = pp.querySelector(".pp-label");
+
+      let pp_mouse = false;
+
+      pp.addEventListener("mouseover", function () {
+        this.style.filter = "brightness(50%)";
+
+        pplabel.style.display = "block";
+        pplabel.children[0].classList.add("fa-shake");
+        pplabel.children[0].style.color = "#000";
+
+        setTimeout(() => {
+          if (pplabel.children[0].classList.contains("fa-shake")) {
+            pplabel.children[0].classList.remove("fa-shake");
           }
-        });
-
-        ip.addEventListener("input", (e) => {
-          e.target.parentNode.classList.add("focus");
-        });
+        }, 1000);
       });
 
-      let pp = document.getElementById("profile-pic");
-      let ppMain = document.getElementById("profile-pic-main");
-      let pplabel = document.querySelector(".pp-label");
-      let inputFile = document.getElementById("input-file");
+      pp.addEventListener("mouseout", function () {
+        this.style.filter = "brightness(100%)";
+        pplabel.style.display = "none";
+      });
+    });
 
-      inputFile.onchange = function () {
-        // Add AJAX here to send the image path to the server
-        if ("{{ myVariable }}" === "two") {
-          // alert('Please enter');
-          pp.src = URL.createObjectURL(inputFile.files[0]);
-          ppMain.src = URL.createObjectURL(inputFile.files[0]);
-          const formData = new FormData();
-          formData.append("image", inputFile.files[0]);
+    // Js for Updating Value in Input after Selecting
+    function showCity(word) {
+      document.querySelector(".textBoxCity").value = word;
+    }
+    function showGender(word) {
+      document.querySelector(".textBoxGender").value = word;
+    }
+    function showBloodType(word) {
+      document.querySelector(".textBoxBlood").value = word;
+    }
 
-          fetch("/update_img", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              // Handle the response from the server if needed
-            });
-        } else {
-          window.location.href = "/index";
-        }
-      };
-
-      // Change Profile Photo Pencil JS
-      document.addEventListener("DOMContentLoaded", function () {
-        const pp = document.querySelector(".pp");
-        const pplabel = pp.querySelector(".pp-label");
-
-        let pp_mouse = false;
-
-        pp.addEventListener("mouseover", function () {
-          this.style.filter = "brightness(50%)";
-
-          pplabel.style.display = "block";
-          pplabel.children[0].classList.add("fa-shake");
-          pplabel.children[0].style.color = "#000";
-
-          setTimeout(() => {
-            if (pplabel.children[0].classList.contains("fa-shake")) {
-              pplabel.children[0].classList.remove("fa-shake");
-            }
-          }, 1000);
-        });
-
-        pp.addEventListener("mouseout", function () {
-          this.style.filter = "brightness(100%)";
-          pplabel.style.display = "none";
-        });
+    // Loop through all .dropdown elements
+    let dd = document.querySelectorAll(".dropdown");
+    dd.forEach(function (dropdown) {
+      dropdown.addEventListener("click", function () {
+        dropdown.classList.toggle("active");
       });
 
-      // Js for Updating Value in Input after Selecting
-      function showCity(word) {
-        document.querySelector(".textBoxCity").value = word;
-      }
-      function showGender(word) {
-        document.querySelector(".textBoxGender").value = word;
-      }
-      function showBloodType(word) {
-        document.querySelector(".textBoxBlood").value = word;
-      }
-
-      // Loop through all .dropdown elements
-      let dd = document.querySelectorAll(".dropdown");
-      dd.forEach(function (dropdown) {
-        dropdown.addEventListener("click", function () {
-          dropdown.classList.toggle("active");
-        });
-
-        dropdown.addEventListener("focus", function () {
-          dropdown.classList.add("active");
-        });
-
-        dropdown.addEventListener("blur", function () {
-          dropdown.classList.remove("active");
-        });
-        document.addEventListener("click", function (event) {
-          if (event.target !== dropdown && !dropdown.contains(event.target)) {
-            if (dropdown.classList.contains("active"))
-              dropdown.classList.remove("active");
-          }
-        });
+      dropdown.addEventListener("focus", function () {
+        dropdown.classList.add("active");
       });
 
-      //NavBar Profile Click DropDown
-      let navbtn = document.querySelector(".nav-btn");
-      function showItemS() {
-        navbtn.classList.toggle("active");
-      }
+      dropdown.addEventListener("blur", function () {
+        dropdown.classList.remove("active");
+      });
       document.addEventListener("click", function (event) {
-        if (event.target !== navbtn && !navbtn.contains(event.target)) {
-          if (navbtn.classList.contains("active"))
-            navbtn.classList.remove("active");
+        if (event.target !== dropdown && !dropdown.contains(event.target)) {
+          if (dropdown.classList.contains("active"))
+            dropdown.classList.remove("active");
         }
       });
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          // Tab is minimized or Tab is moved, remove the "active" class
+    });
+
+    //NavBar Profile Click DropDown
+    let navbtn = document.querySelector(".nav-btn");
+    function showItemS() {
+      navbtn.classList.toggle("active");
+    }
+    document.addEventListener("click", function (event) {
+      if (event.target !== navbtn && !navbtn.contains(event.target)) {
+        if (navbtn.classList.contains("active"))
           navbtn.classList.remove("active");
-        }
-      });
-
-      //->Hamburger Menu JS<-
-      const menu_btn = document.querySelector('.hamburger');
-      const mobile_menu = document.querySelector('.mobile-nav');
-        console.log(menu_btn);
-        console.log(mobile_menu);
-      menu_btn.addEventListener('click', function () {
-                menu_btn.classList.toggle('is-active');
-                mobile_menu.classList.toggle('is-active');
-            });
-
-      // Flash Message JS
-      const fmsg = document.querySelector(".flash-messages");
-
-      setTimeout(() => {
-        if (fmsg.classList.contains("active")) {
-          fmsg.classList.remove("active");
-        }
-      }, 3000);
-
-      const ims = document.querySelector(".inner");
-      if (ims !== null && ims.textContent != "") {
-        fmsg.classList.add("active");
       }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Tab is minimized or Tab is moved, remove the "active" class
+        navbtn.classList.remove("active");
+      }
+    });
+
+    //->Hamburger Menu JS<-
+    const menu_btn = document.querySelector('.hamburger');
+    const mobile_menu = document.querySelector('.mobile-nav');
+    console.log(menu_btn);
+    console.log(mobile_menu);
+    menu_btn.addEventListener('click', function () {
+      menu_btn.classList.toggle('is-active');
+      mobile_menu.classList.toggle('is-active');
+    });
+
+    // Flash Message JS
+    const fmsg = document.querySelector(".flash-messages");
+
+    setTimeout(() => {
+      if (fmsg.classList.contains("active")) {
+        fmsg.classList.remove("active");
+      }
+    }, 3000);
+
+    const ims = document.querySelector(".inner");
+    if (ims !== null && ims.textContent != "") {
+      fmsg.classList.add("active");
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('page')) {
-        // Scroll to the "appointment" section when the page loads
-        const element = document.getElementById('appointment');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+      // Scroll to the "appointment" section when the page loads
+      const element = document.getElementById('appointment');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
-      //City Search Box Js
+    //City Search Box Js
 
-      function fetchCities() {
-        fetch("/get_cities_json")
-          .then((response) => response.json())
-          .then((data) => {
-            var cities = data["cities"];
-            const resultBox = document.getElementById("OptionsCity");
-            const inputBox = document.getElementById("CitytextBox");
-            const rBHTML=resultBox.innerHTML;
-            inputBox.onkeyup = function () {
+    function fetchCities() {
+      fetch("/get_cities_json")
+        .then((response) => response.json())
+        .then((data) => {
+          var cities = data["cities"];
+          const resultBox = document.getElementById("OptionsCity");
+          const inputBox = document.getElementById("CitytextBox");
+          const rBHTML = resultBox.innerHTML;
+          inputBox.onkeyup = function () {
 
-              let result = [];
-              let input = inputBox.value;
-              if (input.length) {
-                result = cities.filter((keyword) => {
-                  return keyword.toLowerCase().startsWith(input.toLowerCase());
-                });
-              }
-
-              display(result);
-
-              if(!result.length){
-                resultBox.innerHTML = "";
-              }
-              if(!input.length){
-                resultBox.innerHTML = rBHTML;
-              }
-            };
-
-            function display(result) {
-              resultBox.innerHTML = "";
-              const content = result.map((div)=>{
-                return '<div onclick=showCity(this.innerHTML)>' + div +'</div>';
+            let result = [];
+            let input = inputBox.value;
+            if (input.length) {
+              result = cities.filter((keyword) => {
+                return keyword.toLowerCase().startsWith(input.toLowerCase());
               });
-              resultBox.innerHTML = content.join('');
             }
-          })
-          .catch((error) => console.error("Error:", error));
-      }
-      fetchCities();
 
-    </script>
-  </body>
+            display(result);
+
+            if (!result.length) {
+              resultBox.innerHTML = "";
+            }
+            if (!input.length) {
+              resultBox.innerHTML = rBHTML;
+            }
+          };
+
+          function display(result) {
+            resultBox.innerHTML = "";
+            const content = result.map((div) => {
+              return '<div onclick=showCity(this.innerHTML)>' + div + '</div>';
+            });
+            resultBox.innerHTML = content.join('');
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+    fetchCities();
+
+  </script>
+</body>
+
 </html>
