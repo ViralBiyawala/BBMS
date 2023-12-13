@@ -16,6 +16,28 @@ body{
 ::selection{
 	background-color: rgba(255, 40, 40, 0.375);
 }
+body::-webkit-scrollbar,
+.scrollbar::-webkit-scrollbar{
+  width: 7px;
+}
+
+body::-webkit-scrollbar-track,
+.scrollbar::-webkit-scrollbar-track{
+  box-shadow: inset 0 0 5px #FFE0E0; 
+  /* border-radius: 15px; */
+}
+ 
+body::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb{
+  background: #FF2828; 
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb:hover ,
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ff2828; 
+}
+
+
 
 /* Back To Top Button */
 #button {
@@ -174,7 +196,6 @@ body{
     top: 59.5px;
     left: 100%;
     width: 40%;
-    /* min-height: 100vh; */
     border: 2px solid #ff2828;
     border-radius: 1rem;
     display: block;
@@ -504,6 +525,7 @@ th{
 td{
   color:black;
 }
+
 .a-right th, 
 .a-right td {
   border: none;

@@ -187,7 +187,7 @@
 
             <div class="input-container w-1/3 max-[615px]:w-full">
               <input type="text" name="Mname" class="input" value="{{ data.middle_name }}" required />
-              <label for="">Middle Name</label>
+              <label for="">Middle Name</label> 
               <span>Middle Name</span>
             </div>
 
@@ -363,9 +363,10 @@
                 <td>{{ frs.appointment_date }}</td>
                 <td>{{ frs.appointment_time }}</td>
                 <td>{{ frs.place }}</td>
-                <td>
+                <td class="hover:font-bold">
                   <!-- Add a link or button for downloading -->
-                  <a href="\gc\{{ frs.appointment_id }}" target="_blank"> Certificate</a>
+                  <!-- Certificate -->
+                  <a href="\gc\{{ frs.appointment_id }}" target="_blank" > Certificate</a>
                 </td>
               </tr>
               {% endfor %}

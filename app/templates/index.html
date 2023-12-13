@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
  
   <link rel="icon" href="../static/images/favicon.png">
+  <!-- <meta name="google-signin-client_id" content="827488594478-ku5kurdmpo2ctfrhrfjsigm997veragr.apps.googleusercontent.com"> -->
   <script src="https://kit.fontawesome.com/3b57b3cea0.js" crossorigin="anonymous"></script>
 </head>
 
@@ -47,10 +48,13 @@
       </div>
       {% else %}
       <div class="cursor-pointer mx-[10px]">
-        <i id="bell" class="fa-regular fa-bell" style="color: #ffffff;"></i>
-        <!-- <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" class="group-hover:text-text-primary dark:group-hover:text-dark-text-primary "><path fill-rule="evenodd" clip-rule="evenodd" d="M6.20374 15.8174C6.18177 15.8563 6.15975 15.8945 6.13771 15.9322H17.8623C17.8403 15.8945 17.8182 15.8563 17.7963 15.8174C16.8756 14.1898 16.3333 12.0111 16.3333 9.21793C16.3333 6.93819 14.4012 5.07507 12 5.07507C9.5988 5.07507 7.66667 6.93819 7.66667 9.21793C7.66667 12.0111 7.12442 14.1898 6.20374 15.8174ZM20 17.9322H4.00001C3.00196 17.9322 2.61971 16.6307 3.45925 16.091C3.66114 15.9612 4.0464 15.5691 4.46294 14.8327C5.20893 13.5139 5.66667 11.6748 5.66667 9.21793C5.66667 5.81702 8.51018 3.07507 12 3.07507C15.4898 3.07507 18.3333 5.81702 18.3333 9.21793C18.3333 11.6748 18.7911 13.5139 19.5371 14.8327C19.9536 15.5691 20.3389 15.9612 20.5408 16.091C21.3803 16.6307 20.9981 17.9322 20 17.9322ZM12.9372 19.2783C13.2219 18.805 13.8363 18.6521 14.3096 18.9368C14.7828 19.2215 14.9357 19.836 14.651 20.3092C14.0976 21.2292 13.0875 21.7902 12 21.7902C10.9125 21.7902 9.90245 21.2292 9.34903 20.3092C9.06434 19.836 9.2172 19.2215 9.69045 18.9368C10.1637 18.6521 10.7781 18.805 11.0628 19.2783C11.2515 19.5919 11.6085 19.7902 12 19.7902C12.3915 19.7902 12.7485 19.5919 12.9372 19.2783Z"></path></svg> -->
+        <!-- <div class="bell-div"> -->
+          <!-- <i id="bell" class="fa-regular fa-bell" style="color: #ffffff;"></i> -->
+          <svg id="bell" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" class="group-hover:text-text-primary dark:group-hover:text-dark-text-primary "><path fill-rule="evenodd" clip-rule="evenodd" d="M6.20374 15.8174C6.18177 15.8563 6.15975 15.8945 6.13771 15.9322H17.8623C17.8403 15.8945 17.8182 15.8563 17.7963 15.8174C16.8756 14.1898 16.3333 12.0111 16.3333 9.21793C16.3333 6.93819 14.4012 5.07507 12 5.07507C9.5988 5.07507 7.66667 6.93819 7.66667 9.21793C7.66667 12.0111 7.12442 14.1898 6.20374 15.8174ZM20 17.9322H4.00001C3.00196 17.9322 2.61971 16.6307 3.45925 16.091C3.66114 15.9612 4.0464 15.5691 4.46294 14.8327C5.20893 13.5139 5.66667 11.6748 5.66667 9.21793C5.66667 5.81702 8.51018 3.07507 12 3.07507C15.4898 3.07507 18.3333 5.81702 18.3333 9.21793C18.3333 11.6748 18.7911 13.5139 19.5371 14.8327C19.9536 15.5691 20.3389 15.9612 20.5408 16.091C21.3803 16.6307 20.9981 17.9322 20 17.9322ZM12.9372 19.2783C13.2219 18.805 13.8363 18.6521 14.3096 18.9368C14.7828 19.2215 14.9357 19.836 14.651 20.3092C14.0976 21.2292 13.0875 21.7902 12 21.7902C10.9125 21.7902 9.90245 21.2292 9.34903 20.3092C9.06434 19.836 9.2172 19.2215 9.69045 18.9368C10.1637 18.6521 10.7781 18.805 11.0628 19.2783C11.2515 19.5919 11.6085 19.7902 12 19.7902C12.3915 19.7902 12.7485 19.5919 12.9372 19.2783Z"></path></svg>
+          <svg id="bell-unread" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" class="hover:text-text-primary dark:hover:text-text-primary "><path fill-rule="evenodd" clip-rule="evenodd" d="M16.403 10.891C16.5768 12.8986 17.0682 14.5303 17.7963 15.8174C17.8182 15.8563 17.8403 15.8945 17.8623 15.9322H6.13771C6.15975 15.8945 6.18177 15.8563 6.20374 15.8174C7.12442 14.1898 7.66667 12.0111 7.66667 9.21794C7.66667 7.21279 9.16139 5.52994 11.1553 5.15365C11.2695 4.39084 11.556 3.68438 11.9739 3.07513C8.496 3.08878 5.66667 5.82552 5.66667 9.21794C5.66667 11.6748 5.20893 13.5139 4.46294 14.8327C4.0464 15.5691 3.66114 15.9613 3.45925 16.091C2.61971 16.6307 3.00196 17.9322 4.00001 17.9322H20C20.9981 17.9322 21.3803 16.6307 20.5408 16.091C20.3389 15.9613 19.9536 15.5691 19.5371 14.8327C18.9112 13.7263 18.4882 12.2536 18.3682 10.3571C17.7723 10.661 17.1073 10.8489 16.403 10.891ZM14.3096 18.9368C13.8363 18.6522 13.2219 18.805 12.9372 19.2783C12.7485 19.5919 12.3915 19.7902 12 19.7902C11.6085 19.7902 11.2515 19.5919 11.0628 19.2783C10.7781 18.805 10.1637 18.6522 9.69045 18.9368C9.2172 19.2215 9.06434 19.836 9.34903 20.3092C9.90245 21.2292 10.9125 21.7902 12 21.7902C13.0875 21.7902 14.0976 21.2292 14.651 20.3092C14.9357 19.836 14.7828 19.2215 14.3096 18.9368Z"></path><circle cx="16.1" cy="5.89999" r="3" fill="white"></circle></svg>
+        <!-- </div> -->
 
-        <div class="notification-box  bg-white border border-red-900">
+        <div class="notification-box   bg-white border border-red-900 overflow-y-scroll max-h-[35rem] scrollbar rounded-2xl">
           <div class="notification-heading ">
             Notifications
           </div>
@@ -278,10 +282,13 @@
           </div>
           <div class="one-22">-Sarah Johnson</div>
         </div>
+        <a href="{{ url_for('login_google') }}">Login with Google</a>
+        <!-- <button class="">SignInGoogle</button> -->
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
       </div>
     </div>
   </div>
-
+  <!-- 827488594478-ku5kurdmpo2ctfrhrfjsigm997veragr.apps.googleusercontent.com -->
   <div class="donate-now {% if user.is_authenticated and user.has_role('hospital') %} hidden {% endif %}">
     <div class="in">
       <div class="in-1">
@@ -328,13 +335,25 @@
       </div>
     </div>
   </div>
-
+  <!-- <script src="SignInGoogle.js" defer></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
   <script>
     let notificationBell = document.getElementById('bell');
+    let notificationBellUnread = document.getElementById('bell-unread');
     let notificationBox = document.querySelector('.notification-box');
     console.log(notificationBell);
     if (notificationBell) {
       notificationBell.addEventListener('click', (e) => {
+        notificationBox.classList.toggle("notification-active");
+        fetch('/mark_notification_as_read')
+          .then()
+          .then()
+          .catch(error => console.error(error));
+      })
+    }
+    if (notificationBellUnread) {
+      notificationBellUnread.addEventListener('click', (e) => {
         notificationBox.classList.toggle("notification-active");
         fetch('/mark_notification_as_read')
           .then()
@@ -419,6 +438,26 @@
         behavior: "smooth",
       });
     });
+
+     //Notification Bell JS
+     var NfsUnread=document.querySelector('.unread');
+     var Bell=document.getElementById('bell');
+     var BellUnread=document.getElementById('bell-unread');
+     
+
+     if(NfsUnread){
+       Bell.classList.add('hidden');
+       if(BellUnread.classList.contains('hidden')){
+         BellUnread.classList.remove('hidden');
+        }
+      }
+      else{
+        if(Bell && Bell.classList.contains('hidden')){
+          Bell.classList.remove('hidden');
+         }
+        if(BellUnread){ BellUnread.classList.add('hidden');}
+     }
+ 
   </script>
 </body>
 
