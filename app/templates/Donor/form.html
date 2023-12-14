@@ -12,7 +12,7 @@
 </head>
 
 <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
+    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px]  max-[884px]:hidden">
         <div class="flex items-center
             w-[20%]   
         ml-[24px] text-[36px]  hover:tracking-[0.1em]
@@ -66,10 +66,56 @@
         </div>
     </nav>
 
-    <div class="  mt-[1rem] h-[88.5vh]  flex ">
+    <!-- Hamburger for smaller screens  -->
+  <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[885px]:hidden">
+
+    <div
+      class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+      <a href="{{url_for('index')}}">Life Saver</a>
+    </div>
+
+    <button class="hamburger mx-[28px]">
+      <div class="bar"></div>
+    </button>
+
+    <div class="mobile-nav flex flex-col items-center">
+      {% if user is none %}
+      <!-- No user has logged in -->
+      <a href="{{url_for('login')}}" class="ni">Log In</a>
+      {% else %}
+
+      <div class="h-head  ni flex mt-[30px] items-center 
+        pl-[0.3rem]">
+        <a href="{{url_for('profile')}}">
+          <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
+        </a>
+      </div>
+
+      <div class="ni h-head-2 w-full justify-evenly flex  ">
+        <a href="{{url_for('profile')}}">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <i class="fa-regular fa-user "></i>
+            My Profile
+          </div>
+        </a>
+        <a href="{{url_for('logout')}}">
+          <div class="hh2-2 flex flex-col items-center cursor-pointer">
+            <i class="fa-solid fa-arrow-right-from-bracket "></i>
+            Log Out
+          </div>
+        </a>
+      </div>
+      {% endif %}
+      <a href="{{url_for('index')}}" class="ni">Home</a>
+      <a href="{{url_for('about')}}" class="ni">About Us</a>
+      <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
+    </div>
+  </nav>
+
+    <div class="  mt-[1rem]   flex ">
 
         <div style="background-image: url('../static/images/calendar.png')"
-            class="f-left   w-1/3 bg-contain bg-no-repeat bg-center">
+            class="f-left   w-1/3 bg-contain bg-no-repeat bg-center max-[850px]:hidden">
             <!-- Flash message start -->
             <div class="flash-messages">
                 <div class="msg">
@@ -83,20 +129,20 @@
         </div>
 
 
-        <div class="f-right w-2/3 flex flex-col  justify-center p-[1rem]">
+        <div class="f-right w-2/3 flex flex-col  justify-center p-[1rem] max-[850px]:w-full">
 
             <div class="personal-details bg-white rounded-2xl border border-[#FF2828] pb-[0.5rem]">
-                <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Personal Details</h3>
+                <h3 class="text-3xl pt-[1rem] px-[1.5rem] max-[530px]:text-center max-[450px]:text-2xl max-[450px]:font-[500] max-[342px]:text-xl ">Personal Details</h3>
 
-                <div class="1 flex space-x-[0.8rem] px-[1.7rem]">
+                <div class="1 flex max-[450px]:flex-col max-[450px]:space-x-[0rem] space-x-[0.8rem] px-[1.7rem]">
 
-                    <div class="donor-id input-container w-[40%]  ">
+                    <div class="donor-id input-container w-[40%]   max-[450px]:w-full">
                         <input type="text" name="ID" class="input" value="{{ data.donor_id}}" readonly>
                         <label for="">Donor ID</label>
                         <span>Donor ID</span>
                     </div>
 
-                    <div class="form-name input-container w-[60%] ">
+                    <div class="form-name input-container w-[60%]  max-[450px]:w-full">
                         <input type="text" name="Name" class="input"
                             value="{{data.first_name + ' ' + data.middle_name + ' ' + data.last_name }}" readonly>
                         <label for="">Name</label>
@@ -104,15 +150,15 @@
                     </div>
                 </div>
 
-                <div class="2 flex space-x-[0.8rem] px-[1.7rem] ">
+                <div class="2 flex max-[450px]:flex-col max-[450px]:space-x-[0rem] space-x-[0.8rem] px-[1.7rem] ">
 
-                    <div class="dob input-container focus strict  w-[40%] ">
+                    <div class="dob input-container focus strict  w-[40%]  max-[450px]:w-full">
                         <input type="date" name="ID" class="input" value="{{data.date_of_birth}}" readonly>
                         <label for="">Date of Birth</label>
                         <span>Date of Birth</span>
                     </div>
 
-                    <div class="BloodType input-container w-[35%] ">
+                    <div class="BloodType input-container w-[35%] max-[600px]:w-[60%] max-[450px]:w-full">
                         <input type="text" name="Name" class="input" value="{{ data.blood_type}}" readonly>
                         <label for="">Blood Type</label>
                         <span>Blood Type</span>
@@ -124,24 +170,24 @@
             <form method="POST" action="booking">
                 <div class="appointment-schedule bg-white rounded-2xl border border-[#FF2828] 
             pb-[0.5rem] my-[2rem]">
-                    <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Appointment Schedule</h3>
+                    <h3 class="text-3xl pt-[1rem] px-[1.5rem] max-[530px]:text-center max-[450px]:text-2xl max-[450px]:font-[500] max-[342px]:text-xl ">Appointment Schedule</h3>
 
-                    <div class="flex flex-col mt-[1rem] px-[1.5rem]  space-y-[0.8rem]">
-                        <div class="dt  w-[60%] flex ">
-                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Date</div>
+                    <div class="flex flex-col mt-[1rem] px-[1.5rem]  space-y-[0.8rem]  w-[50%] max-[1000px]:w-[60%] max-[665px]:w-[70%] max-[530px]:w-full max-[530px]:items-center">
+                        <div class="dt  w-full flex ">
+                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] max-[450px]:text-xl max-[342px]:text-lg">Date</div>
                             <input type="date" required name="date" id=""
-                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                                class="block w-[70%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
                         </div>
 
-                        <div class="time  w-[60%] flex ">
-                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Time</div>
+                        <div class="time  w-full flex ">
+                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] max-[450px]:text-xl max-[342px]:text-lg">Time</div>
                             <input type="time" required name="time" id=""
-                                class="block w-[50%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
+                                class="block w-[70%] border-[2px] border-[#FF2828] rounded-[12px]  bg-transparent">
                         </div>
 
-                        <div class="time  w-[60%] flex ">
-                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] ">Place</div>
-                            <div class="input-container w-1/2 -mt-[0.03rem]">
+                        <div class="time  w-full flex ">
+                            <div class="label w-[30%] text-2xl   py-[0.3rem] pl-[0.5rem] pr-[3rem] max-[450px]:text-xl max-[342px]:text-lg">Place</div>
+                            <div class="input-container w-[70%] -mt-[0.03rem]">
                                 <div class="dropdown input">
                                   <input
                                     type="text"
@@ -172,6 +218,14 @@
     </div>
 
     <script>
+        //->Hamburger Menu JS<-
+    const menu_btn = document.querySelector('.hamburger');
+    const mobile_menu = document.querySelector('.mobile-nav');
+    menu_btn.addEventListener('click', function () {
+      menu_btn.classList.toggle('is-active');
+      mobile_menu.classList.toggle('is-active');
+    });
+
         const ips = document.querySelectorAll('.input');
 
         ips.forEach(ip => {

@@ -23,6 +23,9 @@
   </head>
 
   <body class="bg-[#ffe0e0]">
+    <!-- Back To Top Button -->
+    <a id="button"></a>
+
     <nav class="bg-[#FF2828] w-full flex py-[12px] text-white text-[24px] max-[830px]:hidden ">
       <div
         class="flex items-center w-[20%] ml-6 text-4xl hover:tracking-[0.1em] transition-all duration-700 cursor-pointer">
@@ -164,7 +167,7 @@
                 <div class="chart " id="negativeChartOut"></div>
               </div>
             </div>
-
+            
             <div class="bi mb-8 mt-24 text-2xl font-medium  max-[360px]:text-xl max-[550px]:text-center">Blood Inventory</div>
 
             <div class="stock-availability overflow-x-scroll t-scroll">
@@ -532,6 +535,31 @@
     });
     //Hamburger Menu JS OVER
 
+
+    //->Back To Top Button JS<-
+    // Get the button element
+    var btn = document.getElementById("button");
+
+    // Add a scroll event listener to the window
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 300) {
+        // Add the "show" class when scrolled down
+        btn.classList.add("show");
+      } else {
+        // Remove the "show" class when at the top
+        btn.classList.remove("show");
+      }
+    });
+
+    // Add a click event listener to the button
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      // Smoothly scroll to the top
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
     </script>
   </body>
 </html>

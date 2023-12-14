@@ -483,6 +483,10 @@ header {
 }
 
 @media (max-width: 768px) {
+  .helpful-info .container {
+    border-radius: 4rem;
+    border:solid 2px red;
+  }
   .h1 {
     font-size: var(--text-xxl);
   }
@@ -491,6 +495,10 @@ header {
   }
 }
 @media (max-width: 425px) {
+  .helpful-info .container {
+    border-radius: 2.5rem;
+    border:solid 2px red;
+  }
   .h1 {
     font-size: var(--text-xl);
   }
@@ -501,6 +509,7 @@ header {
 @media (max-width: 368px) {
   .h1 {
     font-size: var(--text-lg);
+    text-align: center;
   }
 }
 

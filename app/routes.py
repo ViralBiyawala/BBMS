@@ -21,7 +21,7 @@ from flask_login import (
 from app.models import *
 from datetime import datetime, timedelta, date
 import os
-from app import app,myemail,server,app_login_key,mypass,oauth,google
+from app import app,myemail,server,app_login_key,mypass
 import re, random
 from email.mime.text import MIMEText
 # from werkzeug.utils import secure_filename
@@ -1919,43 +1919,3 @@ def add_transfusion_record():
 
 # Hospital Page BackEnd ends
 
-# SignInGoogle Starts
-
-
-@app.route('/login/authorized')
-def authorized():
-    try:
-        resp = google.authorized_response()
-        if resp is None or resp.get('access_token') is None:
-            raise OAuthException(
-                'Access denied: reason={} error={}'.format(
-                    request.args['error_reason'],
-                    request.args['error_description']
-                ),
-                type='access_denied'
-            )
-
-        # Set the Google token in the session
-        session['google_token'] = (resp['access_token'], '')
-
-        # Handle Google Sign-In
-        google_user = google.get('userinfo')
-        # ... (rest of the code)
-        return render_template('demo.html',userinfo=google_user)
-    except OAuthException as e:
-        print("OAuthException:", str(e))
-        return f"OAuthException: {str(e)}"
-
-    except Exception as e:
-        print("Error:", e)
-        return f"Error: {e}"
-
-@app.route('/login/google')
-def login_google():
-    return google.authorize(callback=url_for('authorized', _external=True))
-
-def get_google_oauth_token():
-    return session.get('google_token')
-
-google._tokengetter = get_google_oauth_token
-# SignInGoogle Ends

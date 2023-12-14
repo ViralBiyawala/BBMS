@@ -628,7 +628,8 @@ th,td {
     padding-right:1.3rem ;
 }
 .btnbook{
-    width:30%;
+    /* display: inline; */
+    width:fit-content;
     padding: 0.6rem 1.30rem;   
     font-size: 1.2rem;
     font-weight: 600;
@@ -643,8 +644,6 @@ th,td {
 }
 .btnbook:hover{
     background: transparent;
-	/* letter-spacing: 0.1rem; */
-	/* font-size: 1.5rem; */
 	border: 2px solid  #ff2828;
 	color:#ff2828;
 }
