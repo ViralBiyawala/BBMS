@@ -25,11 +25,9 @@ This is a web-based platform for managing blood donations, requests, and invento
 ## Features
 
 - Three-tiered login system for donors, hospitals, and administrators, each with tailored functionalities and user-friendly interfaces.
-- OTP verification, history tracking, visual graphs for administrators, and city-wise inventory management to enhance the security, transparency, and efficiency of the system.
+- OTP verification, history tracking, visual graphs for administrators, and city-wise and blood-wise inventory management to enhance the security, transparency, and efficiency of the system.
 - Comprehensive testing strategy, covering unit tests, integration tests, end-to-end tests, performance testing, and security testing, ensuring the reliability and functionality of the system.
 - User-friendly interface with intuitive navigation, responsive design, and accessibility features, ensuring a seamless and inclusive user experience.
-- Multi-language support for English, Spanish, French, German, and Japanese, catering to a diverse user base and facilitating global adoption.
-- Integration with social media platforms, such as Facebook and Twitter, enabling users to share their donation experiences and promote blood donation awareness.
 - Real-time notifications and alerts for donors, hospitals, and administrators, providing timely updates on blood requests, donations, and inventory levels.
 - Data analytics and reporting tools for administrators, enabling them to monitor and analyze the system's performance, identify trends and patterns, and make data-driven decisions.
 
