@@ -74,23 +74,23 @@ The Blood Bank Management System is a comprehensive web-based platform designed 
 
 ## Screenshots
 
-### Home Page
-![Home Page](path_to_images/home.png)
-
 ### Login Page
-![Login Page](path_to_images/login.png)
+![Login Page](login.jpg)
+
+### OTP Verification Page
+![OTP Verification Page](otp.jpg)
+
+### Home Page
+![Home Page](home.jpg)
 
 ### Appointment Page
-![Appointment Page](path_to_images/appointment.png)
+![Appointment Page](appointment.jpg)
 
 ### Admin Dashboard
-![Admin Dashboard](path_to_images/admin_dashboard.png)
-
-### Blood Request Page
-![Blood Request Page](path_to_images/blood_request.png)
+![Admin Dashboard](admin_dashboard.jpg)
 
 ## License
-This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license. You can use this project for learning purposes, but you cannot modify or distribute it without permission. See the LICENSE.md file for details.
+This project is licensed under the Creative Commons Attribution-Non Commercial-No Derivatives 4.0 International (CC BY-NC-ND 4.0) license. You can use this project for learning purposes, but you cannot modify or distribute it without permission. See the LICENSE.md file for details.
 
 ## Acknowledgments
 
