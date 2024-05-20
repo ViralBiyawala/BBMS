@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 # import smtplib
 import pandas as pd
-from flask_oauthlib.client import OAuth
+# from flask_oauthlib.client import OAuth
 
 app = Flask(__name__) 
 
