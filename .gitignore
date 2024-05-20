@@ -28,6 +28,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+bbms/
 vbbms/
 
 # Unit test / coverage reports
