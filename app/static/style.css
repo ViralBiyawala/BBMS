@@ -460,6 +460,7 @@ header {
 .helpful-info .container {
   width: 90%;
   /* border: 2px solid black; */
+  border:solid 2px #ff2828;
   border-radius: 6rem;
   background-color: #fff;
   height: auto;
@@ -485,7 +486,7 @@ header {
 @media (max-width: 768px) {
   .helpful-info .container {
     border-radius: 4rem;
-    border:solid 2px red;
+
   }
   .h1 {
     font-size: var(--text-xxl);
@@ -494,10 +495,14 @@ header {
     font-size: var(--text-smd);
   }
 }
+@media (max-width: 550px) {
+  .helpful-info .container {
+    border-radius: 3rem;
+  }
+}
 @media (max-width: 425px) {
   .helpful-info .container {
     border-radius: 2.5rem;
-    border:solid 2px red;
   }
   .h1 {
     font-size: var(--text-xl);
@@ -507,6 +512,9 @@ header {
   }
 }
 @media (max-width: 368px) {
+  .helpful-info .container {
+    border-radius: 2rem;
+  }
   .h1 {
     font-size: var(--text-lg);
     text-align: center;

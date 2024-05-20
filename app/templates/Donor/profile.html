@@ -207,7 +207,9 @@
 
             <div class="input-container w-1/2 max-[615px]:w-full focus">
               <div class="dropdown input">
-                <input type="text" class="textBoxGender" value="{{ data.gender }}" readonly name="gender" required />
+                <input type="text" class="textBox
+                
+                " value="{{ data.gender }}" readonly name="gender" required />
                 <div class="options">
                   <div onclick="showGender('Male')">Male</div>
                   <div onclick="showGender('Female')">Female</div>
@@ -295,16 +297,6 @@
 
         <div class="tmp-outer">
           <div class="appointment-table mt-[1rem] ">
-            <!-- <table class="table-h">
-                <thead class="">
-                  <tr>
-                    <th class="">Appointment ID</th>
-                    <th class="">Date</th>
-                    <th class="">Time</th>
-                    <th class=" ">Place</th>
-                  </tr>
-                </thead>
-              </table> -->
 
             <div class="t-data t-scroll">
               <!-- <div class="tmpoo overflow-x-scroll"> -->
@@ -344,7 +336,7 @@
       <div id="history"
         class="rounded-xl bg-white flex flex-col mt-[4rem] p-2 text-[#ff2828] h-[auto] px-[2rem] pb-[2rem] ">
         <div class="heading text-2xl font-bold mb-[1rem]">History</div>
-        <div class="ht overflow-x-scroll t-scroll">
+        <div class="ht overflow-x-scroll t-data t-scroll ">
           <table>
             <thead>
               <tr>

@@ -12,7 +12,7 @@
 </head>
 
 <body class="bg-[#FFE0E0]">
-    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
+    <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[884px]:hidden">
         <div class="flex items-center
             w-[20%]   
         ml-[24px] text-[36px]  hover:tracking-[0.1em]
@@ -79,10 +79,58 @@
         </div>
     </nav>
 
-    <div class=" mt-[1rem] h-[88.5vh] flex">
+    <!-- Hamburger for smaller screens  -->
+  <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[885px]:hidden">
+
+    <div
+      class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+      <a href="{{url_for('index')}}">Life Saver</a>
+    </div>
+
+    <button class="hamburger mx-[28px]">
+      <div class="bar"></div>
+    </button>
+
+    <div class="mobile-nav flex flex-col items-center">
+      {% if user is none %}
+      <!-- No user has logged in -->
+      <a href="{{url_for('login')}}" class="ni">Log In</a>
+      {% else %}
+
+      <div class="h-head  ni flex mt-[30px] items-center 
+        pl-[0.3rem]">
+        <a href="{{url_for('profile')}}">
+          <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
+        </a>
+      </div>
+
+      <div class="ni h-head-2 w-full justify-evenly flex  ">
+        <a href="{{url_for('profile')}}">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <i class="fa-regular fa-user "></i>
+            My Profile
+          </div>
+        </a>
+        <a href="{{url_for('logout')}}">
+          <div class="hh2-2 flex flex-col items-center cursor-pointer">
+            <i class="fa-solid fa-arrow-right-from-bracket "></i>
+            Log Out
+          </div>
+        </a>
+      </div>
+      {% endif %}
+      <a href="{{url_for('HRecipients')}}" class="ni">Add Recipients</a>
+      <!-- <a href="{{url_for('index')}}" class="ni">Home</a> -->
+      <a href="{{url_for('about')}}" class="ni">About Us</a>
+      <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
+      
+    </div>
+  </nav>
+
+    <div class=" mt-[1rem] flex">
 
         <div style="background-image: url('../static/images/calendar.png')"
-            class="f-left   w-1/3 bg-contain bg-no-repeat bg-center">
+            class="f-left   w-1/3 bg-contain bg-no-repeat bg-center max-[880px]:hidden">
             <!-- Flash message start -->
             <div class="flash-messages">
                 <div class="msg">
@@ -97,20 +145,21 @@
 
 
         <div
-            class="f-right right w-2/3 flex flex-col  justify-center p-[1rem] aspect-[18/13] overflow-y-scroll scroll-smooth pt-[15rem]">
+            class="f-right right w-2/3 flex flex-col  justify-center pt-[1rem] max-[880px]:w-full max-[880px]:p-[1rem]">
+            <!-- class="f-right right w-2/3 flex flex-col  justify-center p-[1rem] aspect-[18/13] overflow-y-scroll scroll-smooth pt-[15rem]"> -->
 
             <div class="personal-details bg-white rounded-2xl border border-[#FF2828] pb-[0.5rem]">
-                <h3 class="text-3xl pt-[1rem] px-[1.5rem]  ">Hospital Details</h3>
+                <h3 class="text-3xl pt-[1rem] px-[1.5rem] max-[510px]:text-center ">Hospital Details</h3>
 
-                <div class="1 flex space-x-[0.8rem] px-[1.7rem]">
+                <div class="1 flex space-x-[0.8rem] px-[1.7rem] max-[510px]:flex-col max-[510px]:space-x-[0rem]">
 
-                    <div class="donor-id input-container w-[50%]  ">
+                    <div class="donor-id input-container w-[50%]  max-[510px]:w-full">
                         <input type="text" name="ID" class="input" value="{{ user.h_email_id }}" readonly>
                         <label for="">Hospital Email</label>
                         <span>Hospital Email</span>
                     </div>
 
-                    <div class="form-name input-container w-[50%] ">
+                    <div class="form-name input-container w-[50%] max-[510px]:w-full">
                         <input type="text" name="Name" class="input" value="{{ user.name }}" readonly>
                         <label for="">Name</label>
                         <span>Name</span>
@@ -121,40 +170,41 @@
 
             <form method="POST" action="getblood">
                 <div class="appointment-schedule bg-white rounded-2xl border border-[#FF2828] pb-[0.5rem] my-[2rem]">
-                    <h3 class="text-3xl pt-[1rem] px-[1.5rem]">Blood Details</h3>
+                    <h3 class="text-3xl pt-[1rem] px-[1.5rem] max-[670px]:text-center">Blood Details</h3>
 
-                    <div class="flex flex-col mt-[1rem] px-[1.5rem] space-y-[0.8rem]">
+                    <div class="flex flex-col mt-[1rem] px-[1.5rem] space-y-[0.8rem] max-[670px]:items-center">
+                        <!-- space-y-[0.8rem] -->
 
                         <!-- Recipient ID -->
-                        <div class="time w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Recipient ID</div>
+                        <div class="time w-[70%] flex max-[670px]:w-[90%]">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] ">Recipient ID</div>
                             <input type="text" required name="recipient_id" id=""
                                 class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent" min=1>
                         </div>
 
                         <!-- Date -->
-                        <div class="dt w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Date</div>
-                            <input type="text" required name="transfusion_date" id=""
+                        <div class="dt w-[70%] flex max-[670px]:w-[90%]">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] ">Date</div>
+                            <input type="date" required name="transfusion_date" id=""
                                 class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent"
-                                value="{{ cd }}" readonly>
+                                value="{{ cd }}">
                         </div>
 
                         <!-- Quantity -->
-                        <div class="time w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">Quantity</div>
+                        <div class="time w-[70%] flex max-[670px]:w-[90%] ">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] ">Quantity</div>
                             <input type="text" required name="quantity_transfused" id=""
                                 class="block w-[60%] border-[2px] border-[#FF2828] rounded-[12px] bg-transparent">
                         </div>
 
                         <!-- City 1 -->
-                        <div class="time w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 1</div>
-                            <div class="input-container w-[60%] -mt-[0.03rem]">
-                                <div class="dropdown input">
+                        <div class="time w-[70%] flex max-[670px]:w-[90%] ">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] ">City 1</div>
+                            <div class="input-container w-[60%] -mt-[0rem]">
+                                <div class="dropdown hos-input input"> 
                                     <input type="text" class="textBoxCity t1" value="" name="city1" id="CitytextBox1"
                                         required />
-                                    <div class="options" id="OptionsCity1">
+                                    <div class="options HospitalCityOptions" id="OptionsCity1">
                                         {% for city in cities %}
                                         <div onclick='showCity(".t1","{{ city }}")'>{{ city }}</div>
                                         {% endfor %}
@@ -164,13 +214,13 @@
                         </div>
 
                         <!-- City 2 -->
-                        <div class="time w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 2</div>
-                            <div class="input-container w-[60%] -mt-[0.03rem]">
+                        <div class="time w-[70%] flex max-[670px]:w-[90%]">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] -mt-[1rem] pl-[0.5rem] ">City 2</div>
+                            <div class="input-container w-[60%] -mt-[1rem]">
                                 <div class="dropdown input">
                                     <input type="text" class="textBoxCity t2" value="" name="city2" id="CitytextBox2"
                                         required />
-                                    <div class="options" id="OptionsCity2">
+                                    <div class="options HospitalCityOptions" id="OptionsCity2">
                                         {% for city in cities %}
                                         <div onclick='showCity(".t2","{{ city }}")'>{{ city }}</div>
                                         {% endfor %}
@@ -180,13 +230,13 @@
                         </div>
 
                         <!-- City 3 -->
-                        <div class="time w-[70%] flex">
-                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] pr-[3rem]">City 3</div>
-                            <div class="input-container w-[60%] -mt-[0.03rem]">
+                        <div class="time w-[70%] flex max-[670px]:w-[90%]">
+                            <div class="label w-[40%] text-2xl py-[0.3rem] pl-[0.5rem] -mt-[1rem] ">City 3</div>
+                            <div class="input-container w-[60%] -mt-[1rem]">
                                 <div class="dropdown input">
                                     <input type="text" class="textBoxCity t3" value="" name="city3" id="CitytextBox3"
                                         required />
-                                    <div class="options" id="OptionsCity3">
+                                    <div class="options HospitalCityOptions" id="OptionsCity3">
                                         {% for city in cities %}
                                         <div onclick='showCity(".t3","{{ city }}")'>{{ city }}</div>
                                         {% endfor %}
@@ -209,6 +259,15 @@
     </div>
 
     <script>
+          //->Hamburger Menu JS<-
+    const menu_btn = document.querySelector('.hamburger');
+    const mobile_menu = document.querySelector('.mobile-nav');
+    menu_btn.addEventListener('click', function () {
+      menu_btn.classList.toggle('is-active');
+      mobile_menu.classList.toggle('is-active');
+    });
+
+
         const ips = document.querySelectorAll('.input');
 
         ips.forEach(ip => {
