@@ -29,7 +29,7 @@ from sqlalchemy import desc,func,asc
 import pandas as pd 
 pas = False
 from functools import wraps
-from flask_oauthlib.client import OAuthException
+# from flask_oauthlib.client import OAuthException
 
 
 pt = os.path.join(app.root_path, 'city.csv')
