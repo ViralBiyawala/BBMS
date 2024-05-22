@@ -15,7 +15,7 @@
 
 <body class="dreq-body bg-[#ffe0e0]">
 
-  <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[832px]:hidden">
+  <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[885px]:hidden">
     <div class="flex items-center
         w-[20%]   
     ml-[24px] text-[36px]  hover:tracking-[0.1em]
@@ -119,7 +119,7 @@
             </a>
           </div>
           {% endif %}
-          <a href="{{url_for('HRecipients')}}" class="ni">Add Recipients</a>
+          <a href="{{url_for('HAppointment')}}" class="ni">Get Blood</a>
           <!-- <a href="{{url_for('index')}}" class="ni">Home</a> -->
           <a href="{{url_for('about')}}" class="ni">About Us</a>
           <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
@@ -127,8 +127,8 @@
         </div>
       </nav>
 
-  <div class="header   py-4 mt-4 flex justify-between items-center font-medium">
-    <div class="ml-8 text-3xl ">Recipient</div>
+  <div class="header   py-4 mt-4 flex justify-between items-center font-medium max-[516px]:flex-col max-[516px]:space-y-4 ">
+    <div class="ml-8 max-[516px]:ml-[0px]  text-3xl ">Recipient</div>
     <button onclick="OpenForm()" class="border border-black mr-8 py-2 border-none rounded-xl px-8 bg-[#ff2828] text-white text-2xl">
       + Add New Recipient</button>
 
@@ -137,8 +137,8 @@
 
   <div class="mt-8 flex  items-center flex-col mb-[4rem] ">
 
-    <div class="h-recipient w-[90%] ">
-      <table>
+    <div class="h-recipient w-[90%] overflow-x-scroll t-data t-scroll">
+      <table class="overflow-x-scroll" >
         <tr>
           <th class="bg-[#ff2828] text-white text-xl ">Recipient ID</th>
           <th class="bg-[#ff2828] text-white text-xl ">Name</th>
@@ -159,6 +159,34 @@
         {% endfor %}
       </table>
     </div>
+<!-- 
+    <div class="tmp-outer">
+      <div class="appointment-table mt-[1rem] ">
+
+        <div class="t-data t-scroll">
+          <table class="overflow-x-scroll" >
+            <tr>
+              <th class="bg-[#ff2828] text-white text-xl ">Recipient ID</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Name</th>
+              <th class="bg-[#ff2828] text-white text-xl ">DOB</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Gender</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Blood Group</th>
+              <th class="bg-[#ff2828] text-white text-xl ">Phone No.</th>
+            </tr>
+            {% for res in ress %}
+            <tr>
+              <td>{{ res.recipient_id }}</td>
+              <td>{{ res.first_name + " " + res.last_name }}</td>
+              <td>{{ res.date_of_birth }}</td>
+              <td>{{ res.gender }}</td>
+              <td>{{ res.blood_type }}</td>
+              <td>{{ res.contact_phone }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div> -->
 
     <div class="overlay flex items-center justify-center hidden">
       <div class="R-info mx-auto mt-10   w-[60%]  bg-white rounded-3xl  ">  
