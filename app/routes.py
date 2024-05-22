@@ -26,7 +26,7 @@ import re, random
 from email.mime.text import MIMEText
 # from werkzeug.utils import secure_filename
 from sqlalchemy import desc,func,asc
-import pandas as pd 
+import pandas as pd
 pas = False
 from functools import wraps
 # from flask_oauthlib.client import OAuthException
@@ -113,19 +113,19 @@ def Admin():
     if request.method == 'POST':
         selected_city  = request.form['city']
         sb = request.form['Btype']
-    
+
     # Define the order of blood types
     blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-    
-    
-    
+
+
+
 
     # Create a list to store the summarized data
     summarized_data = []
-    
+
     # Create a list to store the summarized data of Transfusion record
     summarized_data_tr = []
-    
+
     # Create a list to store the summarized data from BloodInventory
     summarized_data_inventory = []
 
@@ -139,7 +139,7 @@ def Admin():
             .first()
         )
         summarized_data.append(result.total_quantity if result[0] != None else 0.0)
-        
+
     # Query the Blood Transfusion DB to group by blood type and sum up quantities
     for blood_type in blood_types:
         result = (
@@ -151,7 +151,7 @@ def Admin():
             .first()
         )
         summarized_data_tr.append(result.total_quantity if result[0] != None else 0.0)
-        
+
     # Query the database to group by blood type and sum up quantities for BloodInventory
     for blood_type in blood_types:
         result = (
@@ -162,14 +162,14 @@ def Admin():
             .first()
         )
         summarized_data_inventory.append(result.total_quantity if result[0] is not None else 0.0)
-    
-    
-    
-    
-    
+
+
+
+
+
     # Create a list to store the summarized data
     sd_city = {}
-    
+
     # Query the database to find appointment IDs where city == selected_city
     appointment_ids = (
         DonationAppointment.query
@@ -177,14 +177,14 @@ def Admin():
         .with_entities(DonationAppointment.appointment_id)
         .all()
     )
-    
+
     blood_bag_nums = (
         BloodDonationRecord.query
         .filter(BloodDonationRecord.storage_location == selected_city)
         .with_entities(BloodDonationRecord.blood_bag_number)
         .all()
     )
-    
+
     if sb == 'ALL' :
         # Query the database to group by blood type and sum up quantities
         for blood_type in blood_types:
@@ -204,7 +204,7 @@ def Admin():
                         total_quantity += result.total_quantity
 
                 sd_city[blood_type].append(total_quantity)
-                
+
         for blood_type in blood_types:
             total_quantity = 0
             result = (
@@ -216,12 +216,12 @@ def Admin():
                 .filter(BloodTransfusionRecord.city1 == selected_city)
                 .first()
             )
-                
+
             if result and result.total_quantity:
                 total_quantity += result.total_quantity
-                    
+
             sd_city[blood_type].append(total_quantity)
-                
+
         for blood_type in blood_types:
                 total_quantity = 0
 
@@ -233,7 +233,7 @@ def Admin():
                     .filter(BloodInventory.storage_location == selected_city)
                     .first()
                 )
-                
+
                 if result and result.total_quantity:
                     total_quantity += result.total_quantity
 
@@ -250,11 +250,11 @@ def Admin():
                 .filter(BloodDonationRecord.appointment_id == appointment_id[0])
                 .first()
             )
-            
+
             if result and result.total_quantity:
                 total_quantity += result.total_quantity
         sd_city[sb].append(total_quantity)
-        
+
         total_quantity = 0
         result = (
             db.session.query(
@@ -265,12 +265,12 @@ def Admin():
             .filter(BloodTransfusionRecord.city1 == selected_city)
             .first()
         )
-                
+
         if result and result.total_quantity:
             total_quantity += result.total_quantity
-                
+
         sd_city[sb].append(total_quantity)
-        
+
         total_quantity = 0
         result = (
             db.session.query(
@@ -281,11 +281,11 @@ def Admin():
             .filter(BloodInventory.storage_location == selected_city)
             .first()
         )
-        
+
         if result and result.total_quantity:
             total_quantity += result.total_quantity
         sd_city[sb].append(total_quantity)
-    
+
 
     return render_template('Admin/Admin_Home.html',cities=cities,in_qu=summarized_data,inv=summarized_data_inventory,out_qu=summarized_data_tr,sd_city=sd_city,sc=selected_city,sb=sb)
 
@@ -303,7 +303,7 @@ def load_user(user_id):
     hospital = RHospital.query.get(user_id)
     if hospital:
         return hospital
-    
+
     admin = AdminUser.query.get(user_id)
     if admin:
         return admin
@@ -328,20 +328,20 @@ def contact():
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
-            current_path = os.getcwd() 
+            # current_path = os.getcwd()
             for extension in allowed_extensions:
-                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
-                filename = current_path + image_path
-                if os.path.isfile(filename) == True:
+                image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor.donor_id}.{extension}"
+                # filename = current_path + image_path
+                if os.path.isfile(image_path) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
     elif user != None and user.has_role('hospital'):
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
-        current_path = os.getcwd() 
+        # current_path = os.getcwd()
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('contact.html',src=src,user=user)
 
@@ -356,20 +356,20 @@ def about():
         if donor:
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
-            current_path = os.getcwd() 
+            # current_path = os.getcwd()
             for extension in allowed_extensions:
-                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
-                filename = current_path + image_path
-                if os.path.isfile(filename) == True:
+                image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor.donor_id}.{extension}"
+                # filename = current_path + image_path
+                if os.path.isfile(image_path) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
     elif user != None and user.has_role('hospital'):
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
-        current_path = os.getcwd() 
+        # current_path = os.getcwd()
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('AboutUs.html',src=src,user=user)
 
@@ -410,25 +410,25 @@ def base():
             notifications = Notification.query.filter_by(donor_id=id_noti).order_by(Notification.timestamp.desc()).all()
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
-            current_path = os.getcwd() 
+            # current_path = os.getcwd()
             for extension in allowed_extensions:
-                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
-                filename = current_path + image_path
-                if os.path.isfile(filename) == True:
+                image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor.donor_id}.{extension}"
+                # filename = current_path + image_path
+                if os.path.isfile(image_path) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
     else :
         notifications = HospitalNotification.query.filter_by(h_email_id=current_user.h_email_id).order_by(HospitalNotification.timestamp.desc()).all()
-        
+
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
-        current_path = os.getcwd()
+        # current_path = os.getcwd()
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
 
     return render_template('index.html',user=user, src = src, notifications = notifications)
@@ -471,26 +471,26 @@ def index():
 
             allowed_extensions = ['jpg', 'jpeg', 'png']
             # Check if an image file exists for the user
-            current_path = os.getcwd()
+            # current_path = os.getcwd()
             for extension in allowed_extensions:
-                image_path = f"/app/static/images/{donor.donor_id}.{extension}"
-                filename = current_path + image_path
-                if os.path.isfile(filename) == True:
+                image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor.donor_id}.{extension}"
+                # filename = current_path + image_path
+                if os.path.isfile(image_path) == True:
                     src = f"../static/images/{donor.donor_id}.{extension}"
         else :
             flash("Fill Donor Information First")
             return redirect(url_for('profile'))
     else :
-        
+
         notifications = HospitalNotification.query.filter_by(h_email_id=current_user.h_email_id).order_by(HospitalNotification.timestamp.desc()).all()
-        
+
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
-        current_path = os.getcwd()
+        # current_path = os.getcwd()
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
 
     return render_template('index.html',user=user, src = src, notifications = notifications)
@@ -507,7 +507,7 @@ def verify():
 def forget():
     return render_template('confirm.html')
 
-# Logout 
+# Logout
 @app.route('/logout')
 @login_required
 def logout():
@@ -525,7 +525,7 @@ def logout():
 #     return render_template('confirm.html')
 
 
-# Email Sending 
+# Email Sending
 # Route to Register Page with email duplication check
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -537,12 +537,12 @@ def register():
         mobile_no = request.form['mobile_no']
         password = request.form['password']
         admin_type = request.form['admin']  # Added to retrieve the user type (Donor or Hospital)
-        
+
         if not is_valid_email(email):
             flash('Please enter a valid email address.')
             return redirect(url_for('register'))
-        
-        
+
+
         # Check if the email is already registered
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
         existing_user_H = RHospital.query.filter_by(h_email_id=email).first()
@@ -552,13 +552,13 @@ def register():
 
         # Generate a 6-digit random OTP
         otp = str(random.randint(100000, 999999))
-        
+
         # Store OTP and its creation time
         otp_storage[email] = {
             'otp': otp,
             'created_at': datetime.now()
         }
-        
+
         # Send OTP email
         server.connect('smtp.gmail.com', 587)
         server.starttls()
@@ -569,7 +569,7 @@ def register():
         server.login(myemail, app_login_key)
         server.send_message(msg)
         server.quit()
-        
+
         # Render the OTP verification page and pass us*-er data along with the email
         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
 
@@ -586,20 +586,20 @@ def resend():
         mobile_no = request.form['mobile_no']
         password = request.form['password']
         admin_type = request.form['admin']  # Added to retrieve the user type (Donor or Hospital)
-        
+
         if not is_valid_email(email):
             flash('Please enter a valid email address.', 'error')
             return redirect(url_for('register'))
-        
-        
+
+
         # Check if the email is already registered
         existing_user = RDonor.query.filter_by(d_email_id=email).first()
         if existing_user:
             flash('Email is already registered. Please use a different email address.', 'error')
             return redirect(url_for('register'))
-        
+
         otp = str(random.randint(100000, 999999))
-        
+
         # Store OTP and its creation time
         otp_storage[email] = {
             'otp': otp,
@@ -609,7 +609,7 @@ def resend():
         otp_s = otp_storage[email]
         otp_ans = otp_s['otp']
         # Send OTP email
-        
+
         server.connect('smtp.gmail.com', 587)
         server.starttls()
         server.login(myemail, app_login_key)
@@ -619,7 +619,7 @@ def resend():
         msg['To'] = email
         server.send_message(msg)
         server.quit()
-        
+
         # Render the OTP verification page and pass us*-er data along with the email
         # flash('OTP Sent.Valid for 4 minutes.')
         return render_template('otp.html', email=email, name=name, city=city, mobile_no=mobile_no, password=password, admin_type=admin_type)
@@ -646,16 +646,16 @@ def submit_reset_password():
         if password != confirm_password:
             flash('Password and Confirm Password doesn\'t match.')
             return redirect(url_for('forget'))
-        
+
         # Generate a 6-digit random OTP
         otp = str(random.randint(100000, 999999))
-        
+
         # Store OTP and its creation time
         otp_storage[email] = {
             'otp': otp,
             'created_at': datetime.now()
         }
-        
+
         # Send OTP email
         server.connect('smtp.gmail.com', 587)
         server.starttls()
@@ -677,13 +677,13 @@ def resend_forget():
         # Retrieve data from the registration form
         email = request.form['email']
         password = request.form['password']
-        
+
         if not is_valid_email(email):
             flash('Please enter a valid email address.', 'error')
             return redirect(url_for('register'))
-        
+
         otp = str(random.randint(100000, 999999))
-        
+
         # Store OTP and its creation time
         otp_storage[email] = {
             'otp': otp,
@@ -693,7 +693,7 @@ def resend_forget():
         otp_s = otp_storage[email]
         otp_ans = otp_s['otp']
         # Send OTP email
-        
+
         server.connect('smtp.gmail.com', 587)
         server.starttls()
         server.login(myemail, app_login_key)
@@ -703,7 +703,7 @@ def resend_forget():
         msg['To'] = email
         server.send_message(msg)
         server.quit()
-        
+
         # Render the OTP verification page and pass us*-er data along with the email
         flash('OTP Sent.Valid for 4 minutes.')
         return render_template('forget_otp.html', email=email,password=password)
@@ -832,7 +832,7 @@ def login():
             else:
                 flash('Invalid username or password.')
                 return redirect(url_for('login'))  # Change 'home' to the desired page
-        
+
         if user is not None:  # Check the password using check_password method
             if  user.check_password(password):
                 login_user(user)
@@ -843,7 +843,7 @@ def login():
         else:
             flash('Please first register')
             return redirect(url_for('register'))  # Change 'home' to the desired page
-    
+
     return render_template('login.html')
 
 # Profile Page
@@ -866,7 +866,7 @@ def profile():
         if city.lower() not in [cit.lower() for cit in cities]:
             flash("No City Found")
             return redirect(url_for('profile'))
-            
+
 
         data = Donor.query.filter_by(d_email_id=current_user.d_email_id).first()
         if data:
@@ -915,20 +915,20 @@ def profile():
         results = DonationAppointment.query.filter_by(donor_id=data.donor_id).order_by(
         desc(DonationAppointment.appointment_date), desc(DonationAppointment.appointment_time)
     ).all()
-        
+
         # Fetching all appointment_ids where donor_id matches
         donor_appointment_ids = [result.appointment_id for result in results]
-        
+
         fr = DonationAppointment.query.filter(DonationAppointment.appointment_id.in_(donor_appointment_ids),DonationAppointment.ddone == True).all()
         donor_id = data.donor_id
         allowed_extensions = ['jpg', 'jpeg', 'png']
 
         # Check if an image file exists for the user
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{donor_id}.{extension}"
-            current_path = os.getcwd()
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor_id}.{extension}"
+            # current_path = os.getcwd()
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 # print(filename)
                 src = f"../static/images/{donor_id}.{extension}"
                 break
@@ -942,7 +942,7 @@ def profile():
 @no_admin_required
 def update_img():
     image = request.files['image']
-    
+
     if image.filename == '':
         # No file selected, keep the src variable as the default profile image
         src = url_for('static', filename='images/profile.png')
@@ -956,15 +956,15 @@ def update_img():
             # Delete previous images with the same name but different extensions
             allowed_extensions = ['png', 'jpg', 'jpeg']
             for extension in allowed_extensions:
-                image_path = f"/app/static/images/{data.donor_id}.{extension}"
-                current_path = os.getcwd()
-                filename = current_path + image_path
-                if os.path.isfile(filename) == True:
-                    os.remove(filename)
+                image_path = f"/home/MHADJANGO/BBMS/app/static/images/{data.donor_id}.{extension}"
+                # current_path = os.getcwd()
+                # filename = current_path + image_path
+                if os.path.isfile(image_path) == True:
+                    os.remove(image_path)
 
             # Generate a secure filename based on Donor_id and the file extension
             filename = f"{data.donor_id}{os.path.splitext(image.filename)[1]}"
-            image_path = os.path.join("app/static/images", filename)
+            image_path = os.path.join("/home/MHADJANGO/BBMS/app/static/images", filename)
 
             # Ensure the directory exists
             os.makedirs(os.path.dirname(image_path), exist_ok=True)
@@ -980,23 +980,23 @@ def update_img():
         imagefile = current_user.h_email_id.split('@')[0]
         allowed_extensions = ['png', 'jpg', 'jpeg']
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{imagefile}.{extension}"
-            current_path = os.getcwd()
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
-                os.remove(filename)
-                
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{imagefile}.{extension}"
+            # current_path = os.getcwd()
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
+                os.remove(image_path)
+
         # Generate a secure filename based on Donor_id and the file extension
             filename = f"{imagefile}{os.path.splitext(image.filename)[1]}"
-            image_path = os.path.join("app/static/images", filename)
+            image_path = os.path.join("/home/MHADJANGO/BBMS/app/static/images", filename)
 
             # Ensure the directory exists
             os.makedirs(os.path.dirname(image_path), exist_ok=True)
 
             # Save the uploaded image with the Donor_id as the filename
             image.save(image_path)
-            
-            return redirect(url_for('profile'))       
+
+            return redirect(url_for('profile'))
 
 #Home Page
 @app.route('/appointment')
@@ -1012,17 +1012,17 @@ def appointment():
     if donor:
         allowed_extensions = ['jpg', 'jpeg', 'png']
         # Check if an image file exists for the user
-        current_path = os.getcwd() 
+        # current_path = os.getcwd()
         for extension in allowed_extensions:
-            image_path = f"/app/static/images/{donor.donor_id}.{extension}"
-            filename = current_path + image_path
-            if os.path.isfile(filename) == True:
+            image_path = f"/home/MHADJANGO/BBMS/app/static/images/{donor.donor_id}.{extension}"
+            # filename = current_path + image_path
+            if os.path.isfile(image_path) == True:
                 src = f"../static/images/{donor.donor_id}.{extension}"
         return render_template('Donor/form.html',data=donor, src = src,cities=cities)
     else:
         flash("Fill the Donor Information")
         return redirect(url_for('profile'))
-    
+
 @app.route('/booking',methods=['POST','GET'])
 @login_required
 @user_required
@@ -1048,7 +1048,7 @@ def booking():
             return redirect(url_for('contact'))
     else:
         return redirect(url_for('appointment'))
-    
+
 @app.route('/aperror')
 def aperror():
     flash("Login first for an Appointment")
@@ -1074,8 +1074,8 @@ def feedback():
             return redirect(url_for('contact'))
     else:
         return redirect(url_for('contact'))
-    
-# Admin Page 
+
+# Admin Page
 
 # @app.route('/plot')
 # def plot_real_data():
@@ -1094,7 +1094,7 @@ def plot_positive_data():
 
     # Create a dictionary to store the blood flow data
     blood_flow_dict = {'months': list(sorted_months), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
-    
+
     # Query the database and populate the dictionary
     for month in sorted_months:
         for blood_type in ['A+', 'B+', 'AB+', 'O+']:
@@ -1120,7 +1120,7 @@ def plot_positive_data_out():
 
     # Create a dictionary to store the blood flow data
     blood_flow_dict = {'months': list(sorted_months), 'Ap': [], 'Bp': [], 'ABp': [], 'Op': []}
-    
+
     # Query the database and populate the dictionary
     for month in sorted_months:
         for blood_type in ['A+', 'B+', 'AB+', 'O+']:
@@ -1147,7 +1147,7 @@ def plot_negative_data():
 
     # Create a dictionary to store the negative blood flow data
     negative_blood_flow_dict = {'months': list(sorted_months), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
-    
+
     # Query the database and populate the dictionary
     for month in sorted_months:
         for blood_type in ['A-', 'B-', 'AB-', 'O-']:
@@ -1173,7 +1173,7 @@ def plot_negative_data_out():
 
     # Create a dictionary to store the negative blood flow data
     negative_blood_flow_dict = {'months': list(sorted_months), 'An': [], 'Bn': [], 'ABn': [], 'On': []}
-    
+
     # Query the database and populate the dictionary
     for month in sorted_months:
         for blood_type in ['A-', 'B-', 'AB-', 'O-']:
@@ -1210,7 +1210,7 @@ def mark_notifications_as_read():
             notification.read = True
 
         db.session.commit()
-        
+
     return jsonify(True)
 
 @app.route('/DRequests')
@@ -1233,7 +1233,7 @@ def check(transfusion_id):
     # Step 1: Retrieve details from BloodTransfusionRecord
     transfusion_record = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first()
     ua = BloodTransfusionRecord.query.filter().all()
-    
+
     if transfusion_record:
         # Extract parameters from the transfusion record
         blood_type = transfusion_record.blood_type
@@ -1249,7 +1249,7 @@ def check(transfusion_id):
             quantity_donated=quantity_transfused,
             storage_location=city1
         ).first()
-        
+
         if exact_match:
             transfusion_record.status = 1
             transfusion_record.quantity_transfused = exact_match.quantity_donated
@@ -1257,14 +1257,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(exact_match)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1275,7 +1275,7 @@ def check(transfusion_id):
             except Exception as e:
                 return redirect(url_for('contect'))
 
-            
+
 
 
         # Step 3: Search for quantity >= quantity_transfused
@@ -1292,14 +1292,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_match)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1325,14 +1325,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(city2_match)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1342,8 +1342,8 @@ def check(transfusion_id):
                     return redirect(url_for('contact'))
             except Exception as e:
                 return redirect(url_for('contect'))
-            
-        
+
+
         quantity_match_2 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
             BloodInventory.quantity_donated >= quantity_transfused,
@@ -1357,14 +1357,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_match_2)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1390,14 +1390,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(city3_match)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1407,8 +1407,8 @@ def check(transfusion_id):
                     return redirect(url_for('contact'))
             except Exception as e:
                 return redirect(url_for('contect'))
-            
-        
+
+
         quantity_match_3 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
             BloodInventory.quantity_donated >= quantity_transfused,
@@ -1422,14 +1422,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_match_3)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1441,7 +1441,7 @@ def check(transfusion_id):
                 return redirect(url_for('contect'))
 
 
-        
+
         # Step 6: Search for quantity <= quantity_transfused in city1
         quantity_less_match_city1 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
@@ -1456,14 +1456,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_less_match_city1)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1489,14 +1489,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_less_match_city2)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1522,14 +1522,14 @@ def check(transfusion_id):
             try:
                 db.session.delete(quantity_less_match_city3)
                 db.session.commit()
-                
+
                 re_id = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first().recipient_id
                 h_email = Recipient.query.filter_by(recipient_id=re_id).first().h_email_id
-                
+
                 # Step 3: Create a notification for the hospital
                 message = f"Blood request for recipient_id {transfusion_id} of blood_type {transfusion_record.blood_type} with quantity {transfusion_record.quantity_transfused} is Dispatched."
                 hospital_notification = HospitalNotification(transfusion_id=transfusion_id, message=message, read=False, h_email_id=h_email)
-                
+
                 try:
                     db.session.add(hospital_notification)
                     db.session.commit()
@@ -1540,7 +1540,7 @@ def check(transfusion_id):
             except Exception as e:
                 return redirect(url_for('contect'))
 
-        
+
         # Step 5: Return false if no match is found
         return render_template('Admin/Admin_HRequests.html',ua = ua,found=False,id=transfusion_id)
 
@@ -1553,7 +1553,7 @@ def checks(transfusion_id):
     # Step 1: Retrieve details from BloodTransfusionRecord
     transfusion_record = BloodTransfusionRecord.query.filter_by(transfusion_id=transfusion_id).first()
     ua = BloodTransfusionRecord.query.filter().all()
-    
+
     if transfusion_record:
         # Extract parameters from the transfusion record
         blood_type = transfusion_record.blood_type
@@ -1569,7 +1569,7 @@ def checks(transfusion_id):
             quantity_donated=quantity_transfused,
             storage_location=city1
         ).first()
-        
+
         if exact_match:
             return redirect(url_for('HRequests'))
 
@@ -1593,8 +1593,8 @@ def checks(transfusion_id):
 
         if city2_match:
             return redirect(url_for('HRequests'))
-            
-        
+
+
         quantity_match_2 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
             BloodInventory.quantity_donated >= quantity_transfused,
@@ -1614,8 +1614,8 @@ def checks(transfusion_id):
 
         if city3_match:
             return redirect(url_for('HRequests'))
-            
-        
+
+
         quantity_match_3 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
             BloodInventory.quantity_donated >= quantity_transfused,
@@ -1624,7 +1624,7 @@ def checks(transfusion_id):
 
         if quantity_match_3:
             return redirect(url_for('HRequests'))
-        
+
         # Step 6: Search for quantity <= quantity_transfused in city1
         quantity_less_match_city1 = BloodInventory.query.filter(
             BloodInventory.blood_type == blood_type,
@@ -1655,7 +1655,7 @@ def checks(transfusion_id):
 
         if quantity_less_match_city3:
             return redirect(url_for('HRequests'))
-        
+
         # Step 5: Return false if no match is found
         return render_template('Admin/Admin_HRequests.html',ua = ua,found=False,id=transfusion_id)
 
@@ -1672,7 +1672,7 @@ def delete_request(transfusion_id):
         # Step 2: Update the status column
         transfusion_record.status = -1
         db.session.commit()
-        
+
         re_id = BloodTransfusionRecord.query.filter_by(transfusion_id = transfusion_id).first().recipient_id
         h_email = Recipient.query.filter_by(recipient_id = re_id).first().h_email_id
 
@@ -1722,7 +1722,7 @@ def DAccepted():
     blood_type = donor.blood_type  # Fetch blood_type from the donor
 
     # Fetch storage_location from DonationAppointment using appointment_id
-    storage_location = donation_appointment.place  
+    storage_location = donation_appointment.place
 
     # Calculate expiry date as collection date + 90 days
     expiry_date = collection_date + timedelta(days=90)
@@ -1745,7 +1745,7 @@ def DAccepted():
         quantity_donated=quantity_donated,
         storage_location=storage_location  # Fetch storage_location from DonationAppointment
     )
-    
+
         # Calculate the month based on the collection_date
     donation_record.month = f"{donation_record.collection_date.strftime('%b')}-{donation_record.collection_date.strftime('%y')}"
     blood_inventory.month = f"{blood_inventory.collection_date.strftime('%b')}-{blood_inventory.collection_date.strftime('%y')}"
@@ -1754,7 +1754,7 @@ def DAccepted():
     db.session.add(donation_record)
     db.session.add(blood_inventory)
     db.session.commit()
-    
+
     notification_message = f'You have successfully donated Blood on { collection_date } at {storage_location}'
     new_notification = Notification(donor_id=donor_id, appointment_id=appointment_id, message=notification_message,read=False)
     db.session.add(new_notification)
@@ -1771,17 +1771,17 @@ def DAccepted():
 @hos_required
 def HRecipients():
     src = "../static/images/profile.png"
-    
+
     allowed_extensions = ['jpg', 'jpeg', 'png']
     # Check if an image file exists for the user
-    current_path = os.getcwd()
+    # current_path = os.getcwd()
     for extension in allowed_extensions:
-        image_path = f"/app/static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
-        filename = current_path + image_path
-        if os.path.isfile(filename) == True:
+        image_path = f"/home/MHADJANGO/BBMS/app/static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
+        # filename = current_path + image_path
+        if os.path.isfile(image_path) == True:
             src = f"../static/images/{current_user.h_email_id.split('@')[0]}.{extension}"
     res = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
-        
+
     return render_template('Hospital/Hospital_Recipent.html',ress =res,src=src,user=current_user)
 
 @app.route('/HRadd',methods=['POST'])
@@ -1799,18 +1799,18 @@ def Hradd():
         address = request.form['address']
         mhis = request.form['mhis']
         Btype = request.form['Btype']
-        
+
         data = Recipient(h_email_id = current_user.h_email_id,first_name = fname,last_name = lname,date_of_birth = DOB,gender = gender,contact_phone = mob,contact_email = emailid,contact_address = address,blood_type = Btype,medical_history = mhis)
-        
+
         try:
             db.session.add(data)
             db.session.commit()
         except Exception as e:
             print(e)
             redirect(url_for('contact'))
-            
+
     return redirect(url_for('HRecipients'))
-    
+
 
 @app.route('/HProfile',methods=['GET', 'POST'])
 @login_required
@@ -1818,26 +1818,26 @@ def Hradd():
 def HProfile():
     user = current_user
     src = "../static/images/profile.png"
-    
+
     allowed_extensions = ['jpg', 'jpeg', 'png']
     # Check if an image file exists for the user
-    current_path = os.getcwd()
+    # current_path = os.getcwd()
     for extension in allowed_extensions:
-        image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-        filename = current_path + image_path
-        if os.path.isfile(filename) == True:
+        image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+        # filename = current_path + image_path
+        if os.path.isfile(image_path) == True:
             src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
-            
+
     results = Recipient.query.filter_by(h_email_id=current_user.h_email_id).all()
     tf_ids = [results.recipient_id for results in results]
-    
+
     fr = BloodTransfusionRecord.query.filter(BloodTransfusionRecord.recipient_id.in_(tf_ids)).all()
-    
+
     if request.method == 'POST':
         address = request.form['address']
         data  = RHospital.query.filter_by(h_email_id=user.h_email_id).first()
         data.address = address
-        
+
         try:
             db.session.add(data)
             db.session.commit()
@@ -1853,14 +1853,14 @@ def HProfile():
 def HAppointment():
     user = current_user
     src = "../static/images/profile.png"
-    current_date = datetime.now().strftime('%d-%m-%Y')
+    current_date = datetime.now().strftime('%Y-%m-%d')
     allowed_extensions = ['jpg', 'jpeg', 'png']
     # Check if an image file exists for the user
-    current_path = os.getcwd()
+    # current_path = os.getcwd()
     for extension in allowed_extensions:
-        image_path = f"/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
-        filename = current_path + image_path
-        if os.path.isfile(filename) == True:
+        image_path = f"/home/MHADJANGO/BBMS/app/static/images/{user.h_email_id.split('@')[0]}.{extension}"
+        # filename = current_path + image_path
+        if os.path.isfile(image_path) == True:
             src = f"../static/images/{user.h_email_id.split('@')[0]}.{extension}"
     return render_template('Hospital/Hospital_form.html',cities=cities,src=src,user=user,cd=current_date)
 
@@ -1872,7 +1872,7 @@ def add_transfusion_record():
      # Extract data from the form
     recipient_id = request.form.get('recipient_id')
     transfusion_date = request.form.get('transfusion_date')
-    transfusion_date = datetime.strptime(transfusion_date, '%d-%m-%Y').date()
+    transfusion_date = datetime.strptime(transfusion_date, '%Y-%m-%d').date()
     quantity_transfused = request.form.get('quantity_transfused')
     city1 = request.form.get('city1')
     city2 = request.form.get('city2')
@@ -1898,22 +1898,22 @@ def add_transfusion_record():
         city2=city2,
         city3=city3
     )
-    
+
     new_transfusion_record.month = f"{new_transfusion_record.transfusion_date.strftime('%b')}-{new_transfusion_record.transfusion_date.strftime('%y')}"
-    
+
 
     # Add the new record to the database
     db.session.add(new_transfusion_record)
     db.session.commit()
 
     # Redirect to the desired page (you can customize this)
-    
-    
+
+
     # Change Pending
     flash("Appointement booked")
     # Change Pending
-    
-    
+
+
     return redirect(url_for('HAppointment'))
 
 
