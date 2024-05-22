@@ -132,12 +132,21 @@
       </div>
 
       <div class="ni h-head-2 w-full justify-evenly flex  ">
+        {% if user.has_role('hospital') %}
+        <a href="{{url_for('HProfile')}}">
+          <div class="hh2-1  flex flex-col items-center cursor-pointer">
+            <i class="fa-regular fa-user "></i>
+            Profile
+          </div>
+        </a>
+        {% else %}
         <a href="{{url_for('profile')}}">
           <div class="hh2-1  flex flex-col items-center cursor-pointer">
             <i class="fa-regular fa-user "></i>
             My Profile
           </div>
         </a>
+        {% endif %}
         <a href="{{url_for('logout')}}">
           <div class="hh2-2 flex flex-col items-center cursor-pointer">
             <i class="fa-solid fa-arrow-right-from-bracket "></i>

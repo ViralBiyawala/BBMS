@@ -15,7 +15,7 @@
 
 <body class="dreq-body bg-[#ffe0e0]">
 
-  <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] ">
+  <nav class="bg-[#FF2828] w-full flex py-[7px] text-white text-[24px] max-[832px]:hidden">
     <div class="flex items-center
         w-[20%]   
     ml-[24px] text-[36px]  hover:tracking-[0.1em]
@@ -79,51 +79,53 @@
     </div>
   </nav>
 
-  <!-- Hamburger for smaller screens  -->
-  <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[831px]:hidden ">
+      <!-- Hamburger for smaller screens  -->
+      <nav class="small bg-[#FF2828] w-full flex justify-between py-[7px] text-[20px] min-[885px]:hidden">
 
-    <div
-      class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
-      <a href="{{url_for('index')}}">Life Saver</a>
-    </div>
-
-    <button class="hamburger mx-[28px]">
-      <div class="bar"></div>
-    </button>
-
-    <div class="mobile-nav flex flex-col items-center ">
-      {% if user is none %}
-      <!-- No user has logged in -->
-      <a href="{{url_for('login')}}" class="ni">Log In</a>
-      {% else %}
-
-      <div class="h-head  ni flex mt-[30px] items-center 
-      pl-[0.3rem]">
-        <a href="{{url_for('profile')}}">
-          <img src="" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
-        </a>
-      </div>
-
-      <div class="ni h-head-2 w-full justify-evenly flex  ">
-        <a href="{{url_for('appointment')}}">
-          <div class="hh2-1  flex flex-col items-center cursor-pointer">
-            <img src="../static/images/appointment-logo.png" width="26px" height="26px" alt="">
-            Get Appointment
+        <div
+          class="flex items-center  max-[884px]:text-[30px] ml-[24px] text-[36px] hover:tracking-[0.1em] transition-all duration-700 cursor-pointer text-white">
+          <a href="{{url_for('index')}}">Life Saver</a>
+        </div>
+    
+        <button class="hamburger mx-[28px]">
+          <div class="bar"></div>
+        </button>
+    
+        <div class="mobile-nav flex flex-col items-center">
+          {% if user is none %}
+          <!-- No user has logged in -->
+          <a href="{{url_for('login')}}" class="ni">Log In</a>
+          {% else %}
+    
+          <div class="h-head  ni flex mt-[30px] items-center 
+            pl-[0.3rem]">
+            <a href="{{url_for('profile')}}">
+              <img src="{{ src }}" id="profile-pic-main" alt="" class="rounded-md bg-[#d9d9d9] w-[100px] h-[100px] " />
+            </a>
           </div>
-        </a>
-        <a href="{{url_for('logout')}}">
-          <div class="hh2-2 flex flex-col items-center cursor-pointer mt-[5px]">
-            <i class="fa-solid fa-arrow-right-from-bracket opacity-[0.7] scale-[1.1]"></i>
-            Log Out
+    
+          <div class="ni h-head-2 w-full justify-evenly flex  ">
+            <a href="{{url_for('HProfile')}}">
+              <div class="hh2-1  flex flex-col items-center cursor-pointer">
+                <i class="fa-regular fa-user "></i>
+                Profile
+              </div>
+            </a>
+            <a href="{{url_for('logout')}}">
+              <div class="hh2-2 flex flex-col items-center cursor-pointer">
+                <i class="fa-solid fa-arrow-right-from-bracket "></i>
+                Log Out
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
-      {% endif %}
-      <a href="{{url_for('index')}}" class="ni">Home</a>
-      <a href="{{url_for('about')}}" class="ni">About Us</a>
-      <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
-    </div>
-  </nav>
+          {% endif %}
+          <a href="{{url_for('HRecipients')}}" class="ni">Add Recipients</a>
+          <!-- <a href="{{url_for('index')}}" class="ni">Home</a> -->
+          <a href="{{url_for('about')}}" class="ni">About Us</a>
+          <a href="{{url_for('contact')}}" class="ni">Contact Us</a>
+          
+        </div>
+      </nav>
 
   <div class="header   py-4 mt-4 flex justify-between items-center font-medium">
     <div class="ml-8 text-3xl ">Recipient</div>
